@@ -1,0 +1,211 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ═══════════════ DESIGN TOKENS ═══════════════ */
+:root {
+  --bg: #faf7f2;
+  --bg-alt: #f3ede4;
+  --surface: rgba(255, 255, 255, 0.72);
+  --surface-hi: rgba(255, 255, 255, 0.88);
+  --border: rgba(26, 39, 68, 0.08);
+  --border-hi: rgba(26, 39, 68, 0.16);
+  --text: #2d2d2d;
+  --text-hi: #1a2744;
+  --text-muted: #6b7280;
+
+  --accent: #1a2744;
+  /* Navy */
+  --accent-light: #2c3e5a;
+  --accent-glow: rgba(26, 39, 68, 0.18);
+
+  --gold: #b8922f;
+  --gold-light: #d4af37;
+  --gold-glow: rgba(184, 146, 47, 0.18);
+
+  --red: #b94a48;
+  --green: #4a8c6f;
+  --white: #ffffff;
+
+  --font: 'Inter', -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --radius: 10px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 1px 4px rgba(26, 39, 68, 0.06);
+  --shadow-md: 0 4px 20px rgba(26, 39, 68, 0.08);
+  --shadow-lg: 0 8px 40px rgba(26, 39, 68, 0.10);
+}
+
+/* ═══════════════ RESET & BASE ═══════════════ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* ═══════════════ BACKGROUND PATTERN ═══════════════ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 900px 500px at 15% 10%, rgba(61, 107, 153, 0.04), transparent 70%),
+    radial-gradient(ellipse 700px 400px at 85% 85%, rgba(184, 146, 47, 0.03), transparent 70%),
+    linear-gradient(rgba(26, 39, 68, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26, 39, 68, 0.02) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 56px 56px, 56px 56px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ═══════════════ UTILITIES ═══════════════ */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--text-hi);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+a {
+  color: var(--gold);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: var(--gold-light);
+}
+
+/* ═══════════════ GLASS CARDS ═══════════════ */
+.glass-card {
+  background: var(--surface-hi);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+  background: radial-gradient(ellipse at 50% 0%, rgba(184, 146, 47, 0.03), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 0;
+}
+
+.glass-card:hover {
+  border-color: var(--border-hi);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.glass-card:hover::before {
+  opacity: 1;
+}
+
+.glass-card>* {
+  position: relative;
+  z-index: 1;
+}
+
+.section-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+.section-bar {
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--accent));
+  border: none;
+  border-radius: 2px;
+  margin: 0 0 20px;
+}
+
+/* ═══════════════ BUTTONS ═══════════════ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  border: none;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--white);
+  box-shadow: 0 2px 10px var(--accent-glow);
+}
+
+.btn-primary:hover {
+  background: var(--accent-light);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px var(--accent-glow);
+}
+
+.btn-gold {
+  background: var(--gold);
+  color: var(--white);
+  box-shadow: 0 2px 10px var(--gold-glow);
+}
+
+.btn-gold:hover {
+  background: var(--gold-light);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px var(--gold-glow);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border-hi);
+}
+
+.btn-ghost:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}

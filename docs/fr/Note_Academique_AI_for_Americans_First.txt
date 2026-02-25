@@ -1,0 +1,123 @@
+
+NOTE ACADÉMIQUE DE SYNTHÈSE
+
+« AI for Americans First »
+Protectionnisme IA américain, recomposition de l’ordre technologique mondial
+et conséquences pour la France et l’Europe (2026–2030)
+
+Fabrice Pizzi — Université Paris Sorbonne, 2026
+Academic Summary Note — February 2026
+
+
+
+Résumé
+Cette étude analyse les mécanismes et les conséquences du protectionnisme IA américain sous l’administration Trump 2.0, en intégrant quatre dimensions habituellement traitées séparément dans la littérature : énergie, semi-conducteurs, compute et régulation. À partir d’un diagnostic empirique 2020–2026, de la construction d’un indice de compétitivité ajusté au compute (CACI) et d’une matrice scénarielle 2×2, la recherche démontre que la combinaison tarifs douaniers (25 %, Section 232) et contrôles à l’export crée un avantage compétitif structurel mesurable (ratio CACI US/EU de 7 à 12:1), accélère paradoxalement la construction d’un écosystème IA chinois alternatif, et fragmente l’ordre technologique mondial en blocs compétitifs. L’analyse comparative des réponses régionales (Europe, Amérique du Sud, Asie) révèle des trajectoires de dépendance fondamentalement différenciées. Pour la France, l’étude identifie une fenêtre d’action stratégique 2026–2028 et recommande une autonomie stratégique ciblée fondée sur l’avantage nucléaire, le champion IA Mistral et le cadre réglementaire européen.
+Mots-clés : intelligence artificielle, protectionnisme technologique, semi-conducteurs, export controls, compute souverain, géopolitique de l’IA, France, États-Unis, Chine
+
+============================================================
+1. Objet et problématique
+============================================================
+L’intelligence artificielle s’est imposée depuis 2023 comme le principal vecteur d’innovation économique et de compétition géopolitique. Or, la chaîne de valeur IA présente une concentration sans précédent : les États-Unis contrôlent 74 % du compute IA mondial, cinq hyperscalers américains (Microsoft, Amazon, Alphabet, Meta, Oracle) prévoient 660 à 690 milliards de dollars de capital expenditure pour la seule année 2026, et Nvidia détient environ 80 % du marché des accélérateurs IA.1
+Dans ce contexte, l’administration Trump 2.0 a transformé les contrôles à l’export initiés par Biden (2022–2025) en un régime protectionniste hybride, combinant tarifs douaniers et restrictions réglementaires. Cette étude pose la question suivante : dans quelle mesure le protectionnisme IA américain crée-t-il un avantage compétitif structurel mesurable, et quelles en sont les conséquences différenciées pour la France, l’Europe et les autres régions du monde ?
+L’originalité de la recherche réside dans l’intégration de quatre dimensions traitées séparément dans la littérature : les trajectoires énergétiques des data centers, le marché des semi-conducteurs, la distribution du compute IA et la chronologie réglementaire américaine. Aucune étude économique n’avait formalisé un scénario intégré « Trump 2.0 — protectionnisme IA » ; cette recherche comble ce vide.
+
+============================================================
+2. Cadre méthodologique
+============================================================
+La méthodologie repose sur trois piliers. Premièrement, un diagnostic empirique longitudinal (2020–2026) fondé sur des données IEA, McKinsey, SIA, Epoch AI et des sources réglementaires (BIS, White House, Parlement européen). Trois courbes critiques sont reconstruites : consommation énergétique des data centers par région (TWh), marché des semi-conducteurs (valeur, part IA) et distribution du compute IA (GW IT load, FLOPs par région).
+Deuxièmement, la construction d’un indice de compétitivité ajusté au compute (CACI), indice composite intégrant quatre variables : FLOPs de pointe disponibles (pondérés 40 %), coût énergétique par FLOPs (25 %), capital humain IA (20 %) et accès réglementaire au compute (15 %). Le CACI permet de quantifier l’asymétrie structurelle entre régions et de projeter les trajectoires de divergence.2
+Troisièmement, une matrice scénarielle 2×2 croisant deux axes (intensité du protectionnisme US : modérée/forte ; réponse européenne : passive/active) pour générer quatre scénarios 2026–2030, chacun calibré sur le CACI et confronté à trois points de basculement empiriques (saturation énergétique EU 2028, consolidation fonderies Chine 2029, maturité chips alternatifs 2030).
+
+============================================================
+3. Résultats principaux
+============================================================
+
+----------------------------------------
+3.1 Un protectionnisme à trois étages
+----------------------------------------
+L’analyse identifie une architecture protectionniste à trois niveaux cumulatifs. Le premier étage est constitué par les contrôles à l’export (hérités de Biden, transformés par Trump) qui segmentent le monde en trois tiers : accès illimité pour 20 alliés proches (Tier 1), caps quantitatifs pour le reste (Tier 2), interdiction pour les adversaires (Tier 3). Le deuxième étage, innovation propre à Trump, réside dans les tarifs douaniers de 25 % (Section 232, 15 janvier 2026) sur les semi-conducteurs IA avancés, créant un différentiel de coût direct entre entreprises américaines (exemptées) et non-américaines.3 Le troisième étage est l’effet de gravité capitalistique : 660–690 milliards de dollars de capex annuel, investissements japonais (550 milliards) et émiratis convergent vers le sol américain, auto-renforçant la concentration du compute sans intervention réglementaire supplémentaire.
+
+----------------------------------------
+3.2 Avantage compétitif mesuré
+----------------------------------------
+Le CACI quantifie un ratio US/EU de 7:1 à 12:1, reflétant un compute gap (US : 75 GW, EU : 35 GW), un différentiel de coût des FLOPs (0,5 $/TFlop US contre 1,2–1,8 $/TFlop EU) et un écart de productivité IA (+30 % US, +12 % EU dans les secteurs IA-intensifs). Quatre mécanismes de transmission sont identifiés : l’asymétrie des coûts de training (GPT-4 : 100 M$ US vs 500 M$ EU), la concentration du cloud (72–80 % des workloads IA européens sur hyperscalers US), l’écart de productivité, et la capture des rentes d’innovation (effets d’échelle + effets de réseau).4
+
+----------------------------------------
+3.3 Effets paradoxaux systémiques
+----------------------------------------
+L’étude démontre que le protectionnisme produit trois effets paradoxaux. Premièrement, les restrictions accélèrent la construction d’un écosystème IA chinois autonome (Huawei Ascend 910c, DeepSeek-V3, investissements de 125+ milliards de dollars en 2025) plutôt que de la neutraliser. Deuxièmement, les pays Tier 2 (Brésil, Inde, ASEAN) sont poussés vers des partenariats technologiques chinois (ByteDance : 38 milliards au Brésil, 8,8 milliards en Thaïlande), créant une bifurcation technologique mondiale. Troisièmement, les alliés Tier 1 (Japon, Corée) co-financent la suprématie US (Japon : 550 milliards investês sur le sol américain) plutôt que de construire une autonomie propre. Le résultat n’est pas un ordre unipolaire mais un monde fragmenté en blocs technologiques.5
+
+============================================================
+4. Analyse comparative régionale
+============================================================
+L’étude conduit une analyse différenciée de l’impact du protectionnisme IA sur cinq régions, révélant des trajectoires de dépendance structurellement distinctes.
+
+
+Région	Tier	Dynamique principale	Atout stratégique	Risque principal
+---	---	---	---	---
+France / Europe	1	Dépendance GPU+cloud US (72–80 %) ; réponse InvestAI 200 Md€	Nucléaire (70 %), Mistral, ASML, AI Act	Vendor lock-in géopolitique ; marginalisation si bloc US-Asie se ferme
+Brésil / Am. Sud	2	Terrain de compétition US-Chine ; mégaprojects TikTok/Scala	Mix énerg. 83 % renouvelable ; marché fintech dynamique	Triple fracture (Nord-Sud, Est-Ouest, intra-régionale)
+Japon / Corée / Taiwan	1	Co-investissement US (550 Md$) ; transfert production vers US	HBM (SK hynix), TSMC 90 % chips pointe, matériaux	Partenariat asymétrique ; érosion silicon shield Taiwan
+Inde	2	Pivot Sud global ; ambition 200+ Md$ ; stratégie « compute export »	1,4 Md habitants, talent tech, politique zéro-impôt cloud	Fossé structurel (1,4 GW vs 53,7 US) ; caps GPU Tier 2
+Chine	3	Autonomisation forcée ; écosystème alternatif Huawei/DeepSeek	Marché intérieur 1,4 Md ; investissements 125+ Md$/an	Retard 2–3 générations GPU ; isolement technologique
+
+
+L’analyse révèle que la position géopolitique (Tier 1/2/3), la dotation énergétique et la proximité avec les chaînes de valeur déterminent des trajectoires irréductibles à un modèle unique. La France bénéficie de son statut Tier 1 mais souffre d’un compute gap structurel. Le Brésil, classé Tier 2, est le théâtre direct de la rivalité US-Chine. Le Japon, allié le plus intégré, co-finance la suprématie américaine. L’Inde tente une « troisième voie ». La Chine construit un écosystème parallèle.
+
+============================================================
+5. Recommandations stratégiques pour la France
+============================================================
+L’étude formule des recommandations structurées en cinq axes et trois horizons temporels.
+Axe 1 — Infrastructure compute. Accélérer les 13 AI Factories européennes (opérationnelles fin 2027), mettre en œuvre les Special Compute Zones (permis accélérés, fiscalité allégée), déployer les 5 AI Gigafactories InvestAI (20 milliards d’euros). Objectif : 30–40 % des workloads IA sensibles sur cloud souverain certifié d’ici 2029.6
+Axe 2 — Énergie nucléaire. Exploiter l’avantage unique français (70 % d’électricité nucléaire décarbonée). EDF a identifié quatre sites industriels totalisant 2 GW, avec l’initiative Nuclear for AI (250 MW d’ici fin 2026). Accélérer les 6 EPR 2 (Penly, Bugey, 9 900 MW, construction 2027), confirmer les 8 réacteurs optionnels, soutenir les SMR (NUWARD, Newcleo, Stellaria).7
+Axe 3 — Alliances technologiques. Consolider le partenariat ASML-Mistral (1,3 milliard d’euros, ASML premier actionnaire à 11 %). Négocier un second investissement TSMC en Europe sur nœuds avancés. Conclure des accords bilatéraux UE-Japon et UE-Corée sur la sécurité d’approvisionnement (mémoire HBM, équipements). Constituer des réserves stratégiques de GPU (6–12 mois).
+Axe 4 — Régulation offensive. Transformer l’AI Act en levier compétitif : priorité aux modèles européens dans les AI Factories publiques, effet Bruxelles via accords de reconnaissance mutuelle, création d’un « CLOUD Act Shield » européen.
+Axe 5 — Talent. Bourses IA et visas talents européens (avant fin 2026), garantie d’accès au compute frontier pour les chercheurs européens (Fluidstack 500 000 GPU, Mistral Compute, AI Factories EuroHPC).8
+La fenêtre d’action critique se situe entre 2026 et 2028 : au-delà, le point de basculement énergétique et compute identifié cristallise les dépendances.
+
+============================================================
+6. Contributions, limites et prolongements
+============================================================
+Cette recherche contribue à la littérature sur quatre plans : (i) l’intégration analytique de trajectoires habituellement cloisonnées (énergie, semi-conducteurs, compute, régulation, productivité), (ii) la proposition de l’indice CACI comme cadre de mesure de la compétitivité ajustée au compute, (iii) la démonstration des effets paradoxaux systémiques du protectionnisme IA (accélération de l’écosystème chinois, push des Tier 2 vers la Chine, co-financement de la suprématie US par les alliés), et (iv) l’analyse comparative inédite des réponses régionales révélant des trajectoires de dépendance structurellement distinctes.
+Les limites tiennent à l’incertitude réglementaire (la règle finale BIS de janvier 2026 pourrait être modifiée d’ici juillet 2026), à l’hétérogénéité des données de compute (le CACI reste un indice exploratoire), et à l’horizon temporel (des ruptures technologiques post-2030 pourraient redistribuer les avantages). Trois prolongements s’imposent : le calibrage empirique du CACI sur données d’enquête, l’extension à l’Afrique (continent absent de cette étude), et la modélisation dynamique via des modèles d’équilibre général calculable intégrant le compute comme facteur de production.
+
+============================================================
+7. Conclusion
+============================================================
+Le compute IA est en passe de devenir le quatrième facteur de production, structurant l’accès aux gains de productivité et à l’innovation. L’AI Action Plan américain de juillet 2025 traite désormais le stack IA comme un instrument d’alliance géopolitique, comparable au Plan Marshall : l’accès au compute est conditionné à l’alignement stratégique.9 Face à cette recomposition, trois options se présentent pour la France : l’intégration subordonnée (modèle Japon), la confrontation souverainiste (modèle Chine, irréaliste à horizon 2030), ou l’autonomie stratégique ciblée que cette étude recommande : souveraineté sur les segments d’avantage comparatif (nucléaire, ASML, Mistral, AI Act) combinée à l’interopérabilité avec l’écosystème américain. L’objectif n’est pas l’autarcie technologique mais la capacité de choix. La question n’est plus de savoir si la recomposition de l’ordre technologique mondial aura lieu — elle est en cours — mais de déterminer si nous en serons les architectes ou les sujets.
+
+
+Structure complète de l’étude
+
+Ch.	Titre	Pages	Notes
+---	---	---	---
+I	Cadre théorique : protectionnisme technologique et IA	12	22
+II	Méthodologie : matrice scénarielle et indice CACI	8	10
+III	Diagnostic empirique 2020–2026	11	20
+IV	Mécanismes de l’avantage compétitif US	9	19
+V	Scénarios prospectifs 2026–2030 et points de basculement	11	16
+VI	Conséquences pour la France et l’Europe	10	14
+VI bis	Conséquences pour l’Amérique du Sud et le Brésil	11	19
+VI ter	Conséquences pour l’Asie	12	16
+VII	Recommandations stratégiques	11	18
+Concl.	Du protectionnisme IA à la recomposition de l’ordre technologique	8	3
+Total		103	157
+
+
+Notes
+1 Euronews (février 2026), « Will Big Tech’s AI Spending Crush Europe’s Data Sovereignty? » Capex 2026 : Amazon 200 Md$, Alphabet 185 Md$, Microsoft 145 Md$, Meta 135 Md$, Oracle 50 Md$. Total : 660–690 Md$.
+2 L’indice CACI est développé au Chapitre II. Il s’inspire des métriques de « compute-adjusted competitiveness » identifiées comme manquantes par McKinsey (2024) et le World Economic Forum (2025).
+3 Pillsbury Law (janvier 2026), « Trump Admin Targets Advanced AI Semiconductors ». Section 232 : tarif 25 % sur Nvidia H200, AMD MI325X pour réexportation. Exemptions domestiques US. Règle finale BIS du 15 janvier 2026.
+4 Bruegel (2025), « Why Artificial Intelligence Is Creating Fundamental Challenges for Competition Policy ». Coûts training exponentiels comme barrière à l’entrée. CFG (2025) : compute IA EU = 5 % global vs US 75 %. McKinsey (2025) : productivité +30 % US, +12 % EU.
+5 Carnegie Endowment (mai 2025) : trilemme contrôle/promotion/levier. IBTimes India (février 2026) : Chine 125+ Md$ infrastructure IA 2025. Construction Today (novembre 2025) : Japon 550 Md$ investi aux US. Bloomberg/DCD (2025) : ByteDance 38 Md$ Brésil (Pecém).
+6 Commission européenne (avril 2025), AI Continent Action Plan. 13 AI Factories, InvestAI 200 Md€. CFG (octobre 2025), « Special Compute Zones: Europe’s Recipe ». Julien Simon, Medium (janvier 2026), « AI Sovereignty in Europe: A Decision Framework ».
+7 World Nuclear News (février 2025) : EDF 4 sites, 2 GW. Enki AI (février 2026) : EPR 2 (9 900 MW), 20 réacteurs extension vie (26 GW). Introl Blog (2025) : investissements IA France 109 Md€, Fluidstack 10 Md€/1 GW.
+8 McKinsey (décembre 2025), « Accelerating Europe’s AI Adoption: The Role of Sovereign AI ». Bourses IA et visas talents à lancer avant fin 2026. 44 % des leaders tech européens citent la sécurité des données comme frein.
+9 CM Trade Law (juillet 2025), « America’s AI Action Plan ». Pilier III : « exporter le full AI technology stack aux pays disposés à rejoindre l’alliance IA américaine ». Quatre principes : export alliés, enforcement, alignement global, protection mesures.
+
+Principales références
+Institutions internationales : IEA (2025–2026), World Bank (2025), World Economic Forum (2025–2026), CEPALC/CENIA — ILIA 2025.
+Think tanks et recherche : Bruegel, Brookings Institution, Carnegie Endowment for International Peace, CSIS, Hudson Institute, ITIF, Centre for Future Generations (CFG), Epoch AI.
+Cabinets et analystes : McKinsey & Company, S&P Global, Arizton, Gartner, Futurum Group, Deloitte.
+Sources réglementaires : White House / BIS (AI Diffusion Rule, AI Action Plan, Section 232), Parlement européen, Commission européenne (AI Continent Action Plan, Apply AI Strategy, Chips Act), ANSSI (SecNumCloud).
+Presse spécialisée : Euronews, Bloomberg, DCD, Financial Times, Foreign Policy, Pillsbury Law, CM Trade Law, Introl.

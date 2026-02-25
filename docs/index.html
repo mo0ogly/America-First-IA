@@ -1,0 +1,1560 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI for Americans First — Fabrice Pizzi, Universite Paris Sorbonne</title>
+    <meta name="description"
+        content="US AI Protectionism, Reshaping of the Global Technological Order and Consequences for France and Europe (2026-2030). Academic research by Fabrice Pizzi.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        /* ═══════════════ DESIGN TOKENS ═══════════════ */
+        :root {
+            --bg: #faf7f2;
+            --bg-alt: #f3ede4;
+            --surface: rgba(255, 255, 255, 0.72);
+            --surface-hi: rgba(255, 255, 255, 0.88);
+            --border: rgba(26, 39, 68, 0.08);
+            --border-hi: rgba(26, 39, 68, 0.16);
+            --text: #2d2d2d;
+            --text-hi: #1a2744;
+            --text-muted: #6b7280;
+            --accent: #3d6b99;
+            --accent-glow: rgba(61, 107, 153, 0.18);
+            --gold: #b8922f;
+            --gold-light: #d4af37;
+            --gold-glow: rgba(184, 146, 47, 0.18);
+            --red: #b94a48;
+            --green: #4a8c6f;
+            --orange: #c17d2f;
+            --navy: #1a2744;
+            --navy-light: #2c3e5a;
+            --white: #ffffff;
+            --font: 'Inter', -apple-system, sans-serif;
+            --mono: 'JetBrains Mono', 'Fira Code', monospace;
+            --radius: 10px;
+            --radius-lg: 16px;
+            --shadow-sm: 0 1px 4px rgba(26, 39, 68, 0.06);
+            --shadow-md: 0 4px 20px rgba(26, 39, 68, 0.08);
+            --shadow-lg: 0 8px 40px rgba(26, 39, 68, 0.10);
+        }
+
+        /* ═══════════════ RESET ═══════════════ */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font);
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--text);
+            background: var(--bg);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* ═══════════════ BACKGROUND PATTERN ═══════════════ */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 900px 500px at 15% 10%, rgba(61, 107, 153, 0.04), transparent 70%),
+                radial-gradient(ellipse 700px 400px at 85% 85%, rgba(184, 146, 47, 0.03), transparent 70%),
+                linear-gradient(rgba(26, 39, 68, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(26, 39, 68, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 56px 56px, 56px 56px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body>* {
+            position: relative;
+            z-index: 1;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        a:hover {
+            color: var(--gold);
+        }
+
+        /* ═══════════════ HEADER ═══════════════ */
+        header {
+            background: linear-gradient(175deg, var(--navy) 0%, var(--navy-light) 100%);
+            color: var(--white);
+            text-align: center;
+            padding: 72px 24px 56px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 800px 400px at 20% 80%, rgba(61, 107, 153, 0.12), transparent 70%),
+                radial-gradient(ellipse 600px 300px at 80% 20%, rgba(184, 146, 47, 0.06), transparent 70%);
+            pointer-events: none;
+        }
+
+        header>* {
+            position: relative;
+            z-index: 1;
+        }
+
+        .badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 32px;
+        }
+
+        .badge-pill {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            padding: 5px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+        }
+
+        .badge-pill.gold {
+            color: var(--gold-light);
+            border-color: rgba(212, 175, 55, 0.35);
+        }
+
+        header h1 {
+            font-size: clamp(2.2rem, 5.5vw, 3.6rem);
+            font-weight: 700;
+            line-height: 1.15;
+            color: var(--white);
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+        }
+
+        header h1 span.glow {
+            color: var(--gold-light);
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.18rem);
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.75);
+            max-width: 660px;
+            margin: 0 auto 28px;
+            line-height: 1.65;
+        }
+
+        .author-line {
+            font-size: 0.92rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 4px;
+        }
+
+        .author-line strong {
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 500;
+        }
+
+        .date-line {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* ═══════════════ ALERT BAR ═══════════════ */
+        .alert {
+            max-width: 860px;
+            margin: -28px auto 40px;
+            padding: 14px 24px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            text-align: center;
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            box-shadow: var(--shadow-md);
+            backdrop-filter: blur(10px);
+        }
+
+        .alert strong {
+            color: var(--accent);
+        }
+
+        /* ═══════════════ MAIN ═══════════════ */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px 80px;
+        }
+
+        /* ═══════════════ SECTION HEADERS ═══════════════ */
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 6px;
+        }
+
+        .section-bar {
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gold), var(--accent));
+            border: none;
+            border-radius: 2px;
+            margin: 0 0 24px;
+        }
+
+        .section-desc {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            max-width: 620px;
+        }
+
+        section {
+            margin-bottom: 64px;
+        }
+
+        /* ═══════════════ GLASS CARDS ═══════════════ */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .glass-card {
+            background: var(--surface-hi);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 28px 24px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius-lg);
+            background: radial-gradient(ellipse at 50% 0%, rgba(61, 107, 153, 0.04), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .glass-card:hover {
+            border-color: var(--border-hi);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .glass-card:hover::before {
+            opacity: 1;
+        }
+
+        .glass-card>* {
+            position: relative;
+            z-index: 1;
+        }
+
+        .glass-card h4 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 8px;
+        }
+
+        .glass-card .card-label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .glass-card .card-label.gold {
+            color: var(--gold);
+        }
+
+        .glass-card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        /* ═══════════════ BUTTONS ═══════════════ */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: var(--font);
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            padding: 9px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-accent {
+            background: var(--navy);
+            color: var(--white);
+            box-shadow: 0 2px 10px rgba(26, 39, 68, 0.15);
+        }
+
+        .btn-accent:hover {
+            background: var(--navy-light);
+            box-shadow: 0 4px 16px rgba(26, 39, 68, 0.20);
+            color: var(--white);
+        }
+
+        .btn-gold {
+            background: var(--gold);
+            color: var(--white);
+            box-shadow: 0 2px 10px var(--gold-glow);
+        }
+
+        .btn-gold:hover {
+            background: var(--gold-light);
+            box-shadow: 0 4px 16px var(--gold-glow);
+            color: var(--white);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--border-hi);
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        /* ═══════════════ ACCORDION ═══════════════ */
+        .accordion {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .accordion-trigger {
+            width: 100%;
+            background: none;
+            border: none;
+            color: var(--navy);
+            font-family: var(--font);
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: left;
+            padding: 18px 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .accordion-trigger:hover {
+            background: rgba(61, 107, 153, 0.03);
+        }
+
+        .accordion-trigger .arrow {
+            font-size: 0.8rem;
+            transition: transform 0.3s;
+            color: var(--gold);
+        }
+
+        .accordion.open .accordion-trigger .arrow {
+            transform: rotate(180deg);
+        }
+
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .accordion.open .accordion-body {
+            max-height: 2000px;
+        }
+
+        .accordion-content {
+            padding: 0 24px 20px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        /* ═══════════════ FINDING BOX ═══════════════ */
+        .finding {
+            background: var(--white);
+            border-left: 3px solid var(--gold);
+            border-radius: 0 var(--radius) var(--radius) 0;
+            padding: 20px 24px;
+            margin: 24px 0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .finding .finding-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+
+        .finding p {
+            margin-bottom: 8px;
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+
+        .finding p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* ═══════════════ STEP ITEMS ═══════════════ */
+        .step-grid {
+            display: grid;
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        .step-item {
+            display: flex;
+            gap: 20px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .step-item:hover {
+            border-color: var(--border-hi);
+            box-shadow: var(--shadow-md);
+        }
+
+        .step-num {
+            font-family: var(--mono);
+            font-size: 1.8rem;
+            font-weight: 500;
+            background: linear-gradient(135deg, var(--accent), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            min-width: 38px;
+        }
+
+        .step-body h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 6px;
+        }
+
+        .step-body p {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* ═══════════════ TABLES ═══════════════ */
+        .table-wrap {
+            overflow-x: auto;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            margin: 24px 0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+            background: var(--white);
+        }
+
+        thead th {
+            background: var(--navy);
+            color: var(--white);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            padding: 14px 16px;
+            text-align: left;
+        }
+
+        tbody td {
+            padding: 13px 16px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+            vertical-align: top;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr {
+            transition: background 0.2s;
+        }
+
+        tbody tr:hover {
+            background: rgba(61, 107, 153, 0.02);
+        }
+
+        .tier {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        .tier-1 {
+            background: rgba(61, 107, 153, 0.12);
+            color: var(--accent);
+            border: 1px solid rgba(61, 107, 153, 0.25);
+        }
+
+        .tier-2 {
+            background: rgba(184, 146, 47, 0.12);
+            color: var(--gold);
+            border: 1px solid rgba(184, 146, 47, 0.25);
+        }
+
+        .tier-3 {
+            background: rgba(185, 74, 72, 0.10);
+            color: var(--red);
+            border: 1px solid rgba(185, 74, 72, 0.20);
+        }
+
+        .table-note {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-top: 10px;
+            opacity: 0.7;
+        }
+
+        /* ═══════════════ STRUCTURE LIST ═══════════════ */
+        .structure-list {
+            list-style: none;
+            margin: 24px 0;
+        }
+
+        .structure-list li {
+            display: flex;
+            align-items: baseline;
+            gap: 16px;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border);
+            transition: background 0.2s;
+        }
+
+        .structure-list li:last-child {
+            border-bottom: none;
+        }
+
+        .structure-list li:hover {
+            background: rgba(61, 107, 153, 0.015);
+            margin: 0 -12px;
+            padding-left: 12px;
+            padding-right: 12px;
+            border-radius: 6px;
+        }
+
+        .ch-num {
+            font-family: var(--mono);
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--gold);
+            min-width: 55px;
+        }
+
+        .ch-title {
+            flex: 1;
+            color: var(--text);
+            font-size: 0.92rem;
+        }
+
+        .ch-meta {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        /* ═══════════════ FIGURE VIEWER ═══════════════ */
+        .fig-controls {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .fig-btn {
+            font-family: var(--font);
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            padding: 7px 16px;
+            border: 1px solid var(--border-hi);
+            border-radius: 8px;
+            background: var(--white);
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .fig-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .fig-btn.active {
+            background: var(--navy);
+            color: var(--white);
+            border-color: var(--navy);
+            box-shadow: 0 2px 8px rgba(26, 39, 68, 0.15);
+        }
+
+        .fig-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+        }
+
+        .fig-item {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s;
+        }
+
+        .fig-item:hover {
+            border-color: var(--border-hi);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .fig-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .fig-item img.loaded {
+            opacity: 1;
+        }
+
+        .fig-item figcaption {
+            padding: 12px 16px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .fig-item figcaption strong {
+            color: var(--accent);
+        }
+
+        /* ═══════════════ CITATION BOX ═══════════════ */
+        .code-block {
+            background: var(--bg-alt);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            overflow-x: auto;
+        }
+
+        .code-block pre {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin: 0;
+            white-space: pre-wrap;
+        }
+
+        /* ═══════════════ DISCLAIMER ═══════════════ */
+        .disclaimer {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px 28px;
+            margin: 48px 0 0;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.75;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .disclaimer strong {
+            color: var(--text);
+        }
+
+        .disclaimer .disc-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        /* ═══════════════ FOOTER ═══════════════ */
+        footer {
+            background: var(--navy);
+            color: rgba(255, 255, 255, 0.6);
+            text-align: center;
+            padding: 48px 24px;
+        }
+
+        footer p {
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+
+        footer strong {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        footer .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 12px;
+        }
+
+        footer .footer-links a {
+            font-size: 0.82rem;
+            color: var(--gold-light);
+            transition: color 0.2s;
+        }
+
+        footer .footer-links a:hover {
+            color: var(--white);
+        }
+
+        footer .license-line {
+            font-size: 0.72rem;
+            color: rgba(255, 255, 255, 0.35);
+            margin-top: 16px;
+        }
+
+        /* ═══════════════ ANIMATIONS ═══════════════ */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stagger>* {
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+
+        .stagger.visible>*:nth-child(1) {
+            transition-delay: 0s;
+        }
+
+        .stagger.visible>*:nth-child(2) {
+            transition-delay: 0.08s;
+        }
+
+        .stagger.visible>*:nth-child(3) {
+            transition-delay: 0.16s;
+        }
+
+        .stagger.visible>*:nth-child(4) {
+            transition-delay: 0.24s;
+        }
+
+        .stagger.visible>*:nth-child(5) {
+            transition-delay: 0.32s;
+        }
+
+        .stagger.visible>* {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stagger:not(.visible)>* {
+            opacity: 0;
+            transform: translateY(12px);
+        }
+
+        /* ═══════════════ RESPONSIVE ═══════════════ */
+        @media (max-width: 640px) {
+            header {
+                padding: 48px 16px 40px;
+            }
+
+            main {
+                padding: 0 16px 60px;
+            }
+
+            .step-item {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .fig-gallery {
+                grid-template-columns: 1fr;
+            }
+
+            table {
+                font-size: 0.78rem;
+            }
+
+            thead th,
+            tbody td {
+                padding: 10px 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ══════════════════════ HEADER ══════════════════════ -->
+    <header class="fade-up">
+        <div class="badge-row">
+            <span class="badge-pill">Academic Research</span>
+            <span class="badge-pill gold">February 2026</span>
+            <span class="badge-pill">103 pages &middot; 157 notes</span>
+        </div>
+
+        <h1>&ldquo;<span class="glow">AI for Americans First</span>&rdquo;</h1>
+
+        <p class="subtitle">
+            US AI Protectionism, Reshaping of the Global Technological Order
+            and Consequences for France and Europe (2026&ndash;2030)
+        </p>
+
+        <p class="author-line"><strong>Fabrice Pizzi</strong> &mdash; Universite Paris Sorbonne</p>
+        <p class="date-line">Academic Summary Note &mdash; February 2026</p>
+    </header>
+
+    <!-- ══════════════════════ ALERT ══════════════════════ -->
+    <div class="alert fade-up" style="display: flex; flex-direction: column; gap: 12px; align-items: center;">
+        <div><strong>Direct access</strong> &mdash; No installation required. Browse the PDFs and figures below.</div>
+        <a href="/America-First-IA/dashboard/" target="_blank" rel="noopener noreferrer" class="btn btn-gold"
+            style="font-size: 0.95rem; padding: 12px 24px;">
+            🚀 Launch Interactive CACI Dashboard
+        </a>
+    </div>
+
+    <!-- ══════════════════════ MAIN ══════════════════════ -->
+    <main>
+
+        <!-- ═══════ DOCUMENTS ═══════ -->
+        <section class="fade-up">
+            <h2 class="section-title">Documents</h2>
+            <hr class="section-bar">
+            <p class="section-desc">Full study available in PDF &mdash; select language below. French edition complete;
+                English and Portuguese editions in progress.</p>
+
+            <div class="fig-controls" style="margin-bottom: 24px;">
+                <button class="fig-btn active" onclick="setDocLang('FR')">FR</button>
+                <button class="fig-btn" onclick="setDocLang('EN')">EN</button>
+                <button class="fig-btn" onclick="setDocLang('PT-BR')">PT-BR</button>
+            </div>
+
+
+
+            <!-- Chapters -->
+            <div class="table-wrap" style="margin-bottom: 24px;">
+                <table id="docTable">
+                    <thead>
+                        <tr>
+                            <th style="width: 70px;">Ch.</th>
+                            <th>Title</th>
+                            <th style="width: 100px; text-align: center;">PDF</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>I</strong></td>
+                            <td>Theoretical Framework: Technological Protectionism and AI</td>
+                            <td class="doc-cell" data-base="Chapitre_I_Introduction_Cadrage_Theorique"
+                                style="text-align:center;"></td>
+                        </tr>
+                        <tr>
+                            <td><strong>II</strong></td>
+                            <td>Methodology: Scenario Matrix and CACI Index</td>
+                            <td class="doc-cell" data-base="Chapitre_II_Methodologie" style="text-align:center;"></td>
+                        </tr>
+                        <tr>
+                            <td><strong>III</strong></td>
+                            <td>Empirical Diagnosis 2020&ndash;2026</td>
+                            <td class="doc-cell" data-base="Chapitre_III_Diagnostic_Empirique"
+                                style="text-align:center;"></td>
+                        </tr>
+                        <tr>
+                            <td><strong>IV</strong></td>
+                            <td>Mechanisms of US Competitive Advantage</td>
+                            <td class="doc-cell" data-base="Chapitre_IV_Mecanismes_Avantage_Concurrentiel"
+                                style="text-align:center;"></td>
+                        </tr>
+                        <tr>
+                            <td><strong>V</strong></td>
+                            <td>Prospective Scenarios 2026&ndash;2030 and Tipping Points</td>
+                            <td class="doc-cell" data-base="Chapitre_V_Scenarios_Prospectifs_2026_2030"
+                                style="text-align:center;"></td>
+                        </tr>
+                        <tr>
+                            <td><strong>VI</strong></td>
+                            <td>Consequences for France and Europe</td>
+                            <td class="doc-cell" data-base="Chapitre_VI_Consequences_France_Europe"
+                                style="text-align:center;"></td>
+                        </tr>
+                        <tr>
+                            <td><strong>VI bis</strong></td>
+                            <td>Consequences for South America and Brazil</td>
+                            <td class="doc-cell" data-base="Chapitre_VI_bis_Amerique_Sud_Bresil"
+                                style="text-align:center;"></td>
+                        </tr>
+                        <tr>
+                            <td><strong>VI ter</strong></td>
+                            <td>Consequences for Asia</td>
+                            <td class="doc-cell" data-base="Chapitre_VI_ter_Asie" style="text-align:center;"></td>
+                        </tr>
+                        <tr>
+                            <td><strong>VI quater</strong></td>
+                            <td>Consequences for Africa</td>
+                            <td class="doc-cell" data-base="Chapitre_VI_quater_Africa" style="text-align:center;"></td>
+                        </tr>
+                        <tr>
+                            <td><strong>VII</strong></td>
+                            <td>Strategic Recommendations</td>
+                            <td class="doc-cell" data-base="Chapitre_VII_Recommandations" style="text-align:center;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Concl.</strong></td>
+                            <td>From AI Protectionism to the Reshaping of the Technological Order</td>
+                            <td class="doc-cell" data-base="Conclusion_Generale" style="text-align:center;"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Q&A, Appendix, Working Paper, Plan -->
+            <div class="card-grid stagger" style="margin-top: 20px;">
+                <div class="glass-card">
+                    <span class="card-label">Q&amp;A</span>
+                    <h4>Questions &amp; Answers &mdash; Volume 1</h4>
+                    <p>Detailed responses to key questions raised by the study.</p>
+                    <div class="btn-group doc-links" data-base="QR_AI_for_Americans_First"></div>
+                </div>
+                <div class="glass-card">
+                    <span class="card-label">Q&amp;A</span>
+                    <h4>Questions &amp; Answers &mdash; Volume 2</h4>
+                    <p>Extended discussion: regional scenarios, CACI methodology, strategic implications.</p>
+                    <div class="btn-group doc-links" data-base="QR_Volume2_AI_for_Americans_First"></div>
+                </div>
+                <div class="glass-card">
+                    <span class="card-label">Q&amp;A</span>
+                    <h4>Questions &amp; Answers &mdash; Volume 3: CACI Ratio</h4>
+                    <p>In-depth exploration of the CACI index: methodology, interpretation, sensitivity analysis.</p>
+                    <div class="btn-group doc-links" data-base="FAQ_Volume3_Comprendre_le_Ratio_CACI"></div>
+                </div>
+                <div class="glass-card">
+                    <span class="card-label gold">Appendix</span>
+                    <h4>Econometric Appendix &mdash; CACI</h4>
+                    <p>Full econometric analysis: panel data, PanelOLS, RandomEffects, robustness tests, CACI
+                        construction.</p>
+                    <div class="btn-group doc-links" data-base="Annexe_Econometrique_CACI"></div>
+                </div>
+                <div class="glass-card">
+                    <span class="card-label gold">Working Paper</span>
+                    <h4>Working Paper &mdash; CACI AI Competitiveness</h4>
+                    <p>Detailed working paper on the CACI ratio and AI competitive advantage index.</p>
+                    <div class="btn-group doc-links" data-base="Working_Paper_CACI_FR"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════ RESEARCH QUESTION ═══════ -->
+        <section class="fade-up">
+            <h2 class="section-title">Research Question</h2>
+            <hr class="section-bar">
+
+            <div class="accordion open">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    Context: unprecedented concentration
+                    <span class="arrow">&#9660;</span>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <p>Artificial intelligence has emerged since 2023 as the primary driver of economic innovation
+                            and geopolitical competition.
+                            The AI value chain exhibits unprecedented concentration:</p>
+                        <ul style="margin: 12px 0 12px 20px; color: var(--text);">
+                            <li>The United States controls <strong style="color:var(--accent);">74%</strong> of global
+                                AI compute</li>
+                            <li>Five US hyperscalers plan <strong style="color:var(--gold);">$660&ndash;690
+                                    billion</strong> in capex for 2026</li>
+                            <li>Nvidia holds approximately <strong style="color:var(--accent);">80%</strong> of the AI
+                                accelerator market</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="finding">
+                <div class="finding-label">Research Question</div>
+                <p><em>To what extent does US AI protectionism create a measurable structural competitive advantage,
+                        and what are the differentiated consequences for France, Europe, and other regions of the
+                        world?</em></p>
+            </div>
+
+            <p style="color: var(--text-muted); font-size: 0.92rem;">
+                The originality of this research lies in the integration of four dimensions typically treated
+                separately:
+                <strong style="color:var(--text)">energy</strong>, <strong
+                    style="color:var(--text)">semiconductors</strong>,
+                <strong style="color:var(--text)">compute</strong>, and <strong
+                    style="color:var(--text)">regulation</strong>.
+                No prior study had formalized an integrated &ldquo;Trump 2.0 &mdash; AI protectionism&rdquo; scenario.
+            </p>
+        </section>
+
+        <!-- ═══════ KEY FINDINGS ═══════ -->
+        <section class="fade-up">
+            <h2 class="section-title">Key Findings</h2>
+            <hr class="section-bar">
+
+            <!-- Three-tier protectionism -->
+            <div class="accordion open">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    A three-tier protectionist architecture
+                    <span class="arrow">&#9660;</span>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <div class="step-grid stagger">
+                            <div class="step-item">
+                                <div class="step-num">01</div>
+                                <div class="step-body">
+                                    <h4>Export Controls</h4>
+                                    <p>Inherited from Biden, transformed by Trump. The world segmented into three tiers:
+                                        unlimited access for 20 close allies (Tier&nbsp;1), quantitative caps
+                                        (Tier&nbsp;2), prohibition for adversaries (Tier&nbsp;3).</p>
+                                </div>
+                            </div>
+                            <div class="step-item">
+                                <div class="step-num">02</div>
+                                <div class="step-body">
+                                    <h4>Section 232 Tariffs</h4>
+                                    <p>25% on advanced AI semiconductors (January 15, 2026). Direct cost differential
+                                        between US firms (exempt) and non-US firms.</p>
+                                </div>
+                            </div>
+                            <div class="step-item">
+                                <div class="step-num">03</div>
+                                <div class="step-body">
+                                    <h4>Capital Gravity</h4>
+                                    <p>$660&ndash;690B annual capex. Japanese ($550B) and Emirati investments converge
+                                        on US soil, self-reinforcing compute concentration.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CACI -->
+            <div class="finding">
+                <div class="finding-label">CACI Index &mdash; Key Result</div>
+                <p>The CACI quantifies a <strong style="color:var(--accent);">US/EU ratio of 7:1 to 12:1</strong>,
+                    reflecting:</p>
+                <ul style="margin: 8px 0 0 20px; font-size: 0.9rem;">
+                    <li>Compute gap: US 75 GW vs EU 35 GW</li>
+                    <li>FLOPs cost: $0.5/TFlop US vs $1.2&ndash;1.8/TFlop EU</li>
+                    <li>AI productivity: +30% US, +12% EU</li>
+                </ul>
+            </div>
+
+            <!-- Methodology Sources Accordion -->
+            <div class="accordion">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    Exact Sources &amp; Methodology (CACI)
+                    <span class="arrow">&#9660;</span>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <ul style="margin-top: 12px; margin-left: 20px; color: var(--text);">
+                            <li style="margin-bottom: 8px;"><strong>Compute Infrastructure &amp; FLOPs Gap:</strong>
+                                <em>Epoch AI GPU Clusters Dataset (2025)</em>, analyzing over 150 top-tier AI data
+                                centers globally to estimate distributed aggregate compute power.</li>
+                            <li style="margin-bottom: 8px;"><strong>Energy Consumption &amp; Grid Capacity:</strong>
+                                <em>International Energy Agency (IEA) Electricity 2024 Report</em>, evaluating nuclear
+                                vs. renewable grid stability for 1-GW-scale AI Factories.</li>
+                            <li style="margin-bottom: 8px;"><strong>Semiconductor Market &amp; Foundries:</strong>
+                                <em>Semiconductor Industry Association (SIA)</em> and <em>McKinsey</em> reports on
+                                advanced logic fabs and HBM packaging bottlenecks.</li>
+                            <li style="margin-bottom: 8px;"><strong>Export Controls &amp; Regulatory Shifts:</strong>
+                                <em>Bureau of Industry and Security (BIS)</em> rulings and Trump 2.0 proposed Section
+                                232 tariffs (January 2026 scenarios).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paradoxical effects -->
+            <div class="accordion">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    Systemic paradoxical effects
+                    <span class="arrow">&#9660;</span>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <div class="card-grid stagger">
+                            <div class="glass-card">
+                                <span class="card-label" style="color:var(--red);">Paradox 1</span>
+                                <h4>Chinese Acceleration</h4>
+                                <p>Restrictions accelerate the build-out of an autonomous Chinese AI ecosystem: Huawei
+                                    Ascend 910c, DeepSeek-V3, $125B+ in 2025.</p>
+                            </div>
+                            <div class="glass-card">
+                                <span class="card-label" style="color:var(--orange);">Paradox 2</span>
+                                <h4>Tier 2 Bifurcation</h4>
+                                <p>Brazil, India, ASEAN pushed toward Chinese partnerships (ByteDance: $38B in Brazil,
+                                    $8.8B in Thailand).</p>
+                            </div>
+                            <div class="glass-card">
+                                <span class="card-label" style="color:var(--gold);">Paradox 3</span>
+                                <h4>Allied Co-financing</h4>
+                                <p>Tier 1 allies (Japan, Korea) co-finance US supremacy ($550B Japanese investment)
+                                    rather than building their own autonomy.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════ REGIONAL ANALYSIS ═══════ -->
+        <section class="fade-up">
+            <h2 class="section-title">Comparative Regional Analysis</h2>
+            <hr class="section-bar">
+            <p class="section-desc">Differentiated impact of AI protectionism across five regions &mdash; structurally
+                distinct dependency trajectories.</p>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Region</th>
+                            <th>Tier</th>
+                            <th>Primary Dynamic</th>
+                            <th>Strategic Asset</th>
+                            <th>Key Risk</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>France / Europe</strong></td>
+                            <td><span class="tier tier-1">Tier 1</span></td>
+                            <td>GPU+cloud dependency on US (72&ndash;80%); InvestAI &euro;200B</td>
+                            <td>Nuclear 70%, Mistral, ASML, AI Act</td>
+                            <td>Geopolitical vendor lock-in</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Brazil / S. America</strong></td>
+                            <td><span class="tier tier-2">Tier 2</span></td>
+                            <td>US-China competition ground; TikTok megaprojects</td>
+                            <td>83% renewable energy mix; fintech</td>
+                            <td>Triple regional fracture</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Japan / Korea / Taiwan</strong></td>
+                            <td><span class="tier tier-1">Tier 1</span></td>
+                            <td>US co-investment ($550B); production transfer to US</td>
+                            <td>HBM, TSMC 90% advanced chips</td>
+                            <td>Asymmetric partnership; silicon shield erosion</td>
+                        </tr>
+                        <tr>
+                            <td><strong>India</strong></td>
+                            <td><span class="tier tier-2">Tier 2</span></td>
+                            <td>Global South pivot; $200B+ ambition</td>
+                            <td>1.4B population, tech talent</td>
+                            <td>Structural gap (1.4 GW vs 53.7 US)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>China</strong></td>
+                            <td><span class="tier tier-3">Tier 3</span></td>
+                            <td>Forced autonomization; Huawei/DeepSeek ecosystem</td>
+                            <td>1.4B domestic market; $125B+/yr</td>
+                            <td>2&ndash;3 generation GPU lag</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="table-note">Source: author's construction from IEA, McKinsey, SIA, Epoch AI, BIS data
+                (2020&ndash;2026).</p>
+        </section>
+
+        <!-- ═══════ RECOMMENDATIONS ═══════ -->
+        <section class="fade-up">
+            <h2 class="section-title">Strategic Recommendations for France</h2>
+            <hr class="section-bar">
+            <p class="section-desc">Five strategic axes &mdash; critical action window 2026&ndash;2028.</p>
+
+            <div class="step-grid stagger">
+                <div class="step-item">
+                    <div class="step-num">01</div>
+                    <div class="step-body">
+                        <h4>Compute Infrastructure</h4>
+                        <p>13 EU AI Factories, Special Compute Zones, 5 AI Gigafactories InvestAI (&euro;20B). Target:
+                            30&ndash;40% of sensitive AI workloads on certified sovereign cloud by 2029.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">02</div>
+                    <div class="step-body">
+                        <h4>Nuclear Energy</h4>
+                        <p>French advantage: 70% nuclear electricity. EDF 4 sites / 2 GW. Nuclear for AI 250 MW by end
+                            of 2026. 6 EPR 2 (Penly, Bugey, 9,900 MW).</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">03</div>
+                    <div class="step-body">
+                        <h4>Technology Alliances</h4>
+                        <p>Consolidate ASML-Mistral (&euro;1.3B, ASML 11% stake). Second TSMC European investment.
+                            EU-Japan, EU-Korea bilateral agreements. GPU strategic reserves (6&ndash;12 months).</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">04</div>
+                    <div class="step-body">
+                        <h4>Offensive Regulation</h4>
+                        <p>AI Act as competitive lever. Priority to European models in public AI Factories. Brussels
+                            Effect. European CLOUD Act Shield.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">05</div>
+                    <div class="step-body">
+                        <h4>Talent</h4>
+                        <p>AI scholarships and European talent visas (before end 2026). Frontier compute access:
+                            Fluidstack 500,000 GPUs, Mistral Compute, EuroHPC AI Factories.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="finding">
+                <div class="finding-label">Conclusion</div>
+                <p>The objective is not technological autarky but the <strong style="color:var(--accent);">capacity to
+                        choose</strong>.
+                    The question is no longer whether the reshaping of the global technological order will occur &mdash;
+                    it is underway &mdash;
+                    but whether we will be its <em>architects</em> or its <em>subjects</em>.</p>
+            </div>
+        </section>
+
+        <!-- ═══════ STUDY STRUCTURE ═══════ -->
+        <section class="fade-up">
+            <h2 class="section-title">Study Structure</h2>
+            <hr class="section-bar">
+
+            <ul class="structure-list">
+                <li><span class="ch-num">I</span><span class="ch-title">Theoretical framework: technological
+                        protectionism and AI</span><span class="ch-meta">12 p. &middot; 22 n.</span></li>
+                <li><span class="ch-num">II</span><span class="ch-title">Methodology: scenario matrix and CACI
+                        index</span><span class="ch-meta">8 p. &middot; 10 n.</span></li>
+                <li><span class="ch-num">III</span><span class="ch-title">Empirical diagnosis
+                        2020&ndash;2026</span><span class="ch-meta">11 p. &middot; 20 n.</span></li>
+                <li><span class="ch-num">IV</span><span class="ch-title">Mechanisms of US competitive
+                        advantage</span><span class="ch-meta">9 p. &middot; 19 n.</span></li>
+                <li><span class="ch-num">V</span><span class="ch-title">Prospective scenarios 2026&ndash;2030 and
+                        tipping points</span><span class="ch-meta">11 p. &middot; 16 n.</span></li>
+                <li><span class="ch-num">VI</span><span class="ch-title">Consequences for France and Europe</span><span
+                        class="ch-meta">10 p. &middot; 14 n.</span></li>
+                <li><span class="ch-num">VI bis</span><span class="ch-title">Consequences for South America and
+                        Brazil</span><span class="ch-meta">11 p. &middot; 19 n.</span></li>
+                <li><span class="ch-num">VI ter</span><span class="ch-title">Consequences for Asia</span><span
+                        class="ch-meta">12 p. &middot; 16 n.</span></li>
+                <li><span class="ch-num">VI quater</span><span class="ch-title">Consequences for Africa</span><span
+                        class="ch-meta">Coming soon</span></li>
+                <li><span class="ch-num">VII</span><span class="ch-title">Strategic recommendations</span><span
+                        class="ch-meta">11 p. &middot; 18 n.</span></li>
+                <li><span class="ch-num">Concl.</span><span class="ch-title">From AI protectionism to the reshaping of
+                        the technological order</span><span class="ch-meta">8 p. &middot; 3 n.</span></li>
+            </ul>
+            <p
+                style="text-align: right; font-family: var(--mono); font-size: 0.82rem; color: var(--gold); margin-top: 8px;">
+                Total: 103 pages &middot; 157 notes
+            </p>
+        </section>
+
+        <!-- ═══════ FIGURES ═══════ -->
+        <section class="fade-up">
+            <h2 class="section-title">Figures</h2>
+            <hr class="section-bar">
+
+            <div class="fig-controls" id="figLangControls">
+                <button class="fig-btn active" onclick="setLang('FR')">FR</button>
+                <button class="fig-btn" onclick="setLang('EN')">EN</button>
+                <button class="fig-btn" onclick="setLang('PT-BR')">PT-BR</button>
+            </div>
+
+            <div class="fig-gallery" id="figGallery"></div>
+        </section>
+
+        <!-- ═══════ CITATION ═══════ -->
+        <section class="fade-up">
+            <h2 class="section-title">Citation</h2>
+            <hr class="section-bar">
+
+            <div class="code-block">
+                <pre>@techreport{pizzi2026aifirst,
+  author      = {Pizzi, Fabrice},
+  title       = {AI for Americans First: US AI Protectionism,
+                 Reshaping of the Global Technological Order
+                 and Consequences for France and Europe (2026-2030)},
+  institution = {Universite Paris Sorbonne},
+  year        = {2026},
+  month       = {February},
+  type        = {Academic Research},
+  note        = {103 pages, 157 notes, 22 figures}
+}</pre>
+            </div>
+        </section>
+
+        <!-- ═══════ DISCLAIMER ═══════ -->
+        <div class="disclaimer">
+            <span class="disc-title">License &amp; Disclaimer</span>
+            This work, &ldquo;America-First-IA&rdquo;, is licensed under the
+            <strong>Creative Commons Attribution &ndash; NonCommercial &ndash;
+                ShareAlike 4.0 International License (CC BY-NC-SA 4.0)</strong>.<br><br>
+            You are free to share and adapt the material for non-commercial purposes, provided you give
+            appropriate credit to <strong>Fabrice Pizzi (Universite Paris Sorbonne)</strong>
+            and distribute your contributions under the same license.<br><br>
+            This document is provided <strong>for educational and research purposes only</strong>.
+        </div>
+
+    </main>
+
+    <!-- ══════════════════════ FOOTER ══════════════════════ -->
+    <footer>
+        <p><strong>Fabrice Pizzi</strong> &mdash; Universite Paris Sorbonne, 2026</p>
+        <div class="footer-links">
+            <a href="https://github.com/mo0ogly">GitHub</a>
+            <a href="https://github.com/mo0ogly/America-First-IA">Repository</a>
+        </div>
+        <p class="license-line">CC BY-NC-SA 4.0 &mdash; For educational and research purposes only</p>
+    </footer>
+
+    <!-- ══════════════════════ JAVASCRIPT ══════════════════════ -->
+    <script>
+        // Accordion
+        function toggleAccordion(trigger) {
+            const acc = trigger.parentElement;
+            acc.classList.toggle('open');
+        }
+
+        // Document language toggle
+        const docLangSuffix = { 'FR': '', 'EN': '_EN', 'PT-BR': '_PT-BR' };
+        let currentDocLang = 'FR';
+
+        // Complete map: FR base → { EN: filename, 'PT-BR': filename }
+        // If a language key is missing or null, translation is unavailable
+        const docNameOverrides = {
+            'EN': {
+                'Chapitre_II_Methodologie': 'Chapter_II_Methodology_EN',
+                'Chapitre_III_Diagnostic_Empirique': 'Chapter_III_Empirical_Diagnosis_EN',
+                'Chapitre_IV_Mecanismes_Avantage_Concurrentiel': null,
+                'Chapitre_V_Scenarios_Prospectifs_2026_2030': 'Chapter_V_Prospective_Scenarios_2026_2030_EN',
+                'Chapitre_VI_Consequences_France_Europe': null,
+                'Chapitre_VI_bis_Amerique_Sud_Bresil': 'Chapter_VIbis_South_America_Brazil_EN',
+                'Chapitre_VI_ter_Asie': 'Chapter_VI_ter_Asia_EN',
+                'Chapitre_VI_quater_Africa': 'Chapter_VI_quater_Africa_EN',
+                'Chapitre_VII_Recommandations': 'Chapter_VII_Recommendations_en',
+                'Conclusion_Generale': 'General_Conclusion_EN',
+                'QR_AI_for_Americans_First': 'FAQ_AI_for_Americans_First_EN',
+                'QR_Volume2_AI_for_Americans_First': 'FAQ_Volume2_AI_for_Americans_First_EN',
+                'FAQ_Volume3_Comprendre_le_Ratio_CACI': 'FAQ_Volume3_Understanding_CACI_Ratio_EN',
+                'Annexe_Econometrique_CACI': null,
+                'Working_Paper_CACI_FR': 'Working_Paper_CACI_AI_Competitiveness',
+            },
+            'PT-BR': {
+                'Chapitre_I_Introduction_Cadrage_Theorique': null,
+                'Chapitre_II_Methodologie': 'Capitulo_II_Metodologia_PT-BR',
+                'Chapitre_III_Diagnostic_Empirique': 'Capitulo_III_Diagnostico_Empirico_PT-BR',
+                'Chapitre_IV_Mecanismes_Avantage_Concurrentiel': null,
+                'Chapitre_V_Scenarios_Prospectifs_2026_2030': 'Capitulo_V_Cenarios_Prospectivos_2026_2030_PT-BR',
+                'Chapitre_VI_Consequences_France_Europe': null,
+                'Chapitre_VI_bis_Amerique_Sud_Bresil': 'Capitulo_VIbis_America_Sul_Brasil_PT',
+                'Chapitre_VI_ter_Asie': 'Capitulo_VI_ter_Asia_PT-BR',
+                'Chapitre_VI_quater_Africa': 'Capitulo_VI_quater_Africa_PT-BR',
+                'Chapitre_VII_Recommandations': 'Capitulo_VII_Recomendacoes_PT-BR',
+                'Conclusion_Generale': 'Conclusao_Geral_PT-BR',
+                'QR_AI_for_Americans_First': 'FAQ_AI_for_Americans_First_PT-BR',
+                'QR_Volume2_AI_for_Americans_First': 'FAQ_Volume2_AI_for_Americans_First_PT-BR',
+                'FAQ_Volume3_Comprendre_le_Ratio_CACI': 'FAQ_Volume3_Compreendendo_Ratio_CACI_PT-BR',
+                'Annexe_Econometrique_CACI': null,
+                'Working_Paper_CACI_FR': 'Working_Paper_CACI_PT-BR',
+            }
+        };
+
+        function setDocLang(lang) {
+            currentDocLang = lang;
+            const docBtns = document.querySelectorAll('.fig-controls')[0].querySelectorAll('.fig-btn');
+            docBtns.forEach(b => b.classList.toggle('active', b.textContent === lang));
+            renderDocLinks();
+        }
+
+        function getDocFilename(base, lang) {
+            if (lang === 'FR') return base;
+            const overrides = docNameOverrides[lang] || {};
+            if (base in overrides) return overrides[base]; // null = unavailable
+            const suffix = docLangSuffix[lang];
+            return base + suffix;
+        }
+
+        function renderDocLinks() {
+            const label = currentDocLang;
+
+            document.querySelectorAll('.doc-cell').forEach(cell => {
+                const base = cell.dataset.base;
+                const filename = getDocFilename(base, currentDocLang);
+                if (filename === null) {
+                    cell.innerHTML = '<span style="font-size:0.75rem; color:var(--text-muted); opacity:0.6;">&mdash;</span>';
+                } else {
+                    const href = `pdf/${filename}.pdf`;
+                    cell.innerHTML = `<a href="${href}" class="btn btn-accent" style="font-size:0.75rem; padding:6px 14px;" target="_blank">PDF (${label})</a>`;
+                }
+            });
+
+            document.querySelectorAll('.doc-links').forEach(div => {
+                const base = div.dataset.base;
+                const filename = getDocFilename(base, currentDocLang);
+                if (filename === null) {
+                    div.innerHTML = `<span class="btn" style="opacity:0.4; cursor:default; font-size:0.82rem;">Coming soon</span>`;
+                } else {
+                    const href = `pdf/${filename}.pdf`;
+                    div.innerHTML = `<a href="${href}" class="btn btn-gold" target="_blank">PDF (${label})</a>`;
+                }
+            });
+        }
+
+        renderDocLinks();
+
+        // Figure gallery
+        const figures = [
+            { id: '1.1', title: 'Data center energy consumption', file: 'Fig_1.1_Energy_DataCenters' },
+            { id: '1.2', title: 'Semiconductor market', file: 'Fig_1.2_Semiconductor_Market' },
+            { id: '1.3', title: 'Global compute gap', file: 'Fig_1.3_Compute_Gap' },
+            { id: '1.4', title: 'AI adoption gap by region', file: 'Fig_1.4_AI_Adoption_Gap' },
+            { id: '1.5', title: 'US chokepoints', file: 'Fig_1.5_US_Chokepoints' },
+            { id: '1.6', title: 'Integrated theoretical framework', file: 'Fig_1.6_Theoretical_Framework' },
+        ];
+
+        const langMap = { 'FR': '_FR', 'EN': '_EN', 'PT-BR': '_PT-BR' };
+        let currentLang = 'FR';
+
+        function setLang(lang) {
+            currentLang = lang;
+            document.getElementById('figLangControls').querySelectorAll('.fig-btn').forEach(b =>
+                b.classList.toggle('active', b.textContent === lang)
+            );
+            renderFigures();
+        }
+
+        function renderFigures() {
+            const g = document.getElementById('figGallery');
+            g.innerHTML = figures.map(f => {
+                const src = `figures/${f.file}${langMap[currentLang]}.png`;
+                return `<figure class="fig-item">
+            <img src="${src}" alt="Figure ${f.id}" loading="lazy"
+                 onload="this.classList.add('loaded')"
+                 onerror="this.style.display='none'">
+            <figcaption><strong>Fig.&nbsp;${f.id}</strong> &mdash; ${f.title}</figcaption>
+        </figure>`;
+            }).join('');
+        }
+
+        renderFigures();
+
+        // Scroll animations
+        const obs = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) e.target.classList.add('visible');
+            });
+        }, { threshold: 0.06 });
+
+        document.querySelectorAll('.fade-up, .stagger').forEach(el => obs.observe(el));
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,228 @@
+.formula-container {
+    animation: fadeIn 0.4s ease-out;
+}
+
+.formula-container .mb-4 {
+    margin-bottom: 24px;
+}
+
+.formula-container .mb-3 {
+    margin-bottom: 16px;
+}
+
+.formula-container .mt-4 {
+    margin-top: 24px;
+}
+
+.formula-container .text-muted {
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+.formula-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin: 40px 0;
+    padding: 40px;
+    background: var(--bg-alt);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.02);
+    overflow-x: auto;
+}
+
+.formula-block {
+    font-family: var(--mono);
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--accent);
+    cursor: help;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.result-block:hover {
+    background: var(--gold-glow);
+    color: var(--gold);
+}
+
+.formula-equals {
+    font-size: 2.5rem;
+    color: var(--border-hi);
+    font-weight: 300;
+}
+
+.formula-fraction {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.fraction-line {
+    width: 100%;
+    height: 3px;
+    background: var(--accent);
+    border-radius: 2px;
+}
+
+.numerator,
+.denominator {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 2rem;
+}
+
+.formula-var {
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 6px;
+    cursor: help;
+    transition: all 0.2s;
+}
+
+.var-f {
+    color: var(--accent);
+}
+
+.var-f:hover {
+    background: rgba(61, 107, 153, 0.1);
+}
+
+.var-e {
+    color: var(--red);
+}
+
+.var-e:hover {
+    background: rgba(185, 74, 72, 0.1);
+}
+
+.var-gdp {
+    color: var(--green);
+}
+
+.var-gdp:hover {
+    background: rgba(74, 140, 111, 0.1);
+}
+
+.var-l {
+    color: var(--gold);
+}
+
+.var-l:hover {
+    background: var(--gold-glow);
+}
+
+.formula-op {
+    color: var(--text-muted);
+    font-size: 1.4rem;
+}
+
+.formula-group {
+    display: flex;
+    align-items: center;
+    color: var(--text-hi);
+}
+
+.formula-group .power {
+    font-size: 1.2rem;
+    transform: translateY(-8px);
+    margin-left: 2px;
+}
+
+.bracket {
+    font-weight: 300;
+    color: var(--text-muted);
+    font-size: 2.5rem;
+}
+
+.tooltip-viewer {
+    min-height: 180px;
+    margin-top: 20px;
+    padding: 24px;
+    border-left: 4px solid var(--gold);
+    background: var(--bg);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    box-shadow: var(--shadow-sm);
+}
+
+.tooltip-content h4 {
+    color: var(--navy);
+    margin-bottom: 8px;
+    font-size: 1.2rem;
+    font-family: var(--font-heading);
+}
+
+.tooltip-content p {
+    color: var(--text);
+    font-size: 0.95rem;
+    margin-bottom: 16px;
+    line-height: 1.6;
+}
+
+.source-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: var(--gold-glow);
+    padding: 6px 12px;
+    border-radius: 4px;
+}
+
+.tooltip-content.empty {
+    color: var(--text-muted);
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.theory-section {
+    background: white;
+    padding: 30px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+}
+
+.theory-section h3 {
+    font-family: var(--font-heading);
+    color: var(--navy);
+    margin-bottom: 16px;
+    font-size: 1.3rem;
+    border-bottom: 2px solid var(--gold-glow);
+    padding-bottom: 8px;
+    display: inline-block;
+}
+
+.theory-section p {
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 0.95rem;
+    margin-bottom: 16px;
+}
+
+.theory-section .math {
+    font-family: var(--mono);
+    background: var(--bg-alt);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.theory-section .quote {
+    border-left: 3px solid var(--border-hi);
+    padding-left: 16px;
+    font-style: italic;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+}

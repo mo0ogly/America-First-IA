@@ -1,0 +1,47 @@
+name: Build CACI Dashboard
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'caci-dashboard/**'
+      - '.github/workflows/build-and-deploy-dashboard.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: './caci-dashboard/package-lock.json'
+
+      - name: Install dependencies
+        working-directory: ./caci-dashboard
+        run: npm ci
+
+      - name: Build Dashboard
+        working-directory: ./caci-dashboard
+        run: npm run build
+
+      - name: Move to Docs Dashboard Directory
+        run: |
+          rm -rf docs/dashboard
+          mv caci-dashboard/dist docs/dashboard
+
+      - name: Commit and Push Built Files
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "🤖 Auto-build CACI React Dashboard"
+          file_pattern: "docs/dashboard/**"

@@ -1,0 +1,19 @@
+# =============================================================================
+#  AI FOR AMERICANS FIRST — Requirements Python
+#  Dépendances pour les scripts de génération de graphiques et d'analyse
+# =============================================================================
+#  Scripts couverts :
+#    - generate_chapitre1_graphs.py    (Chapitre I, 6 figures × 3 langues)
+#    - generate_chapitre2_graphs.py    (Chapitre II, figures × 3 langues)
+#    - generate_caci_graphs_multilingual.py (Annexe économétrique, 5 fig × 3 langues)
+#    - econometric_validation.py       (Panel CACI, régressions, tests)
+#
+#  Installation : pip install -r requirements.txt
+# =============================================================================
+
+matplotlib>=3.8,<4.0
+numpy>=1.26,<3.0
+pandas>=2.1,<4.0
+statsmodels>=0.14,<1.0
+linearmodels>=6.0,<8.0
+scipy>=1.11,<2.0

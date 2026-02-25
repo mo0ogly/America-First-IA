@@ -1,0 +1,34 @@
+# === OS ===
+.DS_Store
+Thumbs.db
+
+# === Office temp files ===
+~$*.docx
+~$*.xlsx
+~$*.pptx
+*.tmp
+.~lock.*
+
+# === Python ===
+__pycache__/
+*.pyc
+.venv/
+
+# === Editors ===
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# === Drafts ===
+drafts/
+*.bak
+
+# === AI Assistants ===
+.claude/
+
+# === Archives (too large for git) ===
+scripts/*.zip
+
+# === Word documents (keep PDFs only) ===
+*.docx
