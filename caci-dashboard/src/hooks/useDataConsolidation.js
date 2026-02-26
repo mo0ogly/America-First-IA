@@ -71,21 +71,14 @@ const COUNTRY_MAP = {
     'Canada': 'USA', // FVEY/NAFTA compute alliance — clusters serve US ecosystem
 };
 
-// European countries to aggregate into the "EU" entity for Factor F
-// This covers the FULL European continent (as per the user's geographic scope)
-// NOTE: France, Germany, and UK are handled separately via EU_MEMBER_INDIVIDUAL_KEYS
+// EU-28 member states to aggregate for Factor F (EU-27 + UK pre-Brexit)
+// NOTE: France, Germany, and UK are handled via EU_MEMBER_INDIVIDUAL_KEYS (counted in both)
+// This list = EU-28 minus France/Germany/UK = 25 remaining members
 const EU_COUNTRIES = [
-    // EU-27 members (excluding France/Germany which have own dashboard keys)
     'Italy', 'Spain', 'Netherlands', 'Sweden', 'Finland', 'Poland', 'Ireland',
     'Denmark', 'Belgium', 'Austria', 'Luxembourg', 'Czechia', 'Slovenia',
     'Portugal', 'Romania', 'Bulgaria', 'Croatia', 'Hungary', 'Greece',
     'Estonia', 'Latvia', 'Lithuania', 'Malta', 'Cyprus', 'Slovakia',
-    // EEA / EFTA / European non-EU
-    'Norway', 'Switzerland', 'Iceland', 'Liechtenstein',
-    // Wider European continent
-    'Russia', 'Ukraine', 'Belarus', 'Serbia', 'Turkey', 'Türkiye',
-    'Bosnia and Herzegovina', 'Montenegro', 'North Macedonia', 'Albania',
-    'Moldova', 'Moldova (Republic of)', 'Andorra', 'San Marino',
 ];
 
 export const useDataConsolidation = () => {
@@ -189,13 +182,24 @@ export const useDataConsolidation = () => {
                     }
                 });
 
-                // Round Factor F to nearest integer for clean display and assign baseline minimums
+                // Apply documented compute baselines for regions underrepresented in Epoch AI
+                // Sources: UM6P Toubkal (Morocco, ~3 PFLOP/s), CHPC Lengau + Altron AI Factory (South Africa, ~2 PFLOP/s),
+                // Cassava Technologies/NVIDIA AI factories (SA, Egypt, Kenya, Morocco, Nigeria — 3,000+ GPUs, ~6 PFLOP/s),
+                // Kenya Servernah Cloud (Nairobi, ~0.5 PFLOP/s), plus undocumented civilian cloud/HPC
+                const DOCUMENTED_BASELINES = {
+                    'Africa': 18,          // ~7 PFLOP/s documented + ~11 civilian/cloud estimate
+                    'South America': 25,   // Petrobras Pegasus (~21 PFLOP/s) + SENAI CIMATEC + Scala AI City + cloud
+                    'India': 0,            // 0 = let Epoch data speak (India IS in the DB)
+                };
+
                 Object.keys(base).forEach(k => {
                     base[k].f = Math.round(base[k].f);
-                    if (base[k].f <= 5) {
-                        // Fallback heuristic: If the country wasn't explicitly in the Epoch DB as having an operational supercomputer,
-                        // assign a nominal baseline score indicative of general civilian cloud compute to avoid divide-by-zero
-                        base[k].f = k === 'Africa' ? 8 : k === 'South America' ? 12 : k === 'France' ? 15 : k === 'Germany' ? 18 : 10;
+                    // Only apply baseline if Epoch AI returned insufficient data for this entity
+                    if (base[k].f < 5 && DOCUMENTED_BASELINES[k] !== undefined) {
+                        base[k].f = DOCUMENTED_BASELINES[k];
+                    } else if (base[k].f < 5) {
+                        // Generic fallback for entities truly absent from all sources
+                        base[k].f = 10;
                     }
                 });
 
