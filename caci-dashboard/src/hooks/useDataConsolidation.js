@@ -3,14 +3,17 @@ import Papa from 'papaparse';
 
 // Map CSV Country Names to our standard dashboard keys
 const COUNTRY_MAP = {
+    // Core entities
     'United States of America': 'USA',
     'United States': 'USA',
     'USA': 'USA',
     'China': 'China',
+    'Hong Kong': 'China',
     'EU': 'EU',
     'European Union': 'EU',
     'France': 'France',
     'Germany': 'Germany',
+    'United Kingdom of Great Britain and Northern Ireland': 'UK',
     'United Kingdom': 'UK',
     'UK': 'UK',
     'India': 'India',
@@ -18,10 +21,13 @@ const COUNTRY_MAP = {
     'Africa': 'Africa',
     'Asia (Ex-China)': 'Asia (Ex-China)',
 
-    // Additional aggregations for Epoch AI
+    // South America
     'Brazil': 'South America',
     'Argentina': 'South America',
     'Chile': 'South America',
+    'Mexico': 'South America',
+
+    // Asia (Ex-China)
     'Japan': 'Asia (Ex-China)',
     'Korea (Republic of)': 'Asia (Ex-China)',
     'Singapore': 'Asia (Ex-China)',
@@ -29,13 +35,28 @@ const COUNTRY_MAP = {
     'United Arab Emirates': 'Asia (Ex-China)',
     'Saudi Arabia': 'Asia (Ex-China)',
     'Israel': 'Asia (Ex-China)',
+    'Malaysia': 'Asia (Ex-China)',
+    'Thailand': 'Asia (Ex-China)',
+    'Indonesia': 'Asia (Ex-China)',
+    'Vietnam': 'Asia (Ex-China)',
+    'Philippines (the)': 'Asia (Ex-China)',
+    'Australia': 'Asia (Ex-China)',
+
+    // Africa
     'South Africa': 'Africa',
     'Nigeria': 'Africa',
     'Morocco': 'Africa',
+
+    // Additional EU members (also counted individually if key exists)
+    'Canada': 'USA', // FVEY/NAFTA compute alliance — clusters serve US ecosystem
 };
 
 // EU countries to aggregate if found individually in Epoch CSV
-const EU_COUNTRIES = ['Italy', 'Spain', 'Netherlands', 'Sweden', 'Finland', 'Poland', 'Ireland', 'Denmark', 'Belgium', 'Austria'];
+const EU_COUNTRIES = [
+    'Italy', 'Spain', 'Netherlands', 'Sweden', 'Finland', 'Poland', 'Ireland',
+    'Denmark', 'Belgium', 'Austria', 'Luxembourg', 'Czechia', 'Slovenia',
+    'Norway', 'Switzerland', 'Iceland', // EEA/EFTA aligned
+];
 
 export const useDataConsolidation = () => {
     const [consolidatedData, setConsolidatedData] = useState(null);
