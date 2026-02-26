@@ -32,7 +32,7 @@ const CountryComparison = () => {
 
     // Filtering States
     const [selectedCountries, setSelectedCountries] = useState(
-        DEFAULT_COUNTRIES.reduce((acc, c) => ({ ...acc, [c]: ['USA', 'China', 'EU', 'India', 'Asia (Ex-China)', 'South America', 'Africa'].includes(c) }), {})
+        DEFAULT_COUNTRIES.reduce((acc, c) => ({ ...acc, [c]: ['USA', 'China', 'EU', 'India', 'Asia (Ex-China)', 'South America'].includes(c) }), {})
     );
     const [selectedIndices, setSelectedIndices] = useState({
         caci: true,

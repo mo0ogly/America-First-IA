@@ -100,7 +100,6 @@ export const useDataConsolidation = () => {
                     France: { f: 0, e: 0, gdp: 0, l: 0, imf: 72, tortoise: 35 },
                     Germany: { f: 0, e: 0, gdp: 0, l: 0, imf: 74, tortoise: 36 },
                     "South America": { f: 0, e: 0, gdp: 0, l: 0, imf: 52, tortoise: 28 },
-                    Africa: { f: 0, e: 0, gdp: 0, l: 0, imf: 40, tortoise: 20 },
                 };
 
                 const parseCSV = (url) => {
@@ -188,7 +187,6 @@ export const useDataConsolidation = () => {
                 // Cassava Technologies/NVIDIA AI factories (SA, Egypt, Kenya, Morocco, Nigeria — 3,000+ GPUs, ~6 PFLOP/s),
                 // Kenya Servernah Cloud (Nairobi, ~0.5 PFLOP/s), plus undocumented civilian cloud/HPC
                 const DOCUMENTED_BASELINES = {
-                    'Africa': 18,          // ~7 PFLOP/s documented + ~11 civilian/cloud estimate
                     'South America': 25,   // Petrobras Pegasus (~21 PFLOP/s) + SENAI CIMATEC + Scala AI City + cloud
                     'India': 0,            // 0 = let Epoch data speak (India IS in the DB)
                 };
