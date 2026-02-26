@@ -51,11 +51,21 @@ const COUNTRY_MAP = {
     'Canada': 'USA', // FVEY/NAFTA compute alliance — clusters serve US ecosystem
 };
 
-// EU-27 member states to aggregate if found individually in Epoch CSV
-// NOTE: France and Germany are handled separately via EU_MEMBER_INDIVIDUAL_KEYS
+// European countries to aggregate into the "EU" entity for Factor F
+// This covers the FULL European continent (as per the user's geographic scope)
+// NOTE: France, Germany, and UK are handled separately via EU_MEMBER_INDIVIDUAL_KEYS
 const EU_COUNTRIES = [
+    // EU-27 members (excluding France/Germany which have own dashboard keys)
     'Italy', 'Spain', 'Netherlands', 'Sweden', 'Finland', 'Poland', 'Ireland',
     'Denmark', 'Belgium', 'Austria', 'Luxembourg', 'Czechia', 'Slovenia',
+    'Portugal', 'Romania', 'Bulgaria', 'Croatia', 'Hungary', 'Greece',
+    'Estonia', 'Latvia', 'Lithuania', 'Malta', 'Cyprus', 'Slovakia',
+    // EEA / EFTA / European non-EU
+    'Norway', 'Switzerland', 'Iceland', 'Liechtenstein',
+    // Wider European continent
+    'Russia', 'Ukraine', 'Belarus', 'Serbia', 'Turkey', 'Türkiye',
+    'Bosnia and Herzegovina', 'Montenegro', 'North Macedonia', 'Albania',
+    'Moldova', 'Moldova (Republic of)', 'Andorra', 'San Marino',
 ];
 
 export const useDataConsolidation = () => {
@@ -127,9 +137,8 @@ export const useDataConsolidation = () => {
                 });
 
                 // 4. Process Epoch AI (Factor F - Compute in PetaFLOP/s)
-                // CRITICAL: France and Germany must count toward BOTH their individual keys AND the EU aggregate.
-                // The EU row in GDP/Energy/Workforce CSVs represents the full EU-27, so Factor F must match.
-                const EU_MEMBER_INDIVIDUAL_KEYS = ['France', 'Germany']; // Countries with their own dashboard key that also belong to EU
+                // CRITICAL: France, Germany, and UK must count toward BOTH their individual keys AND the EU/Europe aggregate.
+                const EU_MEMBER_INDIVIDUAL_KEYS = ['France', 'Germany', 'UK']; // Countries with their own dashboard key that also belong to Europe
 
                 epochData.forEach(row => {
                     let country = row.Country ? row.Country.trim() : '';
