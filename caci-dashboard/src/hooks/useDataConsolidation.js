@@ -51,11 +51,11 @@ const COUNTRY_MAP = {
     'Canada': 'USA', // FVEY/NAFTA compute alliance — clusters serve US ecosystem
 };
 
-// EU countries to aggregate if found individually in Epoch CSV
+// EU-27 member states to aggregate if found individually in Epoch CSV
+// NOTE: France and Germany are handled separately via EU_MEMBER_INDIVIDUAL_KEYS
 const EU_COUNTRIES = [
     'Italy', 'Spain', 'Netherlands', 'Sweden', 'Finland', 'Poland', 'Ireland',
     'Denmark', 'Belgium', 'Austria', 'Luxembourg', 'Czechia', 'Slovenia',
-    'Norway', 'Switzerland', 'Iceland', // EEA/EFTA aligned
 ];
 
 export const useDataConsolidation = () => {
