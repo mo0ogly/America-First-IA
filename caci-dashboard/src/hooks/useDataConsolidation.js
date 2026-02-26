@@ -42,10 +42,30 @@ const COUNTRY_MAP = {
     'Philippines (the)': 'Asia (Ex-China)',
     'Australia': 'Asia (Ex-China)',
 
-    // Africa
+    // Africa — full continental coverage
     'South Africa': 'Africa',
     'Nigeria': 'Africa',
     'Morocco': 'Africa',
+    'Egypt': 'Africa',
+    'Kenya': 'Africa',
+    'Ethiopia': 'Africa',
+    'Ghana': 'Africa',
+    'Algeria': 'Africa',
+    'Tunisia': 'Africa',
+    'Senegal': 'Africa',
+    'Rwanda': 'Africa',
+    'Tanzania': 'Africa',
+    'Tanzania, United Republic of': 'Africa',
+    'Uganda': 'Africa',
+    'Cameroon': 'Africa',
+    'Angola': 'Africa',
+    'Congo': 'Africa',
+    'Congo (the Democratic Republic of the)': 'Africa',
+    'Mozambique': 'Africa',
+    'Madagascar': 'Africa',
+    'Côte d\'Ivoire': 'Africa',
+    'Libya': 'Africa',
+    'Sudan': 'Africa',
 
     // Additional EU members (also counted individually if key exists)
     'Canada': 'USA', // FVEY/NAFTA compute alliance — clusters serve US ecosystem
