@@ -150,8 +150,9 @@ export const useDataConsolidation = () => {
                 });
 
                 // 4. Process Epoch AI (Factor F - Compute in PetaFLOP/s)
-                // CRITICAL: France, Germany, and UK must count toward BOTH their individual keys AND the EU/Europe aggregate.
-                const EU_MEMBER_INDIVIDUAL_KEYS = ['France', 'Germany', 'UK']; // Countries with their own dashboard key that also belong to Europe
+                // CRITICAL: France and Germany must count toward BOTH their individual keys AND the EU aggregate.
+                // UK is NOT included (Brexit — UK is its own separate entity)
+                const EU_MEMBER_INDIVIDUAL_KEYS = ['France', 'Germany'];
 
                 epochData.forEach(row => {
                     let country = row.Country ? row.Country.trim() : '';
