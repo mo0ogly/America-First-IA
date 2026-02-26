@@ -127,6 +127,10 @@ export const useDataConsolidation = () => {
                 });
 
                 // 4. Process Epoch AI (Factor F - Compute in PetaFLOP/s)
+                // CRITICAL: France and Germany must count toward BOTH their individual keys AND the EU aggregate.
+                // The EU row in GDP/Energy/Workforce CSVs represents the full EU-27, so Factor F must match.
+                const EU_MEMBER_INDIVIDUAL_KEYS = ['France', 'Germany']; // Countries with their own dashboard key that also belong to EU
+
                 epochData.forEach(row => {
                     let country = row.Country ? row.Country.trim() : '';
                     let status = row.Status ? row.Status.trim().toLowerCase() : '';
@@ -136,17 +140,23 @@ export const useDataConsolidation = () => {
                     // Only count operational compute to avoid massive skew from 'planned' datacenters
                     if (status.includes('planned') || status.includes('cancelled')) return;
 
-                    let mappedKey = COUNTRY_MAP[country] || null;
-                    if (EU_COUNTRIES.includes(country)) mappedKey = 'EU';
+                    const maxOpLog = parseFloat(row['Max OP/s (log)']);
+                    if (isNaN(maxOpLog)) return;
 
+                    const pflops = Math.pow(10, maxOpLog) / 1e15;
+
+                    let mappedKey = COUNTRY_MAP[country] || null;
+                    const isEuCountry = EU_COUNTRIES.includes(country);
+                    if (isEuCountry) mappedKey = 'EU';
+
+                    // Add compute to the primary mapped entity
                     if (mappedKey && base[mappedKey]) {
-                        // In Epoch, 'Max OP/s (log)' is base 10 log of FP operations per second
-                        const maxOpLog = parseFloat(row['Max OP/s (log)']);
-                        if (!isNaN(maxOpLog)) {
-                            // Convert to PetaFLOP/s (10^15 Operations)
-                            const pflops = Math.pow(10, maxOpLog) / 1e15;
-                            base[mappedKey].f += pflops;
-                        }
+                        base[mappedKey].f += pflops;
+                    }
+
+                    // ALSO add to EU aggregate if this country is an EU member with its own individual key
+                    if (EU_MEMBER_INDIVIDUAL_KEYS.includes(mappedKey) && base['EU']) {
+                        base['EU'].f += pflops;
                     }
                 });
 
