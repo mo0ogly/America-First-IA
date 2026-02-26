@@ -218,10 +218,18 @@ const CountryComparison = () => {
                 </div>
 
                 <div className="analysis-note mt-4 mb-4">
-                    <h5>Economic Insight: Geopolitics and Normalization</h5>
+                    <h5>⚠️ Reading the CACI: Intensity, Not Total Capacity</h5>
                     <p>
-                        By adding dynamic emerging economies and macro-regions like India, Africa, and South America, we can observe the "Global South" reality. A region might have acceptable energy costs but crucially lacks tier-1 compute access ($F$) and absorptive capital.
-                        You can isolate specific indices or geo-economic zones using the filters above to spot hidden divergences. Note the Critical Mass threshold in action.
+                        The CACI measures <strong>compute intensity relative to economic mass</strong> — not absolute capacity.
+                        This is why a single nation (e.g., France at ~21) can score higher than the EU-28 aggregate (~7):
+                        France concentrates significant GPU infrastructure (Scaleway, OVH) against a GDP of $3.2T,
+                        while the EU-28 aggregate dilutes compute across $18.9T of GDP and 3.1M STEM workforce —
+                        including member states with minimal compute but large economies.
+                    </p>
+                    <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginTop: '8px' }}>
+                        This is analogous to GDP per capita: Norway scores higher than the EU average despite having a fraction of total EU GDP.
+                        The CACI intentionally captures this <em>intensity effect</em> — the "Small Economy Normalization Bias"
+                        documented in the <a href="https://mo0ogly.github.io/America-First-IA/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--gold)' }}>Econometric Annex</a>.
                     </p>
                 </div>
 
