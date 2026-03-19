@@ -123,13 +123,13 @@ const CaciFormula = () => {
           <p className="text-muted">For a deep dive into the mathematical proofs, econometric justifications, and extended FAQs, please refer to the official <a href="https://mo0ogly.github.io/America-First-IA/" target="_blank" rel="noreferrer">America-First-IA</a> publications:</p>
 
           <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginTop: '8px' }}>
-            <a href="https://mo0ogly.github.io/America-First-IA/Chapitre_II_Methodologie" target="_blank" rel="noreferrer" className="btn btn-primary" style={{ textDecoration: 'none' }}>
+            <a href="https://mo0ogly.github.io/America-First-IA/pdf/Chapitre_II_Methodologie.pdf" target="_blank" rel="noreferrer" className="btn btn-primary" style={{ textDecoration: 'none' }}>
               Chapitre II: Méthodologie
             </a>
-            <a href="https://mo0ogly.github.io/America-First-IA/FAQ_Volume3_Comprendre_le_Ratio_CACI" target="_blank" rel="noreferrer" className="btn btn-primary" style={{ textDecoration: 'none' }}>
+            <a href="https://mo0ogly.github.io/America-First-IA/pdf/FAQ_Volume3_Comprendre_le_Ratio_CACI.pdf" target="_blank" rel="noreferrer" className="btn btn-primary" style={{ textDecoration: 'none' }}>
               FAQ Vol 3: Comprendre le Ratio CACI
             </a>
-            <a href="https://mo0ogly.github.io/America-First-IA/Working_Paper_CACI" target="_blank" rel="noreferrer" className="btn btn-gold" style={{ textDecoration: 'none' }}>
+            <a href="https://mo0ogly.github.io/America-First-IA/pdf/Working_Paper_CACI_AI_Competitiveness.pdf" target="_blank" rel="noreferrer" className="btn btn-gold" style={{ textDecoration: 'none' }}>
               Working Paper CACI
             </a>
           </div>
