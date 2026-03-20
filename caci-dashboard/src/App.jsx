@@ -6,6 +6,7 @@ import './index.css';
 
 function App() {
   const [activeTab, setActiveTab] = useState('formula');
+  const [sovereignMode, setSovereignMode] = useState(false);
 
   return (
     <div className="app-layout">
@@ -42,8 +43,8 @@ function App() {
 
       <main className="container content-area" style={{ marginTop: '40px', paddingBottom: '80px' }}>
         {activeTab === 'formula' && <CaciFormula />}
-        {activeTab === 'compare' && <CountryComparison />}
-        {activeTab === 'data' && <DataHub />}
+        {activeTab === 'compare' && <CountryComparison sovereignMode={sovereignMode} />}
+        {activeTab === 'data' && <DataHub sovereignMode={sovereignMode} setSovereignMode={setSovereignMode} />}
       </main>
 
       <style>{`

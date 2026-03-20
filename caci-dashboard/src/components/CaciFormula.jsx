@@ -106,15 +106,21 @@ const CaciFormula = () => {
           )}
         </div>
 
-        {/* Methodological Limitations Section */}
-        <div className="theory-section mt-4" style={{ borderLeft: '3px solid var(--gold)', paddingLeft: '16px', background: 'var(--bg)', padding: '16px', borderRadius: '0 var(--radius) var(--radius) 0' }}>
-          <h4 style={{ color: 'var(--gold)' }}>Methodological Limits: Small Economy Normalization Bias</h4>
-          <p className="text-muted" style={{ fontSize: '0.9rem', marginBottom: '8px' }}>
-            As highlighted by the <strong>OECD/JRC Handbook on Constructing Composite Indicators (2008)</strong>, geometric indicators normalized by economic mass (GDP × L) are susceptible to the <em>Small Economy Bias</em>.
-          </p>
-          <p className="text-muted" style={{ fontSize: '0.9rem' }}>
-            In the CACI framework, countries with a very small denominator (e.g., South Africa or Iceland) can experience artificially inflated scores if they possess even a fraction of tier-1 compute (F) combined with cheap industrial energy (E). To prevent this mathematical distortion, the real-world application of the CACI requires a <strong>Critical Mass Threshold (Minimum F)</strong>. Economies below this compute threshold are excluded from the primary tier ranking.
-          </p>
+        {/* Methodological Limitations & Sovereignty Section */}
+        <div className="theory-section mt-4" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+          <div style={{ borderLeft: '3px solid var(--gold)', paddingLeft: '16px', background: 'rgba(184, 146, 47, 0.05)', padding: '16px', borderRadius: '0 var(--radius) var(--radius) 0' }}>
+            <h4 style={{ color: 'var(--gold)' }}>Small Economy Normalization Bias</h4>
+            <p className="text-muted" style={{ fontSize: '0.85rem' }}>
+              As per the <strong>OECD/JRC Handbook (2008)</strong>, geometric indicators normalized by GDP/Workforce can overstate the competitiveness of very small economies with cheap energy. The CACI requires a <strong>Critical Mass Threshold</strong> to filter these artifacts.
+            </p>
+          </div>
+
+          <div style={{ borderLeft: '3px solid var(--accent)', paddingLeft: '16px', background: 'rgba(61, 107, 153, 0.05)', padding: '16px', borderRadius: '0 var(--radius) var(--radius) 0' }}>
+            <h4 style={{ color: 'var(--accent)' }}>Sovereignty & The "5-Layer Cake"</h4>
+            <p className="text-muted" style={{ fontSize: '0.85rem' }}>
+              Our 2028 simulation uses the <strong>NVIDIA 5-Layer Cake</strong> framework to distinguish between mere <em>presence</em> (Factor F stock) and actual <em>sovereignty</em> (Control of Chips, Networking, Compute, Software, and Services).
+            </p>
+          </div>
         </div>
 
         {/* Documentation Links Section */}

@@ -17,8 +17,8 @@ const INDICES = {
     tortoise: { name: 'Tortoise AI Index', color: 'var(--text-muted)' }
 };
 
-const CountryComparison = () => {
-    const { consolidatedData, loading, error } = useDataConsolidation();
+const CountryComparison = ({ sovereignMode = false }) => {
+    const { consolidatedData, loading, error } = useDataConsolidation(sovereignMode);
     const [viewMode, setViewMode] = useState('bar');
     const [simData, setSimData] = useState(null);
 

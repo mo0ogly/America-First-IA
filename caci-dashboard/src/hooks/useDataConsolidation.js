@@ -81,7 +81,65 @@ const EU_COUNTRIES = [
     'Estonia', 'Latvia', 'Lithuania', 'Malta', 'Cyprus', 'Slovakia',
 ];
 
-export const useDataConsolidation = () => {
+// Map major AI entities to their home countries for Sovereign Mode filtering
+const OWNER_COUNTRY_MAP = {
+    // USA
+    'Microsoft': 'USA',
+    'Amazon': 'USA',
+    'Google': 'USA',
+    'Oracle': 'USA',
+    'Meta AI': 'USA',
+    'xAI': 'USA',
+    'OpenAI': 'USA',
+    'CoreWeave': 'USA',
+    'Lambda Labs': 'USA',
+    'Together': 'USA',
+    'Inflection AI': 'USA',
+    'Tesla': 'USA',
+    'Anthropic': 'USA',
+    'US Department of Energy': 'USA',
+    'US Department of Defense': 'USA',
+    'Applied Digital': 'USA',
+    'Nebius AI': 'USA', // Hybrid but primarily US-Western operation
+    'together.ai': 'USA',
+    'Crusoe': 'USA',
+    'Equinix': 'USA',
+    'Stargate (OpenAI)': 'USA',
+    'Andreessen Horowitz': 'USA',
+
+    // China
+    'Baidu': 'China',
+    'Alibaba': 'China',
+    'Tencent': 'China',
+    'Huawei': 'China',
+    'Z.ai (Zhipu AI)': 'China',
+    'Bytedance': 'China',
+    'Anonymized Chinese System': 'China',
+
+    // France / EU
+    'Mistral': 'France',
+    'Sesterce': 'France',
+    'Scaleway': 'France',
+    'OVHcloud': 'France',
+    'Fluidstack': 'France',
+    'EuroHPC JU': 'EU',
+    'Julich Supercomputing Center': 'Germany',
+
+    // UAE
+    'G42': 'UAE',
+    'Saudi Aramco': 'Saudi Arabia',
+    'DataVolt': 'Saudi Arabia',
+
+    // India
+    'Reliance Industries': 'India',
+    'Yotta Data Services': 'India',
+
+    // Japan
+    'Softbank': 'Japan',
+    'Sakura Internet': 'Japan',
+};
+
+export const useDataConsolidation = (sovereignMode = false) => {
     const [consolidatedData, setConsolidatedData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -155,11 +213,33 @@ export const useDataConsolidation = () => {
                 epochData.forEach(row => {
                     let country = row.Country ? row.Country.trim() : '';
                     let status = row.Status ? row.Status.trim().toLowerCase() : '';
+                    let owner = row.Owner ? row.Owner.trim() : '';
 
                     if (!country) return;
 
                     // Only count operational compute to avoid massive skew from 'planned' datacenters
                     if (status.includes('planned') || status.includes('cancelled')) return;
+
+                    // --- SOVEREIGN MODE FILTER ---
+                    if (sovereignMode) {
+                        const ownerNation = OWNER_COUNTRY_MAP[owner];
+                        const locationNation = COUNTRY_MAP[country] || country;
+
+                        // If owner is known and from a different nation than location, filtered out
+                        // Special case: US hyperscalers (even if not explicitly in map) are considered foreign to Europe/Asia
+                        const isUsOwner = ownerNation === 'USA' || 
+                                         owner.toLowerCase().includes('microsoft') || 
+                                         owner.toLowerCase().includes('amazon') || 
+                                         owner.toLowerCase().includes('google') ||
+                                         owner.toLowerCase().includes('azure') ||
+                                         owner.toLowerCase().includes('oracle');
+                        
+                        const isForeign = ownerNation && ownerNation !== locationNation;
+
+                        if (isForeign || (isUsOwner && locationNation !== 'USA')) {
+                            return; // Skip this cluster in sovereign mode (blockade simulation)
+                        }
+                    }
 
                     const maxOpLog = parseFloat(row['Max OP/s (log)']);
                     if (isNaN(maxOpLog)) return;
@@ -182,9 +262,6 @@ export const useDataConsolidation = () => {
                 });
 
                 // Apply documented compute baselines for regions underrepresented in Epoch AI
-                // Sources: UM6P Toubkal (Morocco, ~3 PFLOP/s), CHPC Lengau + Altron AI Factory (South Africa, ~2 PFLOP/s),
-                // Cassava Technologies/NVIDIA AI factories (SA, Egypt, Kenya, Morocco, Nigeria — 3,000+ GPUs, ~6 PFLOP/s),
-                // Kenya Servernah Cloud (Nairobi, ~0.5 PFLOP/s), plus undocumented civilian cloud/HPC
                 const DOCUMENTED_BASELINES = {
                     'India': 0,            // 0 = let Epoch data speak (India IS in the DB)
                 };
@@ -210,7 +287,7 @@ export const useDataConsolidation = () => {
         };
 
         fetchAndConsolidate();
-    }, []);
+    }, [sovereignMode]);
 
     return { consolidatedData, loading, error };
 };

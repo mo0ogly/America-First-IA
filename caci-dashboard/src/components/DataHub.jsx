@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import Papa from 'papaparse';
 import './DataHub.css';
 
-const DataHub = () => {
+const DataHub = ({ sovereignMode = false, setSovereignMode }) => {
   const [activeAccordion, setActiveAccordion] = useState(null);
 
   // Raw data states
@@ -96,6 +96,22 @@ const DataHub = () => {
     const aggregated = {};
     rawData.forEach(row => {
       const country = row.Country || 'Unknown';
+      const status = row.Status ? row.Status.trim().toLowerCase() : '';
+      const owner = row.Owner ? row.Owner.trim() : '';
+
+      // Only count operational compute
+      if (status.includes('planned') || status.includes('cancelled')) return;
+
+      // --- INTERNAL SOVEREIGN FILTER (Matches hook logic) ---
+      if (sovereignMode) {
+        const isUsOwner = owner.toLowerCase().includes('microsoft') || 
+                         owner.toLowerCase().includes('amazon') || 
+                         owner.toLowerCase().includes('google') ||
+                         owner.toLowerCase().includes('azure') ||
+                         owner.toLowerCase().includes('oracle');
+        if (isUsOwner && country !== 'United States of America' && country !== 'USA') return;
+      }
+
       const flopsLog = parseFloat(row['16-bit OP/s (log)']);
       if (isNaN(flopsLog) || row.Certainty === 'Unlikely') return;
       const flops = Math.pow(10, flopsLog);
@@ -104,8 +120,8 @@ const DataHub = () => {
       }
       aggregated[country].Total_16bit_Flops += flops;
       aggregated[country].Cluster_Count += 1;
-      const status = row.Status || 'Unknown';
-      aggregated[country].Primary_Status[status] = (aggregated[country].Primary_Status[status] || 0) + 1;
+      const s = row.Status || 'Unknown';
+      aggregated[country].Primary_Status[s] = (aggregated[country].Primary_Status[s] || 0) + 1;
     });
     return Object.values(aggregated)
       .sort((a, b) => b.Total_16bit_Flops - a.Total_16bit_Flops)
@@ -116,7 +132,7 @@ const DataHub = () => {
         Log_Flops: Math.log10(entry.Total_16bit_Flops).toFixed(2),
         Breakdown: Object.entries(entry.Primary_Status).map(([k, v]) => `${v} ${k}`).join(', ')
       }));
-  }, [rawData, viewMode]);
+  }, [rawData, viewMode, sovereignMode]);
 
   const toggleAccordion = (section) => {
     setActiveAccordion(activeAccordion === section ? null : section);
@@ -145,10 +161,30 @@ const DataHub = () => {
             {activeAccordion === 'F' && (
               <div className="accordion-body fade-up">
                 <p><strong>Source:</strong> Epoch AI GPU Clusters Database</p>
-                <p><strong>Definition:</strong> Aggregate high-tier compute power available within a nation's borders (PetaFLOP/s). Raw capacities are fetched dynamically and aggregated in the dashboard.</p>
+                <p><strong>Definition:</strong> Aggregate compute power by nation (PetaFLOP/s). Data is dynamically extracted and aggregated in this dashboard.</p>
+
+                {/* --- NEW SOVEREIGN MODE TOGGLE --- */}
+                <div className="sovereign-toggle-container glass-card" style={{ padding: '15px', border: '1px solid var(--gold)', background: 'rgba(184, 146, 47, 0.05)', marginBottom: '20px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <div>
+                      <h6 style={{ color: 'var(--gold)', margin: 0 }}>🛡️ 2028 Sovereign Scenario (Blockade Simulation)</h6>
+                      <p style={{ fontSize: '0.8rem', margin: '5px 0 0', color: 'var(--text-muted)' }}>
+                        Removes foreign-controlled clusters (e.g., AWS in France, Microsoft in UAE).
+                      </p>
+                    </div>
+                    <label className="switch">
+                      <input 
+                        type="checkbox" 
+                        checked={sovereignMode} 
+                        onChange={(e) => setSovereignMode(e.target.checked)} 
+                      />
+                      <span className="slider round"></span>
+                    </label>
+                  </div>
+                </div>
 
                 <div className="pipeline-container">
-                  <h6>Execute Factor F Ingestion Pipeline</h6>
+                  <h6>① Factor F Data Ingestion Pipeline</h6>
                   <div className="actions">
                     <button className="btn btn-primary" onClick={handleGrabData} disabled={loading}>
                       {loading ? '↻ Grabbing Data...' : '① Import Raw Data'}
