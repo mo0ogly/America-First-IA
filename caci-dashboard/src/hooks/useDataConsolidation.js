@@ -149,14 +149,16 @@ export const useDataConsolidation = (sovereignMode = false) => {
             try {
                 // Initialize base structure with static IMF/Tortoise AIPI indices which are not in our 4 core datasets
                 const base = {
-                    USA: { f: 0, e: 0, gdp: 0, l: 0, imf: 85, tortoise: 100 },
-                    China: { f: 0, e: 0, gdp: 0, l: 0, imf: 60, tortoise: 62 },
-                    EU: { f: 0, e: 0, gdp: 0, l: 0, imf: 74, tortoise: 36 },
-                    UK: { f: 0, e: 0, gdp: 0, l: 0, imf: 75, tortoise: 41 },
-                    "Asia (Ex-China)": { f: 0, e: 0, gdp: 0, l: 0, imf: 82, tortoise: 68 },
-                    India: { f: 0, e: 0, gdp: 0, l: 0, imf: 62, tortoise: 45 },
-                    France: { f: 0, e: 0, gdp: 0, l: 0, imf: 72, tortoise: 35 },
-                    Germany: { f: 0, e: 0, gdp: 0, l: 0, imf: 74, tortoise: 36 },
+                    USA: { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, imf: 85, tortoise: 100 },
+                    China: { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, imf: 60, tortoise: 62 },
+                    EU: { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, imf: 74, tortoise: 36 },
+                    UK: { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, imf: 75, tortoise: 41 },
+                    "Asia (Ex-China)": { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, imf: 82, tortoise: 68 },
+                    India: { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, imf: 62, tortoise: 45 },
+                    France: { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, imf: 72, tortoise: 35 },
+                    Germany: { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, imf: 74, tortoise: 36 },
+                    "South America": { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, imf: 45, tortoise: 25 },
+                    Africa: { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, imf: 38, tortoise: 18 },
                 };
 
                 const parseCSV = (url) => {

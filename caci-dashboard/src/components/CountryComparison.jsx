@@ -22,22 +22,22 @@ const INDICES = {
 const SovereigntyTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {
         const data = payload[0].payload;
-        const total = data.f_total;
-        const sov = data.f;
-        const percent = ((sov / total) * 100).toFixed(1);
+        const total = data.f_total || 0;
+        const sov = data.f || 0;
+        const percent = total > 0 ? ((sov / total) * 100).toFixed(1) : "0.0";
 
         return (
             <div className="custom-tooltip glass-card" style={{ padding: '15px', border: '1px solid var(--gold)' }}>
                 <h4 style={{ color: 'var(--gold)', marginBottom: '10px' }}>{data.name}</h4>
-                <p><strong>Physical (F_phys):</strong> {total.toLocaleString()} PetaFLOP/s</p>
-                <p><strong>Sovereign (F_sov):</strong> {sov.toLocaleString()} PetaFLOP/s</p>
-                <p style={{ color: sov === total ? 'var(--gold)' : 'var(--red)', fontWeight: 'bold' }}>
+                <p><strong>Physical (F_phys):</strong> {Math.round(total).toLocaleString()} PF</p>
+                <p><strong>Sovereign (F_sov):</strong> {Math.round(sov).toLocaleString()} PF</p>
+                <p style={{ color: sov >= total ? 'var(--gold)' : 'var(--red)', fontWeight: 'bold' }}>
                     Sovereignty Ratio: {percent}%
                 </p>
                 <p className="text-muted" style={{ fontSize: '0.8rem', marginTop: '10px' }}>
-                    {sov === total
+                    {sov >= total
                         ? "No foreign-controlled clusters detected."
-                        : `⚠️ ${ (total - sov).toLocaleString() } PF controlled by external jurisdictions (Cloud Act/Hyperscalers).`}
+                        : `⚠️ ${ Math.round(total - sov).toLocaleString() } PF controlled by external jurisdictions.`}
                 </p>
             </div>
         );
@@ -82,13 +82,13 @@ const CountryComparison = ({ sovereignMode = false }) => {
     const [viewMode, setViewMode] = useState('bar');
     const [simData, setSimData] = useState(null);
 
-    // Sync the simulator state once the data loads
+    // Sync the simulator state once the data loads or scenario changes
     React.useEffect(() => {
-        if (consolidatedData && !simData) {
-            // Deep copy to allow editing
+        if (consolidatedData) {
+            // Deep copy to allow editing. We reset simData when scenario (sovereignMode) changes
             setSimData(JSON.parse(JSON.stringify(consolidatedData)));
         }
-    }, [consolidatedData, simData]);
+    }, [consolidatedData]);
 
     // Filtering States
     const [selectedCountries, setSelectedCountries] = useState(
@@ -148,16 +148,19 @@ const CountryComparison = ({ sovereignMode = false }) => {
 
     // Secondary pass to normalize CACI scores so USA (or leader) = 100
     const finalChartData = useMemo(() => {
-        if (calculatedData.length === 0) return [];
+        if (calculatedData.length === 0 || !simData) return [];
         const maxRaw = Math.max(...calculatedData.map(d => d.rawCaci));
 
-        return calculatedData.map(d => ({
-            ...d,
-            caci: maxRaw > 0 ? parseFloat(((d.rawCaci / maxRaw) * 100).toFixed(1)) : 0,
-            f: simData[d.name].f,
-            f_total: simData[d.name].f_total,
-            f_foreign: simData[d.name].f_total - simData[d.name].f
-        }));
+        return calculatedData.map(d => {
+            const sData = simData[d.name] || { f: 0, f_total: 0 };
+            return {
+                ...d,
+                caci: maxRaw > 0 ? parseFloat(((d.rawCaci / maxRaw) * 100).toFixed(1)) : 0,
+                f: sData.f || 0,
+                f_total: sData.f_total || 0,
+                f_foreign: (sData.f_total || 0) - (sData.f || 0)
+            };
+        });
     }, [calculatedData, simData]);
 
     // ═══════════════ LOADING / ERROR GUARDS ═══════════════
