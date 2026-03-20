@@ -17,6 +17,66 @@ const INDICES = {
     tortoise: { name: 'Tortoise AI Index', color: 'var(--text-muted)' }
 };
 
+// ═══════════════ SOVEREIGNTY VISUAL COMPONENTS ═══════════════
+
+const SovereigntyTooltip = ({ active, payload }) => {
+    if (active && payload && payload.length) {
+        const data = payload[0].payload;
+        const total = data.f_total;
+        const sov = data.f;
+        const percent = ((sov / total) * 100).toFixed(1);
+
+        return (
+            <div className="custom-tooltip glass-card" style={{ padding: '15px', border: '1px solid var(--gold)' }}>
+                <h4 style={{ color: 'var(--gold)', marginBottom: '10px' }}>{data.name}</h4>
+                <p><strong>Physical (F_phys):</strong> {total.toLocaleString()} PetaFLOP/s</p>
+                <p><strong>Sovereign (F_sov):</strong> {sov.toLocaleString()} PetaFLOP/s</p>
+                <p style={{ color: sov === total ? 'var(--gold)' : 'var(--red)', fontWeight: 'bold' }}>
+                    Sovereignty Ratio: {percent}%
+                </p>
+                <p className="text-muted" style={{ fontSize: '0.8rem', marginTop: '10px' }}>
+                    {sov === total
+                        ? "No foreign-controlled clusters detected."
+                        : `⚠️ ${ (total - sov).toLocaleString() } PF controlled by external jurisdictions (Cloud Act/Hyperscalers).`}
+                </p>
+            </div>
+        );
+    }
+    return null;
+};
+
+const SovereignCake = ({ sovereign, total, ratio }) => {
+    const layers = [
+        { id: 5, name: 'L5: Chips (Silicon)', status: 'Globalized', color: '#1a2744' },
+        { id: 4, name: 'L4: Networking', status: 'Globalized', color: '#1a2744' },
+        { id: 3, name: 'L3: Compute (Infrastructure)', status: ratio < 1 ? 'Vulnerable' : 'Sovereign', color: ratio < 1 ? 'var(--red)' : 'var(--gold)' },
+        { id: 2, name: 'L2: Software Stack', status: ratio < 0.5 ? 'Dependent' : 'Balanced', color: ratio < 1 ? 'var(--red)' : 'var(--accent)' },
+        { id: 1, name: 'L1: AI Services', status: ratio < 0.5 ? 'Dependent' : 'Sovereign', color: ratio < 1 ? 'var(--red)' : 'var(--gold)' },
+    ];
+
+    return (
+        <div className="cake-visual">
+            {layers.map(layer => (
+                <div
+                    key={layer.id}
+                    className={`cake-layer layer-${layer.id}`}
+                    style={{
+                        backgroundColor: layer.color,
+                        opacity: layer.id === 3 ? 1 : 0.8,
+                        border: layer.id === 3 && ratio < 1 ? '2px solid var(--red)' : 'none'
+                    }}
+                >
+                    <span className="layer-label">{layer.name}</span>
+                    <span className="layer-status">
+                        {layer.id === 3 && ratio < 1 ? `${Math.round(ratio*100)}% Sov.` : layer.status}
+                    </span>
+                </div>
+            ))}
+            <div className="cake-base">Sovereignty Audit</div>
+        </div>
+    );
+};
+
 const CountryComparison = ({ sovereignMode = false }) => {
     const { consolidatedData, loading, error } = useDataConsolidation(sovereignMode);
     const [viewMode, setViewMode] = useState('bar');
@@ -93,9 +153,12 @@ const CountryComparison = ({ sovereignMode = false }) => {
 
         return calculatedData.map(d => ({
             ...d,
-            caci: maxRaw > 0 ? parseFloat(((d.rawCaci / maxRaw) * 100).toFixed(1)) : 0
+            caci: maxRaw > 0 ? parseFloat(((d.rawCaci / maxRaw) * 100).toFixed(1)) : 0,
+            f: simData[d.name].f,
+            f_total: simData[d.name].f_total,
+            f_foreign: simData[d.name].f_total - simData[d.name].f
         }));
-    }, [calculatedData]);
+    }, [calculatedData, simData]);
 
     // ═══════════════ LOADING / ERROR GUARDS ═══════════════
     if (loading) return (
@@ -125,6 +188,12 @@ const CountryComparison = ({ sovereignMode = false }) => {
                             onClick={() => setViewMode('bar')}
                         >
                             Bar View
+                        </button>
+                        <button
+                            className={`btn ${viewMode === 'sovereignty' ? 'btn-gold' : 'btn-ghost'}`}
+                            onClick={() => setViewMode('sovereignty')}
+                        >
+                            Sovereignty Audit
                         </button>
                         <button
                             className={`btn ${viewMode === 'radar' ? 'btn-primary' : 'btn-ghost'}`}
@@ -191,6 +260,16 @@ const CountryComparison = ({ sovereignMode = false }) => {
                                 {selectedIndices.imf && <Bar dataKey="imf" name={INDICES.imf.name} fill={INDICES.imf.color} radius={[4, 4, 0, 0]} />}
                                 {selectedIndices.tortoise && <Bar dataKey="tortoise" name={INDICES.tortoise.name} fill={INDICES.tortoise.color} radius={[4, 4, 0, 0]} />}
                             </BarChart>
+                        ) : viewMode === 'sovereignty' ? (
+                            <BarChart data={finalChartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                                <CartesianGrid strokeDasharray="3 3" stroke="rgba(26,39,68,0.1)" vertical={false} />
+                                <XAxis dataKey="name" stroke="var(--text-muted)" />
+                                <YAxis stroke="var(--text-muted)" />
+                                <RechartsTooltip content={<SovereigntyTooltip />} />
+                                <Legend verticalAlign="top" height={36}/>
+                                <Bar dataKey="f" name="Sovereign Compute" stackId="a" fill="var(--gold)" />
+                                <Bar dataKey="f_foreign" name="Foreign-Controlled" stackId="a" fill="rgba(200, 50, 50, 0.4)" radius={[4, 4, 0, 0]} />
+                            </BarChart>
                         ) : viewMode === 'radar' ? (
                             <RadarChart cx="50%" cy="50%" outerRadius="70%" data={finalChartData}>
                                 <PolarGrid stroke="rgba(26,39,68,0.1)" />
@@ -216,6 +295,21 @@ const CountryComparison = ({ sovereignMode = false }) => {
                         )}
                     </ResponsiveContainer>
                 </div>
+
+                {viewMode === 'sovereignty' && (
+                    <div className="sovereignty-audit-grid mt-4">
+                        {finalChartData.filter(d => d.f_total > 5).map(d => (
+                            <div key={d.name} className="cake-panel glass-card">
+                                <h4 style={{textAlign: 'center', marginBottom: '15px'}}>{d.name}</h4>
+                                <SovereignCake 
+                                    sovereign={d.f} 
+                                    total={d.f_total} 
+                                    ratio={d.f / (d.f_total || 1)} 
+                                />
+                            </div>
+                        ))}
+                    </div>
+                )}
 
                 <div className="analysis-note mt-4 mb-4">
                     <h5>⚠️ Reading the CACI: Intensity, Not Total Capacity</h5>

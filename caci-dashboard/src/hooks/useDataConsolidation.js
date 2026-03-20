@@ -220,60 +220,67 @@ export const useDataConsolidation = (sovereignMode = false) => {
                     // Only count operational compute to avoid massive skew from 'planned' datacenters
                     if (status.includes('planned') || status.includes('cancelled')) return;
 
-                    // --- SOVEREIGN MODE FILTER ---
-                    if (sovereignMode) {
-                        const ownerNation = OWNER_COUNTRY_MAP[owner];
-                        const locationNation = COUNTRY_MAP[country] || country;
-
-                        // If owner is known and from a different nation than location, filtered out
-                        // Special case: US hyperscalers (even if not explicitly in map) are considered foreign to Europe/Asia
-                        const isUsOwner = ownerNation === 'USA' || 
-                                         owner.toLowerCase().includes('microsoft') || 
-                                         owner.toLowerCase().includes('amazon') || 
-                                         owner.toLowerCase().includes('google') ||
-                                         owner.toLowerCase().includes('azure') ||
-                                         owner.toLowerCase().includes('oracle');
-                        
-                        const isForeign = ownerNation && ownerNation !== locationNation;
-
-                        if (isForeign || (isUsOwner && locationNation !== 'USA')) {
-                            return; // Skip this cluster in sovereign mode (blockade simulation)
-                        }
-                    }
-
                     const maxOpLog = parseFloat(row['Max OP/s (log)']);
                     if (isNaN(maxOpLog)) return;
-
                     const pflops = Math.pow(10, maxOpLog) / 1e15;
 
                     let mappedKey = COUNTRY_MAP[country] || null;
                     const isEuCountry = EU_COUNTRIES.includes(country);
                     if (isEuCountry) mappedKey = 'EU';
 
-                    // Add compute to the primary mapped entity
-                    if (mappedKey && base[mappedKey]) {
-                        base[mappedKey].f += pflops;
+                    if (!mappedKey || !base[mappedKey]) return;
+
+                    // Track TOTAL physical compute regardless of sovereignty
+                    base[mappedKey].f_total += pflops;
+                    if (EU_MEMBER_INDIVIDUAL_KEYS.includes(mappedKey) && base['EU']) {
+                        base['EU'].f_total += pflops;
                     }
 
-                    // ALSO add to EU aggregate if this country is an EU member with its own individual key
-                    if (EU_MEMBER_INDIVIDUAL_KEYS.includes(mappedKey) && base['EU']) {
-                        base['EU'].f += pflops;
+                    // --- SOVEREIGN MODE FILTER ---
+                    const ownerNation = OWNER_COUNTRY_MAP[owner];
+                    const locationNation = COUNTRY_MAP[country] || country;
+
+                    // Special case: US hyperscalers (even if not explicitly in map) are considered foreign to Europe/Asia
+                    const isUsOwner = ownerNation === 'USA' || 
+                                        owner.toLowerCase().includes('microsoft') || 
+                                        owner.toLowerCase().includes('amazon') || 
+                                        owner.toLowerCase().includes('google') ||
+                                        owner.toLowerCase().includes('azure') ||
+                                        owner.toLowerCase().includes('oracle');
+                    
+                    const isForeign = ownerNation && ownerNation !== locationNation;
+                    const isSovereign = !(isForeign || (isUsOwner && locationNation !== 'USA'));
+
+                    if (isSovereign) {
+                        base[mappedKey].f += pflops;
+                        if (EU_MEMBER_INDIVIDUAL_KEYS.includes(mappedKey) && base['EU']) {
+                            base['EU'].f += pflops;
+                        }
                     }
                 });
 
-                // Apply documented compute baselines for regions underrepresented in Epoch AI
+                // Apply documented compute baselines
                 const DOCUMENTED_BASELINES = {
-                    'India': 0,            // 0 = let Epoch data speak (India IS in the DB)
+                    'India': 0,
                 };
 
                 Object.keys(base).forEach(k => {
+                    base[k].f_total = Math.round(base[k].f_total);
                     base[k].f = Math.round(base[k].f);
-                    // Only apply baseline if Epoch AI returned insufficient data for this entity
-                    if (base[k].f < 5 && DOCUMENTED_BASELINES[k] !== undefined) {
+                    
+                    // Only apply baseline if Epoch AI returned insufficient data
+                    if (base[k].f_total < 5 && DOCUMENTED_BASELINES[k] !== undefined) {
+                        base[k].f_total = DOCUMENTED_BASELINES[k];
                         base[k].f = DOCUMENTED_BASELINES[k];
-                    } else if (base[k].f < 5) {
-                        // Generic fallback for entities truly absent from all sources
+                    } else if (base[k].f_total < 5) {
+                        base[k].f_total = 10;
                         base[k].f = 10;
+                    }
+
+                    // If sovereignMode is OFF, the effective 'f' used for CACI is the total 'f_total'
+                    // If sovereignMode is ON, 'f' is already filtered above.
+                    if (!sovereignMode) {
+                        base[k].f = base[k].f_total;
                     }
                 });
 

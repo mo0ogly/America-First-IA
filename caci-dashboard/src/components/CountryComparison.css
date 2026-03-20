@@ -167,3 +167,66 @@
     font-weight: 700;
     color: var(--gold);
 }
+
+/* ═══════════════ SOVEREIGN CAKE VISUALS ═══════════════ */
+
+.sovereignty-audit-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.cake-panel {
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: all 0.3s ease;
+}
+
+.cake-panel:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(184, 146, 47, 0.1);
+}
+
+.cake-visual {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+}
+
+.cake-layer {
+    padding: 12px;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.layer-5 { width: 100%; margin-bottom: 5px; }
+.layer-4 { width: 95%; align-self: center; }
+.layer-3 { width: 90%; align-self: center; font-weight: 800; }
+.layer-2 { width: 85%; align-self: center; }
+.layer-1 { width: 80%; align-self: center; margin-top: 5px; }
+
+.layer-status {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+}
+
+.cake-base {
+    text-align: center;
+    padding-top: 10px;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
