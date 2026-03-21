@@ -17,6 +17,18 @@ const INDICES = {
     tortoise: { name: 'Tortoise AI Index', color: 'var(--text-muted)' }
 };
 
+// --- STRATEGIC METADATA FOR 5-LAYER CAKE DIFFERENTIATION ---
+const LAYER_METADATA = {
+    'USA': { L5: 'Leader', L4: 'Leader', L2: 'Leader', L1: 'Leader', style: 'gold' },
+    'China': { L5: 'Self-Sufficient', L4: 'Leading', L2: 'Sovereign', L1: 'Sovereign', style: 'red' },
+    'EU': { L5: 'Dependent', L4: 'Globalized', L2: 'Balanced', L1: 'Sovereign', style: 'navy' },
+    'UAE': { L5: 'Imported', L4: 'Vulnerable', L2: 'Dependent', L1: 'Aggregated', style: 'vibrant' },
+    'India': { L5: 'Imported', L4: 'Developing', L2: 'Strong', L1: 'Sovereign', style: 'vibrant' },
+    'UK': { L5: 'Imported', L4: 'Globalized', L2: 'Strong', L1: 'Sovereign', style: 'navy' },
+};
+
+const DEFAULT_LAYER_META = { L5: 'Globalized', L4: 'Globalized', L2: 'Balanced', L1: 'Sovereign', style: 'navy' };
+
 // ═══════════════ SOVEREIGNTY VISUAL COMPONENTS ═══════════════
 
 const SovereigntyTooltip = ({ active, payload }) => {
@@ -45,34 +57,41 @@ const SovereigntyTooltip = ({ active, payload }) => {
     return null;
 };
 
-const SovereignCake = ({ sovereign, total, ratio }) => {
+const SovereignCake = ({ country, sovereign, total, ratio }) => {
+    const meta = LAYER_METADATA[country] || DEFAULT_LAYER_META;
+    
+    // Logic: L3 (Compute) is dynamic based on data. L5, L4, L2, L1 are strategic estimates.
     const layers = [
-        { id: 5, name: 'L5: Chips (Silicon)', status: 'Globalized', color: '#1a2744' },
-        { id: 4, name: 'L4: Networking', status: 'Globalized', color: '#1a2744' },
-        { id: 3, name: 'L3: Compute (Infrastructure)', status: ratio < 1 ? 'Vulnerable' : 'Sovereign', color: ratio < 1 ? 'var(--red)' : 'var(--gold)' },
-        { id: 2, name: 'L2: Software Stack', status: ratio < 0.5 ? 'Dependent' : 'Balanced', color: ratio < 1 ? 'var(--red)' : 'var(--accent)' },
-        { id: 1, name: 'L1: AI Services', status: ratio < 0.5 ? 'Dependent' : 'Sovereign', color: ratio < 1 ? 'var(--red)' : 'var(--gold)' },
+        { id: 5, name: 'L5: Chips (Silicon)', status: meta.L5, color: meta.style === 'red' ? '#8b0000' : (meta.style === 'gold' ? '#b8922f' : '#1a2744') },
+        { id: 4, name: 'L4: Networking', status: meta.L4, color: meta.style === 'red' ? '#a52a2a' : (meta.style === 'gold' ? '#d4af37' : '#2c3e50') },
+        { id: 3, name: 'L3: Compute (Infrastructure)', 
+          status: ratio < 0.3 ? 'Critical Risk' : (ratio < 1 ? 'Vulnerable' : 'Sovereign'), 
+          color: ratio < 0.5 ? 'var(--red)' : (ratio < 1 ? '#e67e22' : 'var(--gold)') 
+        },
+        { id: 2, name: 'L2: Software Stack', status: meta.L2, color: meta.style === 'gold' ? 'var(--accent)' : '#34495e' },
+        { id: 1, name: 'L1: AI Services', status: meta.L1, color: meta.style === 'gold' ? 'var(--gold)' : '#2c3e50' },
     ];
 
     return (
-        <div className="cake-visual">
+        <div className={`cake-visual style-${meta.style}`}>
             {layers.map(layer => (
                 <div
                     key={layer.id}
                     className={`cake-layer layer-${layer.id}`}
                     style={{
                         backgroundColor: layer.color,
-                        opacity: layer.id === 3 ? 1 : 0.8,
-                        border: layer.id === 3 && ratio < 1 ? '2px solid var(--red)' : 'none'
+                        opacity: layer.id === 3 ? 1 : 0.85,
+                        border: layer.id === 3 && ratio < 1 ? '2px solid var(--red)' : 'none',
+                        boxShadow: layer.id === 3 && ratio >= 1 ? '0 0 15px rgba(184, 146, 47, 0.3)' : 'none'
                     }}
                 >
                     <span className="layer-label">{layer.name}</span>
                     <span className="layer-status">
-                        {layer.id === 3 && ratio < 1 ? `${Math.round(ratio*100)}% Sov.` : layer.status}
+                        {layer.id === 3 ? `${Math.round(ratio*100)}% Sov.` : layer.status}
                     </span>
                 </div>
             ))}
-            <div className="cake-base">Sovereignty Audit</div>
+            <div className="cake-base">{country} Audit</div>
         </div>
     );
 };
@@ -327,6 +346,7 @@ const CountryComparison = ({ sovereignMode = false }) => {
                             <div key={d.name} className="cake-panel glass-card">
                                 <h4 style={{textAlign: 'center', marginBottom: '15px'}}>{d.name}</h4>
                                 <SovereignCake 
+                                    country={d.name}
                                     sovereign={d.f} 
                                     total={d.f_total} 
                                     ratio={d.f / (d.f_total || 1)} 

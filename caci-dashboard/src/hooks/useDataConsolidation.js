@@ -291,10 +291,9 @@ export const useDataConsolidation = (sovereignMode = false) => {
                         base[k].f = 10;
                     }
 
-                    // If sovereignMode is OFF, the effective 'f' used for CACI is the total 'f_total'
-                    if (!sovereignMode) {
-                        base[k].f = base[k].f_total;
-                    }
+                    // All values are now preserved as discrete properties:
+                    // f = Sovereign Compute (Jurisdictional control)
+                    // f_total = Physical Compute (Presence on soil)
                 });
 
                 setConsolidatedData(base);
