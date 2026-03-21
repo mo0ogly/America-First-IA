@@ -9,7 +9,7 @@ import './CountryComparison.css';
 import { useDataConsolidation } from '../hooks/useDataConsolidation';
 
 // Default keys to initialize the UI state before data loads
-const DEFAULT_COUNTRIES = ['USA', 'China', 'EU', 'UK', 'Asia (Ex-China)', 'India', 'France', 'Germany', 'South America', 'Africa'];
+const DEFAULT_COUNTRIES = ['USA', 'China', 'EU', 'India', 'UAE', 'Asia (Ex-China)', 'UK', 'France', 'Germany'];
 
 const INDICES = {
     caci: { name: 'CACI Score (Relative to Leader)', color: 'var(--gold)' },

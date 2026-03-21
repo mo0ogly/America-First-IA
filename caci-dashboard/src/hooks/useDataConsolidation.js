@@ -155,6 +155,7 @@ export const useDataConsolidation = (sovereignMode = false) => {
                     UK: { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, imf: 75, tortoise: 41 },
                     "Asia (Ex-China)": { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, imf: 82, tortoise: 68 },
                     India: { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, imf: 62, tortoise: 45 },
+                    UAE: { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, imf: 78, tortoise: 55 },
                     France: { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, imf: 72, tortoise: 35 },
                     Germany: { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, imf: 74, tortoise: 36 },
                     "South America": { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, imf: 45, tortoise: 25 },

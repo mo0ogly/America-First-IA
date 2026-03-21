@@ -61,15 +61,13 @@ const CaciFormula = () => {
                 className="formula-var var-f"
                 onMouseEnter={() => setActiveTooltip('f')}
                 onMouseLeave={() => setActiveTooltip(null)}
-              >F<span className="power">(r,t)</span></span>
+              >F<span className="sub">sov</span><span className="power">(r,t)</span></span>
               <span className="formula-op">×</span>
-              <span className="formula-group">
-                <span
-                  className="formula-var var-e"
-                  onMouseEnter={() => setActiveTooltip('e')}
-                  onMouseLeave={() => setActiveTooltip(null)}
-                >E<span className="power">(r,t)⁻¹</span></span>
-              </span>
+              <span
+                className="formula-var var-e"
+                onMouseEnter={() => setActiveTooltip('e')}
+                onMouseLeave={() => setActiveTooltip(null)}
+              >E<span className="power">(r,t)⁻¹</span></span>
               <span className="bracket">]</span>
             </div>
             <div className="fraction-line"></div>
