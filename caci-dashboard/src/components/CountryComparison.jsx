@@ -188,7 +188,7 @@ const CountryComparison = ({ sovereignMode = false }) => {
                         <h2 className="section-title">Comparative Analysis & Simulator</h2>
                         <p className="text-muted">
                             Live econometric calculation of the CACI using the geometric formula:
-                            <br /><strong>CACI = [ F × E⁻¹ ] / [ GDP × L ]</strong>. Adjust the foundational parameters below.
+                            <br /><strong>CACI = [ F<sub>sov</sub> × E⁻¹ ] / [ GDP × L ]</strong>. Adjust the foundational parameters below.
                         </p>
                     </div>
                     <div className="toggle-group" style={{ flexWrap: 'wrap' }}>

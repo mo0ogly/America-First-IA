@@ -32,7 +32,8 @@ const COUNTRY_MAP = {
     'Korea (Republic of)': 'Asia (Ex-China)',
     'Singapore': 'Asia (Ex-China)',
     'Taiwan': 'Asia (Ex-China)',
-    'United Arab Emirates': 'Asia (Ex-China)',
+    'United Arab Emirates': 'UAE',
+    'UAE': 'UAE',
     'Saudi Arabia': 'Asia (Ex-China)',
     'Israel': 'Asia (Ex-China)',
     'Malaysia': 'Asia (Ex-China)',
@@ -183,28 +184,37 @@ export const useDataConsolidation = (sovereignMode = false) => {
 
                 // 1. Process GDP
                 gdpData.forEach(row => {
-                    const country = row.Country;
+                    const countryName = row.Country;
+                    const mappedKey = COUNTRY_MAP[countryName];
                     const gdp = parseFloat(row.GDP_Trillions_USD);
-                    if (base[country] && !isNaN(gdp)) {
-                        base[country].gdp = gdp;
+                    if (mappedKey && base[mappedKey] && !isNaN(gdp)) {
+                        base[mappedKey].gdp = gdp;
+                    } else if (base[countryName] && !isNaN(gdp)) {
+                        base[countryName].gdp = gdp;
                     }
                 });
 
                 // 2. Process Energy (USD/MWh)
                 energyData.forEach(row => {
-                    const country = row.Country;
+                    const countryName = row.Country;
+                    const mappedKey = COUNTRY_MAP[countryName];
                     const energy = parseFloat(row.Industrial_Electricity_USD_per_MWh);
-                    if (base[country] && !isNaN(energy)) {
-                        base[country].e = energy;
+                    if (mappedKey && base[mappedKey] && !isNaN(energy)) {
+                        base[mappedKey].e = energy;
+                    } else if (base[countryName] && !isNaN(energy)) {
+                        base[countryName].e = energy;
                     }
                 });
 
                 // 3. Process Workforce (Millions)
                 workforceData.forEach(row => {
-                    const country = row.Country;
+                    const countryName = row.Country;
+                    const mappedKey = COUNTRY_MAP[countryName];
                     const workforce = parseFloat(row.Workforce_Millions);
-                    if (base[country] && !isNaN(workforce)) {
-                        base[country].l = workforce;
+                    if (mappedKey && base[mappedKey] && !isNaN(workforce)) {
+                        base[mappedKey].l = workforce;
+                    } else if (base[countryName] && !isNaN(workforce)) {
+                        base[countryName].l = workforce;
                     }
                 });
 
@@ -264,24 +274,24 @@ export const useDataConsolidation = (sovereignMode = false) => {
 
                 // Apply documented compute baselines
                 const DOCUMENTED_BASELINES = {
-                    'India': 0,
+                    'UAE': { f: 85, f_total: 620 }, // 2028 Projection: High physical, low sovereign
+                    'India': { f: 80, f_total: 150 }
                 };
 
                 Object.keys(base).forEach(k => {
                     base[k].f_total = Math.round(base[k].f_total);
                     base[k].f = Math.round(base[k].f);
                     
-                    // Only apply baseline if Epoch AI returned insufficient data
-                    if (base[k].f_total < 5 && DOCUMENTED_BASELINES[k] !== undefined) {
-                        base[k].f_total = DOCUMENTED_BASELINES[k];
-                        base[k].f = DOCUMENTED_BASELINES[k];
+                    // Only apply baseline if data is sparse
+                    if ((base[k].f_total < 5 || k === 'UAE') && DOCUMENTED_BASELINES[k]) {
+                        base[k].f_total = DOCUMENTED_BASELINES[k].f_total;
+                        base[k].f = DOCUMENTED_BASELINES[k].f;
                     } else if (base[k].f_total < 5) {
                         base[k].f_total = 10;
                         base[k].f = 10;
                     }
 
                     // If sovereignMode is OFF, the effective 'f' used for CACI is the total 'f_total'
-                    // If sovereignMode is ON, 'f' is already filtered above.
                     if (!sovereignMode) {
                         base[k].f = base[k].f_total;
                     }
