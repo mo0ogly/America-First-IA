@@ -8,12 +8,12 @@ const CaciFormula = () => {
     caci: {
       title: "CACI Index",
       desc: "Compute-Adjusted Competitiveness Index. A parsimonious yet theoretically grounded indicator capturing the multiplicative interaction between accessible compute, energy cost constraints, and economic absorptive capacity.",
-      source: "Eq: CACI(r,t) = [ F(r,t) × E(r,t)⁻¹ ] / [ GDP(r,t) × L(r,t) ]"
+      source: "Eq: CACI(r,t) = [ F_sov(r,t) × E(r,t)⁻¹ ] / [ GDP(r,t) × L(r,t) ]"
     },
     f: {
-      title: "Factor F: Installed Compute Capacity",
-      desc: "Installed and accessible AI compute capacity in region r at period t, measured in aggregate PetaFLOP/s (16-bit performance). Includes domestic cloud capacities and authorized access quotas to foreign clouds.",
-      source: "Data: Epoch AI GPU Clusters / OECD / Hyperscalers"
+      title: "Factor F_sov: Sovereign Compute Factor",
+      desc: "The portion of installed compute capacity (Factor F_phys) that is under the jurisdictional control of the host nation. It excludes hardware clusters owned or controlled by foreign entities (hyperscalers, US Cloud Act entities) to reflect actual algorithmic sovereignty.",
+      source: "F_sov = F_phys - F_foreign"
     },
     e: {
       title: "Factor E: Energy Cost",

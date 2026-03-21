@@ -129,10 +129,17 @@
     color: var(--text-hi);
 }
 
-.formula-group .power {
+.formula-group .power,
+.formula-var .sub {
     font-size: 1.2rem;
     transform: translateY(-8px);
     margin-left: 2px;
+}
+
+.formula-var .sub {
+    transform: translateY(8px);
+    font-size: 0.9rem;
+    opacity: 0.8;
 }
 
 .bracket {
