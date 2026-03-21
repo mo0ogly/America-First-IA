@@ -57,6 +57,40 @@ const SovereigntyTooltip = ({ active, payload }) => {
     return null;
 };
 
+const SovereigntyAccordion = () => {
+    const [openIndex, setOpenIndex] = useState(null);
+    const layers = [
+        { id: 5, name: 'L5: Chips (Silicon)', desc: 'The hard floor of AI sovereignty. Dependencies here (e.g., NVIDIA, TSMC) are absolute and nearly impossible to mitigate in the short term. Sovereignty implies domestic design (EDA) and fabrication.' },
+        { id: 4, name: 'L4: Networking', desc: 'The "veins" of AI infrastructure. High-radix switches and subsea cable ownership. A 2028 blockade would isolate nations through jurisdictional control of data transit paths.' },
+        { id: 3, name: 'L3: Compute (Infrastructure)', desc: 'The physical site of the GPUs. A 100% Physical presence on soil does NOT equal sovereignty if the owner is a foreign hyperscaler (AWS/Azure/Google) subject to external trade laws.' },
+        { id: 2, name: 'L2: Software Stack', desc: 'The abstraction layer (CUDA, PyTorch). Lock-in here prevents portability. Sovereign nations invest in open-source stacks (Triton/ROCm) to break proprietary dependencies.' },
+        { id: 1, name: 'L1: AI Services', desc: 'The final value layer (LLM APIs). Dependency on foreign APIs (GPT-4) turns a nation into a "Client State" with no control over safety filters or service availability.' }
+    ];
+
+    return (
+        <div className="sovereignty-accordion mt-4 px-4">
+            <h5 className="mb-3" style={{ color: 'var(--gold)', letterSpacing: '1px' }}>EXPLORING THE "5-LAYER CAKE" MODEL</h5>
+            {layers.map((layer, index) => (
+                <div key={index} className={`accordion-item ${openIndex === index ? 'active' : ''}`} style={{ borderBottom: '1px solid rgba(184, 146, 47, 0.2)' }}>
+                    <div 
+                        className="accordion-header py-3" 
+                        onClick={() => setOpenIndex(openIndex === index ? null : index)}
+                        style={{ cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+                    >
+                        <span style={{ fontWeight: 600, color: 'var(--text-hi)' }}>{layer.name}</span>
+                        <span>{openIndex === index ? '−' : '+'}</span>
+                    </div>
+                    {openIndex === index && (
+                        <div className="accordion-body pb-3 fade-up" style={{ fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: '1.6' }}>
+                            {layer.desc}
+                        </div>
+                    )}
+                </div>
+            ))}
+        </div>
+    );
+};
+
 const SovereignCake = ({ country, sovereign, total, ratio }) => {
     const meta = LAYER_METADATA[country] || DEFAULT_LAYER_META;
     
@@ -356,7 +390,9 @@ const CountryComparison = ({ sovereignMode = false }) => {
                     </div>
                 )}
 
-                <div className="analysis-note mt-4 mb-4">
+                {viewMode === 'sovereignty' && <SovereigntyAccordion />}
+
+                <div className="analysis-note mt-5 mb-4">
                     <h5>⚠️ Reading the CACI: Intensity, Not Total Capacity</h5>
                     <p>
                         The CACI measures <strong>compute intensity relative to economic mass</strong> — not absolute capacity.
