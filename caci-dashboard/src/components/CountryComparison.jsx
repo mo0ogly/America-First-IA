@@ -125,21 +125,24 @@ const CountryComparison = ({ sovereignMode = false }) => {
         const activeCountries = Object.keys(simData).filter(c => selectedCountries[c]);
 
         return activeCountries.map(country => {
-            const data = simData[country];
+            const data = simData[country] || { f: 0, f_total: 0, e: 1, gdp: 1, l: 1 };
 
             // Protect against divide by zero
             const eSafe = data.e > 0 ? data.e : 1;
             const gdpSafe = data.gdp > 0 ? data.gdp : 1;
             const lSafe = data.l > 0 ? data.l : 1;
 
-            // CRITICAL MASS THRESHOLD (OECD/JRC 2008 Avoidance)
-            const meetsThreshold = data.f >= 15;
-            const rawCaci = meetsThreshold ? (data.f * (1 / eSafe)) / (gdpSafe * lSafe) : 0;
+            // Calculate TWO scores: One with total F (phys) and one with sovereign F (sov)
+            const f_phys = data.f_total || data.f || 0;
+            const f_sov = data.f || 0;
+
+            const rawCaci_phys = f_phys >= 15 ? (f_phys * (1 / eSafe)) / (gdpSafe * lSafe) : 0;
+            const rawCaci_sov = f_sov >= 15 ? (f_sov * (1 / eSafe)) / (gdpSafe * lSafe) : 0;
 
             return {
                 name: country,
-                rawCaci,
-                meetsThreshold,
+                rawCaci_phys,
+                rawCaci_sov,
                 imf: data.imf,
                 tortoise: data.tortoise,
             };
@@ -149,19 +152,22 @@ const CountryComparison = ({ sovereignMode = false }) => {
     // Secondary pass to normalize CACI scores so USA (or leader) = 100
     const finalChartData = useMemo(() => {
         if (calculatedData.length === 0 || !simData) return [];
-        const maxRaw = Math.max(...calculatedData.map(d => d.rawCaci));
+        // Normalize both scores relative to the same leader (usually USA phys)
+        const maxRaw = Math.max(...calculatedData.map(d => d.rawCaci_phys));
 
         return calculatedData.map(d => {
             const sData = simData[d.name] || { f: 0, f_total: 0 };
             return {
                 ...d,
-                caci: maxRaw > 0 ? parseFloat(((d.rawCaci / maxRaw) * 100).toFixed(1)) : 0,
+                caci_phys: maxRaw > 0 ? parseFloat(((d.rawCaci_phys / maxRaw) * 100).toFixed(1)) : 0,
+                caci_sov: maxRaw > 0 ? parseFloat(((d.rawCaci_sov / maxRaw) * 100).toFixed(1)) : 0,
+                caci: maxRaw > 0 ? parseFloat((( (sovereignMode ? d.rawCaci_sov : d.rawCaci_phys) / maxRaw) * 100).toFixed(1)) : 0,
                 f: sData.f || 0,
                 f_total: sData.f_total || 0,
                 f_foreign: (sData.f_total || 0) - (sData.f || 0)
             };
         });
-    }, [calculatedData, simData]);
+    }, [calculatedData, simData, sovereignMode]);
 
     // ═══════════════ LOADING / ERROR GUARDS ═══════════════
     if (loading) return (
@@ -197,6 +203,12 @@ const CountryComparison = ({ sovereignMode = false }) => {
                             onClick={() => setViewMode('sovereignty')}
                         >
                             Sovereignty Audit
+                        </button>
+                        <button
+                            className={`btn ${viewMode === 'impact' ? 'btn-gold' : 'btn-ghost'}`}
+                            onClick={() => setViewMode('impact')}
+                        >
+                            Sovereign Impact
                         </button>
                         <button
                             className={`btn ${viewMode === 'radar' ? 'btn-primary' : 'btn-ghost'}`}
@@ -273,6 +285,16 @@ const CountryComparison = ({ sovereignMode = false }) => {
                                 <Bar dataKey="f" name="Sovereign Compute" stackId="a" fill="var(--gold)" />
                                 <Bar dataKey="f_foreign" name="Foreign-Controlled" stackId="a" fill="rgba(200, 50, 50, 0.4)" radius={[4, 4, 0, 0]} />
                             </BarChart>
+                        ) : viewMode === 'impact' ? (
+                            <BarChart data={finalChartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                                <CartesianGrid strokeDasharray="3 3" stroke="rgba(26,39,68,0.1)" vertical={false} />
+                                <XAxis dataKey="name" stroke="var(--text-muted)" />
+                                <YAxis stroke="var(--text-muted)" />
+                                <RechartsTooltip />
+                                <Legend verticalAlign="top" height={36}/>
+                                <Bar dataKey="caci_phys" name="Potential CACI (Physical)" fill="var(--text-muted)" opacity={0.5} radius={[4, 4, 0, 0]} />
+                                <Bar dataKey="caci_sov" name="Sovereign CACI (Actual)" fill="var(--gold)" radius={[4, 4, 0, 0]} />
+                            </BarChart>
                         ) : viewMode === 'radar' ? (
                             <RadarChart cx="50%" cy="50%" outerRadius="70%" data={finalChartData}>
                                 <PolarGrid stroke="rgba(26,39,68,0.1)" />
@@ -337,47 +359,51 @@ const CountryComparison = ({ sovereignMode = false }) => {
                 <p className="text-muted mb-4">Adjust the raw attributes below to immediately recalculate the geometric CACI for the selected nations.</p>
 
                 <div className="data-grid">
-                    {Object.keys(simData).filter(c => selectedCountries[c]).map(country => (
-                        <div key={country} className="data-card">
-                            <h4>{country}
-                                <span style={{ fontSize: '0.8rem', fontWeight: 'normal', color: 'var(--text-muted)' }}>
-                                    Raw CACI: {calculatedData.find(d => d.name === country)?.rawCaci.toFixed(4)}
-                                </span>
-                            </h4>
-                            <div className="input-group">
-                                <label title="PetaFLOP/s">Factor F (Compute)</label>
-                                <input type="number" value={simData[country].f} onChange={e => handleInputChange(country, 'f', e.target.value)} />
-                            </div>
-                            <div className="input-group">
-                                <label title="€/MWh">Factor E (Energy Cost)</label>
-                                <input type="number" value={simData[country].e} onChange={e => handleInputChange(country, 'e', e.target.value)} />
-                            </div>
-                            <div className="input-group">
-                                <label title="Trillions $">GDP (Mass)</label>
-                                <input type="number" step="0.1" value={simData[country].gdp} onChange={e => handleInputChange(country, 'gdp', e.target.value)} />
-                            </div>
-                            <div className="input-group">
-                                <label title="Millions of STEM workers">Factor L (Human Cap)</label>
-                                <input type="number" step="0.1" value={simData[country].l} onChange={e => handleInputChange(country, 'l', e.target.value)} />
-                            </div>
-
-                            {/* Threshold Warning and Result */}
-                            {calculatedData.find(d => d.name === country)?.meetsThreshold ? (
-                                <div className="caci-result">
-                                    <span>Normalized CACI Index:</span>
-                                    <span>{finalChartData.find(d => d.name === country)?.caci}</span>
-                                </div>
-                            ) : (
-                                <div className="caci-result" style={{ color: 'var(--red)', borderTopColor: 'var(--red)' }}>
-                                    <span style={{ fontSize: '0.8rem', display: 'flex', flexDirection: 'column' }}>
-                                        <strong>Excluded (Small Economy Bias)</strong>
-                                        Requires Critical Mass of F &ge; 15
+                    {Object.keys(simData).filter(c => selectedCountries[c]).map(country => {
+                        const cData = calculatedData.find(d => d.name === country);
+                        return (
+                            <div key={country} className="data-card">
+                                <h4>{country}
+                                    <span style={{ fontSize: '0.75rem', fontWeight: 'normal', color: 'var(--text-muted)', display: 'block', marginTop: '4px' }}>
+                                        Raw CACI (Phys): {cData?.rawCaci_phys.toFixed(5)} <br/>
+                                        Raw CACI (Sov): {cData?.rawCaci_sov.toFixed(5)}
                                     </span>
-                                    <span>N/A</span>
+                                </h4>
+                                <div className="input-group">
+                                    <label title="PetaFLOP/s">Factor F (Compute)</label>
+                                    <input type="number" value={simData[country].f} onChange={e => handleInputChange(country, 'f', e.target.value)} />
                                 </div>
-                            )}
-                        </div>
-                    ))}
+                                <div className="input-group">
+                                    <label title="€/MWh">Factor E (Energy Cost)</label>
+                                    <input type="number" value={simData[country].e} onChange={e => handleInputChange(country, 'e', e.target.value)} />
+                                </div>
+                                <div className="input-group">
+                                    <label title="Trillions $">GDP (Mass)</label>
+                                    <input type="number" step="0.1" value={simData[country].gdp} onChange={e => handleInputChange(country, 'gdp', e.target.value)} />
+                                </div>
+                                <div className="input-group">
+                                    <label title="Millions of STEM workers">Factor L (Human Cap)</label>
+                                    <input type="number" step="0.1" value={simData[country].l} onChange={e => handleInputChange(country, 'l', e.target.value)} />
+                                </div>
+
+                                {/* Threshold Warning and Result */}
+                                {cData?.rawCaci_phys > 0 ? (
+                                    <div className="caci-result">
+                                        <span>Normalized CACI Index:</span>
+                                        <span>{finalChartData.find(d => d.name === country)?.caci}</span>
+                                    </div>
+                                ) : (
+                                    <div className="caci-result" style={{ color: 'var(--red)', borderTopColor: 'var(--red)' }}>
+                                        <span style={{ fontSize: '0.8rem', display: 'flex', flexDirection: 'column' }}>
+                                            <strong>Excluded (Small Economy Bias)</strong>
+                                            Requires Critical Mass of F &ge; 15
+                                        </span>
+                                        <span>N/A</span>
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })}
                 </div>
 
             </div>
