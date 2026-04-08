@@ -30,5 +30,4 @@ drafts/
 # === Archives (too large for git) ===
 scripts/*.zip
 
-# === Word documents (keep PDFs only) ===
-*.docx
+# === Word temp files only (docx and pdf are tracked) ===

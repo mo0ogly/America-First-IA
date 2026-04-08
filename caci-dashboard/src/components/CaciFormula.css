@@ -118,6 +118,14 @@
     background: var(--gold-glow);
 }
 
+.var-r {
+    color: var(--accent-light);
+}
+
+.var-r:hover {
+    background: rgba(100, 149, 237, 0.1);
+}
+
 .formula-op {
     color: var(--text-muted);
     font-size: 1.4rem;

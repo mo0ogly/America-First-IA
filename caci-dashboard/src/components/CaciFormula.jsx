@@ -6,29 +6,34 @@ const CaciFormula = () => {
 
   const tooltips = {
     caci: {
-      title: "CACI Index",
-      desc: "Compute-Adjusted Competitiveness Index. A parsimonious yet theoretically grounded indicator capturing the multiplicative interaction between accessible compute, energy cost constraints, and economic absorptive capacity.",
-      source: "Eq: CACI(r,t) = [ F_sov(r,t) × E(r,t)⁻¹ ] / [ GDP(r,t) × L(r,t) ]"
+      title: "CACI Index (Weighted)",
+      desc: "Compute-Adjusted Competitiveness Index. A weighted geometric composite indicator (40/25/20/15) capturing the interaction between compute stock, energy constraints, human capital, and geopolitical access.",
+      source: "Sorbonne 2026 — Power: F^0.40 × L^0.20 × R^0.15 / E^0.25 | Intensity: ÷ GDP"
     },
     f: {
-      title: "Factor F_sov: Sovereign Compute Factor",
-      desc: "The portion of installed compute capacity (Factor F_phys) that is under the jurisdictional control of the host nation. It excludes hardware clusters owned or controlled by foreign entities (hyperscalers, US Cloud Act entities) to reflect actual algorithmic sovereignty.",
-      source: "F_sov = F_phys - F_foreign"
+      title: "Factor F: Sovereign Compute (40%)",
+      desc: "Total operational compute capacity (PetaFLOPs) under jurisdictional control. Weight reflects compute as the primary 'silicon floor' of AI capability.",
+      source: "Data: Epoch AI / NIST 2026"
     },
     e: {
-      title: "Factor E: Energy Cost",
-      desc: "Average energy cost of compute in region r, in €/MWh for data centers. Adjusts raw compute for its energy constraint: at equal FLOPs, a country with electricity twice as expensive has a CACI twice as low.",
-      source: "Data: Eurostat / EIA / IEA"
-    },
-    gdp: {
-      title: "GDP: Economic Mass",
-      desc: "Gross domestic product of region r. Normalization ensures comparability across economies of very different sizes: without it, the US and China would mechanically dominate any ranking by sheer economic mass.",
-      source: "Data: World Bank / Eurostat"
+      title: "Factor E: Energy Cost (25%)",
+      desc: "Industrial electricity cost (€/MWh). Acts as a structural constraint: the 'Energy Chokepoint' documented in the 2028 simulation.",
+      source: "Data: IEA / Eurostat (Ajusté 2026)"
     },
     l: {
-      title: "Factor L: Absorptive Capacity",
-      desc: "Working population with AI competencies (proxy: STEM graduates + certified AI training). Captures absorptive capacity: abundant compute without human capital to exploit it does not produce competitiveness.",
-      source: "Data: OECD (Education at a Glance) / LinkedIn / Certifications"
+      title: "Factor L: Human Capital (20%)",
+      desc: "STEM workforce and AI talent density. Captures the 'Absorptive Capacity'—the ability to convert raw compute into economic output.",
+      source: "Data: OECD / LinkedIn AI Index"
+    },
+    r: {
+      title: "Factor R: Regulation & Access (15%)",
+      desc: "Geopolitical access factor (Tier 1/2/3). Measures the impact of US export controls, Section 232 tariffs, and 'Cloud Act' jurisdictional reach.",
+      source: "Source: BIS / Trump 2.0 AI Action Plan"
+    },
+    gdp: {
+      title: "GDP: Economic Normalizer",
+      desc: "Gross Domestic Product. Normalizes capability into intensity, ensuring small nations with high 'AI Concentration' can be compared to superpowers.",
+      source: "Data: World Bank / IMF WEO"
     }
   };
 
@@ -36,10 +41,12 @@ const CaciFormula = () => {
     <div className="formula-container">
       <div className="glass-card mb-4">
         <h2 className="section-title">The Compute-Adjusted Competitiveness Index (CACI)</h2>
+        <p className="text-muted" style={{ fontSize: '0.9rem', marginBottom: '8px' }}>
+          <em>Methodology: University Paris Sorbonne (2026) — Inspired by McKinsey & WEF criteria </em>
+        </p>
         <hr className="section-bar" />
         <p className="text-muted mb-4">
-          The CACI proposes a parsimonious yet theoretically grounded indicator that captures the multiplicative interaction between three factors: <strong>accessible compute</strong>, the <strong>energy cost</strong> constraining it, and the <strong>economic and human capacity</strong> to exploit it.
-          Hover over the variables below for detailed methodological definitions.
+          The CACI is a <strong>weighted geometric index</strong> that captures the interaction between four pillars of AI power. Unlike raw metrics, it penalizes energy dependence and rewards jurisdictional sovereignty and human capital.
         </p>
 
         <div className="formula-display">
@@ -61,29 +68,35 @@ const CaciFormula = () => {
                 className="formula-var var-f"
                 onMouseEnter={() => setActiveTooltip('f')}
                 onMouseLeave={() => setActiveTooltip(null)}
-              >F<span className="sub">sov</span><span className="power">(r,t)</span></span>
+              >F<span className="sub">sov</span><sup style={{fontSize: '0.6em'}}>0.40</sup></span>
               <span className="formula-op">×</span>
               <span
-                className="formula-var var-e"
-                onMouseEnter={() => setActiveTooltip('e')}
+                className="formula-var var-l"
+                onMouseEnter={() => setActiveTooltip('l')}
                 onMouseLeave={() => setActiveTooltip(null)}
-              >E<span className="power">(r,t)⁻¹</span></span>
+              >L<sup style={{fontSize: '0.6em'}}>0.20</sup></span>
+              <span className="formula-op">×</span>
+              <span
+                className="formula-var var-r"
+                onMouseEnter={() => setActiveTooltip('r')}
+                onMouseLeave={() => setActiveTooltip(null)}
+              >R<sup style={{fontSize: '0.6em'}}>0.15</sup></span>
               <span className="bracket">]</span>
             </div>
             <div className="fraction-line"></div>
             <div className="denominator">
               <span className="bracket">[</span>
               <span
+                className="formula-var var-e"
+                onMouseEnter={() => setActiveTooltip('e')}
+                onMouseLeave={() => setActiveTooltip(null)}
+              >E<sup style={{fontSize: '0.6em'}}>0.25</sup></span>
+              <span className="formula-op">×</span>
+              <span
                 className="formula-var var-gdp"
                 onMouseEnter={() => setActiveTooltip('gdp')}
                 onMouseLeave={() => setActiveTooltip(null)}
-              >GDP<span className="power">(r,t)</span></span>
-              <span className="formula-op">×</span>
-              <span
-                className="formula-var var-l"
-                onMouseEnter={() => setActiveTooltip('l')}
-                onMouseLeave={() => setActiveTooltip(null)}
-              >L<span className="power">(r,t)</span></span>
+              >GDP</span>
               <span className="bracket">]</span>
             </div>
           </div>
@@ -99,45 +112,46 @@ const CaciFormula = () => {
             </div>
           ) : (
             <div className="tooltip-content empty">
-              Hover over a variable in the formula to see its definition and source.
+              Hover over a variable in the 2026 Weighted Formula to see weights and sources.
             </div>
           )}
         </div>
 
-        {/* Methodological Limitations & Sovereignty Section */}
+        {/* Methodological Section */}
         <div className="theory-section mt-4" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
           <div style={{ borderLeft: '3px solid var(--gold)', paddingLeft: '16px', background: 'rgba(184, 146, 47, 0.05)', padding: '16px', borderRadius: '0 var(--radius) var(--radius) 0' }}>
-            <h4 style={{ color: 'var(--gold)' }}>Small Economy Normalization Bias</h4>
+            <h4 style={{ color: 'var(--gold)' }}>Dual Paradigms: Capacity vs Intensity</h4>
             <p className="text-muted" style={{ fontSize: '0.85rem' }}>
-              As per the <strong>OECD/JRC Handbook (2008)</strong>, geometric indicators normalized by GDP/Workforce can overstate the competitiveness of very small economies with cheap energy. The CACI requires a <strong>Critical Mass Threshold</strong> to filter these artifacts.
+              The CACI serves two econometric purposes. <strong>Absolute Power mode</strong> models global hegemony and total hard leverage (USA dominance). <strong>Economic Intensity mode</strong> normalizes by GDP to capture ecosystem concentration and efficiency (e.g. France's high compute-to-GDP ratio).
             </p>
           </div>
 
           <div style={{ borderLeft: '3px solid var(--accent)', paddingLeft: '16px', background: 'rgba(61, 107, 153, 0.05)', padding: '16px', borderRadius: '0 var(--radius) var(--radius) 0' }}>
-            <h4 style={{ color: 'var(--accent)' }}>Sovereignty & The "5-Layer Cake"</h4>
+            <h4 style={{ color: 'var(--accent)' }}>Geopolitical Tiering (Factor R)</h4>
             <p className="text-muted" style={{ fontSize: '0.85rem' }}>
-              Our 2028 simulation uses the <strong>NVIDIA 5-Layer Cake</strong> framework to distinguish between mere <em>presence</em> (Factor F stock) and actual <em>sovereignty</em> (Control of Chips, Networking, Compute, Software, and Services).
+              Introduced to reflect <strong>Trump 2.0 Export Controls</strong>. Tier 1 (Allies) benefit from R=1.0, while Tier 3 (Chokepoint) faces structural handicaps (R=0.1).
             </p>
           </div>
         </div>
 
         {/* Documentation Links Section */}
         <div className="theory-section mt-4" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <h3 className="section-title" style={{ fontSize: '1.2rem' }}>Comprehensive Documentation</h3>
-          <p className="text-muted">For a deep dive into the mathematical proofs, econometric justifications, and extended FAQs, please refer to the official <a href="https://mo0ogly.github.io/America-First-IA/" target="_blank" rel="noreferrer">America-First-IA</a> publications:</p>
+          <h3 className="section-title" style={{ fontSize: '1.2rem' }}>Methodological Sources</h3>
+          <p className="text-muted">This implementation aligns the dashboard with the research findings of the following publications:</p>
 
           <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginTop: '8px' }}>
-            <a href="https://mo0ogly.github.io/America-First-IA/pdf/Chapitre_II_Methodologie.pdf" target="_blank" rel="noreferrer" className="btn btn-primary" style={{ textDecoration: 'none' }}>
-              Chapitre II: Méthodologie
+            <a href="https://mo0ogly.github.io/America-First-IA/pdf/Working_Paper_CACI_AI_Competitiveness.pdf" target="_blank" rel="noreferrer" className="btn btn-primary" style={{ textDecoration: 'none' }}>
+              Working Paper: CACI (Sorbonne 2026)
             </a>
-            <a href="https://mo0ogly.github.io/America-First-IA/pdf/FAQ_Volume3_Comprendre_le_Ratio_CACI.pdf" target="_blank" rel="noreferrer" className="btn btn-primary" style={{ textDecoration: 'none' }}>
-              FAQ Vol 3: Comprendre le Ratio CACI
+            <a href="https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai-2024" target="_blank" rel="noreferrer" className="btn btn-ghost" style={{ textDecoration: 'none', border: '1px solid var(--border)' }}>
+              McKinsey AIPI Reference
             </a>
-            <a href="https://mo0ogly.github.io/America-First-IA/pdf/Working_Paper_CACI_AI_Competitiveness.pdf" target="_blank" rel="noreferrer" className="btn btn-gold" style={{ textDecoration: 'none' }}>
-              Working Paper CACI
+            <a href="https://www.weforum.org/reports/global-ai-readiness-index-2025" target="_blank" rel="noreferrer" className="btn btn-ghost" style={{ textDecoration: 'none', border: '1px solid var(--border)' }}>
+              WEF 2025 Benchmarks
             </a>
           </div>
         </div>
+
 
       </div>
     </div>

@@ -150,17 +150,17 @@ export const useDataConsolidation = (sovereignMode = false) => {
             try {
                 // Initialize base structure with static IMF/Tortoise AIPI indices which are not in our 4 core datasets
                 const base = {
-                    USA: { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, imf: 85, tortoise: 100 },
-                    China: { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, imf: 60, tortoise: 62 },
-                    EU: { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, imf: 74, tortoise: 36 },
-                    UK: { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, imf: 75, tortoise: 41 },
-                    "Asia (Ex-China)": { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, imf: 82, tortoise: 68 },
-                    India: { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, imf: 62, tortoise: 45 },
-                    UAE: { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, imf: 78, tortoise: 55 },
-                    France: { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, imf: 72, tortoise: 35 },
-                    Germany: { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, imf: 74, tortoise: 36 },
-                    "South America": { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, imf: 45, tortoise: 25 },
-                    Africa: { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, imf: 38, tortoise: 18 },
+                    USA: { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, r: 1.0, imf: 85, tortoise: 100 },
+                    China: { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, r: 0.1, imf: 60, tortoise: 62 },
+                    EU: { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, r: 1.0, imf: 74, tortoise: 36 },
+                    UK: { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, r: 1.0, imf: 75, tortoise: 41 },
+                    "Asia (Ex-China)": { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, r: 0.5, imf: 82, tortoise: 68 },
+                    India: { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, r: 0.5, imf: 62, tortoise: 45 },
+                    UAE: { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, r: 0.5, imf: 78, tortoise: 55 },
+                    France: { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, r: 1.0, imf: 72, tortoise: 35 },
+                    Germany: { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, r: 1.0, imf: 74, tortoise: 36 },
+                    "South America": { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, r: 0.5, imf: 45, tortoise: 25 },
+                    Africa: { f: 0, f_total: 0, e: 0, gdp: 0, l: 0, r: 0.5, imf: 38, tortoise: 18 },
                 };
 
                 const parseCSV = (url) => {
@@ -272,28 +272,36 @@ export const useDataConsolidation = (sovereignMode = false) => {
                     }
                 });
 
-                // Apply documented compute baselines
+                // Apply documented baselines for entities not fully covered by CSV sources
+                // Sources: IMF WEO 2025, IEA 2025, World Bank 2025
                 const DOCUMENTED_BASELINES = {
-                    'UAE': { f: 85, f_total: 620 }, // 2028 Projection: High physical, low sovereign
-                    'India': { f: 80, f_total: 150 }
+                    'UAE': { f: 85, f_total: 620, e: 80, gdp: 0.51, l: 0.15 },
+                    'India': { f: 80, f_total: 150 },
+                    'South America': { e: 95, gdp: 5.4, l: 1.8 },
+                    'Africa': { e: 110, gdp: 3.1, l: 0.6 },
                 };
 
                 Object.keys(base).forEach(k => {
                     base[k].f_total = Math.round(base[k].f_total);
                     base[k].f = Math.round(base[k].f);
-                    
-                    // Only apply baseline if data is sparse
-                    if ((base[k].f_total < 5 || k === 'UAE') && DOCUMENTED_BASELINES[k]) {
-                        base[k].f_total = DOCUMENTED_BASELINES[k].f_total;
-                        base[k].f = DOCUMENTED_BASELINES[k].f;
+
+                    const bl = DOCUMENTED_BASELINES[k];
+
+                    // Apply compute baselines if data is sparse
+                    if ((base[k].f_total < 5 || k === 'UAE') && bl) {
+                        if (bl.f_total) base[k].f_total = bl.f_total;
+                        if (bl.f) base[k].f = bl.f;
                     } else if (base[k].f_total < 5) {
                         base[k].f_total = 10;
                         base[k].f = 10;
                     }
 
-                    // All values are now preserved as discrete properties:
-                    // f = Sovereign Compute (Jurisdictional control)
-                    // f_total = Physical Compute (Presence on soil)
+                    // Apply non-compute baselines for entities missing from CSV sources
+                    if (bl) {
+                        if (base[k].e === 0 && bl.e) base[k].e = bl.e;
+                        if (base[k].gdp === 0 && bl.gdp) base[k].gdp = bl.gdp;
+                        if (base[k].l === 0 && bl.l) base[k].l = bl.l;
+                    }
                 });
 
                 setConsolidatedData(base);
