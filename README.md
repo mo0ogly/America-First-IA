@@ -1,4 +1,4 @@
-# AI for Americans First
+﻿# AI for Americans First
 
 [![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 [![Status](https://img.shields.io/badge/Status-Active%20Research-blue.svg)]()
@@ -33,6 +33,30 @@ L'analyse comparative des reponses regionales (Europe, Amerique du Sud, Asie) re
 | Dashboard CACI interactif | [Ouvrir le dashboard](https://mo0ogly.github.io/America-First-IA/dashboard/) |
 
 ---
+
+## Academic Notes - 2026
+
+| Title | FR | EN | PT-BR |
+|-------|----|----|-------|
+| **AI as Method Amplifier** | [FR](pdf/IA%20comme%20amplificateur%20de%20methode.pdf) | [EN](pdf/AI_as_Method_Amplifier_2026_EN.pdf) | [BR](pdf/IA_Amplificadora_Metodo_2026_BR.pdf) |
+| **Cognitive Density Economics / Huang Token Doctrine** | [FR](pdf/Note_Densite_Cognitive_Huang_2026.pdf) | [EN](pdf/Cognitive_Density_Economics_Huang_Token_Doctrine_2026_EN.pdf) | [BR](pdf/Economia_Densidade_Cognitiva_Huang_2026_BR.pdf) |
+
+---
+
+## CACI Methodology - April 2026 Revision
+
+> The CACI formula was **revised in April 2026** following internal audit. The February 2026 edition is superseded.
+
+**Key changes:**
+- **Dual-paradigm architecture**: *Absolute Power* mode (no GDP - USA/EU approx 7-12:1) vs *Economic Intensity* mode (GDP-normalized - exposes Small Economy Normalization Bias)
+- **Weight calibration verified**: F^0.40 x L^0.20 x R^0.15 / E^0.25 - same weights in both modes, only the denominator changes
+- **Robustness Check** tab added to the interactive dashboard: +/-15% weight sensitivity across 8 perturbation scenarios, rank stability table
+- **FAQ Volume 3** (CACI methodology reference) fully rewritten in all 3 languages (FR/EN/PT-BR)
+
+| Document | FR | EN | PT-BR |
+|---|---|---|---|
+| FAQ Vol. 3 - Understanding the CACI Ratio (April 2026) | [FR](docs/fr/FAQ_Volume3_Comprendre_le_Ratio_CACI.md) | [EN](docs/en/FAQ_Volume3_Understanding_CACI_Ratio_EN.md) | [BR](docs/br/FAQ_Volume3_Compreendendo_Ratio_CACI_PT-BR.md) |
+
 
 ## Structure de l'etude
 

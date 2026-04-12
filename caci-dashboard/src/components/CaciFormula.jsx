@@ -42,11 +42,11 @@ const CaciFormula = () => {
       <div className="glass-card mb-4">
         <h2 className="section-title">The Compute-Adjusted Competitiveness Index (CACI)</h2>
         <p className="text-muted" style={{ fontSize: '0.9rem', marginBottom: '8px' }}>
-          <em>Methodology: University Paris Sorbonne (2026) — Inspired by McKinsey & WEF criteria </em>
+          <em>Methodology: University Paris Sorbonne (2026)</em>
         </p>
         <hr className="section-bar" />
         <p className="text-muted mb-4">
-          The CACI is a <strong>weighted geometric index</strong> that captures the interaction between four pillars of AI power. Unlike raw metrics, it penalizes energy dependence and rewards jurisdictional sovereignty and human capital.
+          The CACI is a <strong>weighted geometric index</strong> that captures the interaction between five pillars of AI power: sovereign compute (F), human capital (L), regulatory access (R), energy cost (E), and GDP normalization. Unlike raw metrics, it penalizes energy dependence and rewards jurisdictional sovereignty and human capital.
         </p>
 
         <div className="formula-display">

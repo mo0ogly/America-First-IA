@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import CaciFormula from './components/CaciFormula';
 import CountryComparison from './components/CountryComparison';
 import DataHub from './components/DataHub';
+import RobustnessCheck from './components/RobustnessCheck';
 import './index.css';
 
 function App() {
@@ -37,6 +38,12 @@ function App() {
             >
               Data Hub & Source Processing
             </button>
+            <button
+              className={`nav-btn ${activeTab === 'robustness' ? 'active' : ''}`}
+              onClick={() => setActiveTab('robustness')}
+            >
+              🔬 Robustness Check
+            </button>
           </nav>
         </div>
       </header>
@@ -45,6 +52,7 @@ function App() {
         {activeTab === 'formula' && <CaciFormula />}
         {activeTab === 'compare' && <CountryComparison sovereignMode={sovereignMode} />}
         {activeTab === 'data' && <DataHub sovereignMode={sovereignMode} setSovereignMode={setSovereignMode} />}
+        {activeTab === 'robustness' && <RobustnessCheck />}
       </main>
 
       <style>{`
