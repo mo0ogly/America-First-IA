@@ -1,0 +1,58 @@
+{
+  "title": "AI for Americans First: US AI Protectionism, Recomposition of the Global Technological Order, and Consequences for France and Europe (2026-2030)",
+  "description": "Integrated geostrategic and economic study of US AI protectionism under the Trump 2.0 administration, crossing energy, semiconductors, compute and regulation. Construction of the Compute-Adjusted Competitiveness Index (CACI) quantifying a structural US/EU competitive advantage of 7 to 12 to 1 over the 2026-2030 period. Multilingual support (EN/FR/PT).",
+  "creators": [
+    {
+      "name": "Pizzi, Fabrice",
+      "affiliation": "Universite Paris-Sorbonne"
+    }
+  ],
+  "upload_type": "publication",
+  "publication_type": "workingpaper",
+  "publication_date": "2026-02-01",
+  "language": "eng",
+  "access_right": "open",
+  "license": "cc-by-nc-sa-4.0",
+  "keywords": [
+    "artificial intelligence",
+    "technological protectionism",
+    "compute sovereignty",
+    "semiconductors export controls",
+    "European Union strategic autonomy"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/mo0ogly/America-First-IA",
+      "relation": "isSupplementTo",
+      "resource_type": "software"
+    },
+    {
+      "identifier": "https://mo0ogly.github.io/America-First-IA/",
+      "relation": "isDocumentedBy",
+      "resource_type": "publication-other"
+    },
+    {
+      "identifier": "arXiv:2504.16026",
+      "relation": "cites",
+      "resource_type": "publication-article"
+    },
+    {
+      "identifier": "arXiv:2202.05924",
+      "relation": "cites",
+      "resource_type": "publication-article"
+    }
+  ],
+  "references": [
+    "Pilz, K.F., Rahman, R., Sanders, J. & Heim, L. (2025). Trends in AI Supercomputers. arXiv:2504.16026.",
+    "Lehdonvirta, V., Wu, B., Hawkins, Z.J., Caira, C. & Russo, L. (2025). Measuring Domestic Public Cloud Compute Availability for Artificial Intelligence. OECD AI Papers No. 49.",
+    "Hawkins, Z.J., Lehdonvirta, V. & Wu, B. (2025). AI Compute Sovereignty. SSRN 5312977.",
+    "Sevilla, J. et al. (2022). Compute Trends Across Three Eras of Machine Learning. arXiv:2202.05924.",
+    "Cazzaniga, M. et al. (2024). Gen-AI: Artificial Intelligence and the Future of Work. IMF Staff Discussion Note 2024/001.",
+    "Bresnahan, T.F. & Trajtenberg, M. (1995). General Purpose Technologies. Journal of Econometrics 65(1).",
+    "Cohen, W.M. & Levinthal, D.A. (1990). Absorptive Capacity. Administrative Science Quarterly 35(1).",
+    "Schwartz, P. (1991). The Art of the Long View. Doubleday.",
+    "Nardo, M. et al. (2008). Handbook on Constructing Composite Indicators. OECD Publishing.",
+    "IEA (2025). Energy and AI."
+  ],
+  "notes": "Version 1.0 - Initial study, February 2026. Update planned post full application of the AI Act (August 2026) integrating early sectoral feedback. 103 pages, 157 notes, 22 figures."
+}

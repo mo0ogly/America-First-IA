@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+type: generic
+title: "AI for Americans First: US AI Protectionism, Recomposition of the Global Technological Order, and Consequences for France and Europe (2026-2030)"
+authors:
+  - family-names: Pizzi
+    given-names: Fabrice
+    affiliation: "Universite Paris-Sorbonne"
+date-released: 2026-02-01
+version: "1.0.0"
+license: CC-BY-NC-SA-4.0
+repository-code: "https://github.com/mo0ogly/America-First-IA"
+url: "https://mo0ogly.github.io/America-First-IA/"
+keywords:
+  - artificial intelligence
+  - technological protectionism
+  - compute sovereignty
+  - semiconductors export controls
+  - European Union strategic autonomy
+abstract: >
+  Integrated geostrategic and economic study of US AI protectionism under
+  the Trump 2.0 administration, crossing energy, semiconductors, compute
+  and regulation. Construction of the Compute-Adjusted Competitiveness
+  Index (CACI) quantifying a structural US/EU competitive advantage of
+  7 to 12 to 1 over the 2026-2030 period. Multilingual support (EN/FR/PT).
