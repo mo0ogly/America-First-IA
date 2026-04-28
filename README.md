@@ -1,8 +1,29 @@
 ﻿# AI for Americans First
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19854649.svg)](https://doi.org/10.5281/zenodo.19854649)
 [![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 [![Status](https://img.shields.io/badge/Status-Active%20Research-blue.svg)]()
-[![Language](https://img.shields.io/badge/Lang-FR%20%7C%20EN-informational.svg)]()
+[![Language](https://img.shields.io/badge/Lang-FR%20%7C%20EN%20%7C%20PT-informational.svg)]()
+
+## Citation
+
+```bibtex
+@techreport{pizzi2026aifirst,
+  author      = {Pizzi, Fabrice},
+  title       = {AI for Americans First: US AI Protectionism, Recomposition
+                 of the Global Technological Order, and Consequences for
+                 France and Europe (2026-2030)},
+  institution = {Universite Paris-Sorbonne},
+  year        = {2026},
+  month       = {February},
+  type        = {Working Paper},
+  doi         = {10.5281/zenodo.19854649},
+  url         = {https://doi.org/10.5281/zenodo.19854649},
+  note        = {103 pages, 157 notes, 22 figures}
+}
+```
+
+> Concept DOI (always latest version): [10.5281/zenodo.19854613](https://doi.org/10.5281/zenodo.19854613)
 
 **Protectionnisme IA americain, recomposition de l'ordre technologique mondial et consequences pour la France et l'Europe (2026-2030)**
 
