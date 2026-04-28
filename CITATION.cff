@@ -7,7 +7,15 @@ authors:
     given-names: Fabrice
     affiliation: "Universite Paris-Sorbonne"
 date-released: 2026-02-01
-version: "1.0.0"
+version: "1.0.1"
+doi: "10.5281/zenodo.19854649"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.19854649"
+    description: "Version DOI (v1.0.1)"
+  - type: doi
+    value: "10.5281/zenodo.19854613"
+    description: "Concept DOI (always latest version)"
 license: CC-BY-NC-SA-4.0
 repository-code: "https://github.com/mo0ogly/America-First-IA"
 url: "https://mo0ogly.github.io/America-First-IA/"
