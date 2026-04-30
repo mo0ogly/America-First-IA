@@ -1,0 +1,99 @@
+De:	ANSSI-CERT-FR
+Envoyé:	mercredi 29 avril 2026 21:20
+À:	BERTRAND Philippe
+Objet:	TR : [CB-Report#20260429-10008830] Compromised SSH servers in country FR
+
+
+
+
+________________________________________
+De : CERT-Bund Reports
+Envoyé : mercredi 29 avril 2026 21:20:26 (UTC+01:00) Bruxelles, Copenhague, Madrid, Paris À : ANSSI-
+CERT-FR Sujet : [CB-Report#20260429-10008830] Compromised SSH servers in country FR
+
+Dear CERT-Team,
+
+Secure Shell (SSH) is a common protocol for operating network services over untrusted networks. It is 
+often used for remote administration of Linux/Unix systems.
+
+In addition to logging in using a username and password, SSH also allows for authentication using 
+cryptographic keys (SSH keys).
+The keys authorized for authentication are usually stored in the ".ssh/authorized_keys" directory of the 
+respective user.
+
+Every day, cybercriminals carry out brute force attacks to compromise SSH servers accessible from the 
+Internet having weak passwords on user accounts with common names. If a user account with 
+administrative privileges (e.g. "root") is compromised, the malicious actors can gain complete control of 
+the system. The compromised servers are then often abused for criminal activities.
+
+After compromising a user account, the malicious actors often install a SSH key for keeping access to the 
+system even if the legitimate user changes the password.
+
+The SSH protocol allows for checking remotely if a particular known SSH key is authorized for 
+authentication with a specific user account on a SSH server. Using this feature, a group of researchers 
+checks SSH servers accessible from the Internet for implants of known malicious SSH keys and classifies 
+the servers as compromised for positive results.
+
+The researchers provided CERT-Bund with information on SSH servers they found to be compromised for 
+victim notification.
+
+Please find below a list of IP addresses of SSH servers on your networks found to be compromised. All 
+timestamps are UTC.
+"username" is the name of the compromised user account.
+"key_hash" is the SHA256 hash of the installed malicious SSH key.
+
+We would like to ask you to notify the owners of the affected hosts and/or the responsible network 
+providers of the compromises.
+
+IMPORTANT:
+The reported systems have already been compromised!
+It is NOT sufficient to just change the password of the user account and remove the malicious SSH key.
+Instead, a forensic analysis should be carried out to determine what changes have been made to the 
+system by the malicious actors and what impact this had on your network.
+Finally, the compromised system should be reinstalled.
+
+This message is digitally signed using PGP.
+Information on the signature key is available at:
+<https://reports.cert-bund.de/en/digital-signature>
+
+Please note:
+This is an automatically generated message. Replies to the sender address <reports@reports.cert-
+bund.de> will NOT be read but silently be discarded. In case of questions, please contact 
+<certbund@bsi.bund.de> and keep the ticket number [CB-Report#...] of this message in the subject line.
+
+=========================================================================
+Please let us know at <certbund@bsi.bund.de> if you would like to receive the data on affected systems 
+as a file attachment instead of inline.
+==========================================================================
+
+Affected hosts on your networks:
+
+"asn","ip","timestamp","port","username","key_hash"
+"16276","57.128.222.231","2026-04-28 
+03:53:09","22","root","c98d59cc1e4b1bae57f0fd666588d74f79be8d5dac1e2067be5a4e2d7f0a4dc9"
+"16276","146.59.14.12","2026-04-28 
+03:54:16","22","root","c98d59cc1e4b1bae57f0fd666588d74f79be8d5dac1e2067be5a4e2d7f0a4dc9"
+"15557","109.21.157.48","2026-04-28 
+06:51:43","22","root","2f581be338309f1cae7fb4ec5b8e8f90b8e317db6a0236975e1e70faa335d974"
+"16276","57.129.78.76","2026-04-28 
+23:46:48","22","root","c98d59cc1e4b1bae57f0fd666588d74f79be8d5dac1e2067be5a4e2d7f0a4dc9"
+"16276","51.195.117.220","2026-04-28 
+23:45:30","22","root","c98d59cc1e4b1bae57f0fd666588d74f79be8d5dac1e2067be5a4e2d7f0a4dc9"
+"16276","51.210.254.243","2026-04-28 
+09:17:08","22","root","2f581be338309f1cae7fb4ec5b8e8f90b8e317db6a0236975e1e70faa335d974"
+"12322","82.65.134.177","2026-04-28 
+09:20:26","22","root","2f581be338309f1cae7fb4ec5b8e8f90b8e317db6a0236975e1e70faa335d974"
+"35540","109.190.122.211","2026-04-28 
+09:20:06","22","root","2f581be338309f1cae7fb4ec5b8e8f90b8e317db6a0236975e1e70faa335d974"
+"16276","51.68.189.49","2026-04-28 
+18:10:47","22","root","d9f59f5429f87e034f4ae1b34c9467be4b8c5d795db19c1cda72f8c9935e2ea8"
+"12876","51.158.154.172","2026-04-28 
+15:12:49","22","root","ed173a0218cccfb62f54f20a6942547264d2445d7585552e4ccbaa8e79e1bb1a"
+
+
+Kind regards
+Team CERT-Bund
+
+Bundesamt für Sicherheit in der Informationstechnik Federal Office for Information Security (BSI) CERT-
+Bund Godesberger Allee 87, 53175 Bonn, Germany
+

@@ -12,7 +12,8 @@ When writing or editing text (DOCX, Markdown, code comments, commit messages):
 - **NEVER use curly/smart quotes** (" " ' '). Use straight quotes " or French guillemets << >>.
 - Avoid filler phrases: "It's worth noting that", "It's important to note", "Interestingly", "In conclusion", "Let's dive in".
 - Avoid excessive hedging: "arguably", "potentially", "it could be said that".
-- Write direct, concise sentences. No fluff.
+- Write naturally, like a competent human would. Vary sentence length. Mix short and longer sentences to create a natural rhythm.
+- Do NOT write robotic ultra-short sentences ("Done. Fixed. Pushed."). That is an obvious AI pattern.
 - Use simple punctuation. A period is almost always better than a semicolon.
 
 ## Language

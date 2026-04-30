@@ -1,0 +1,228 @@
+De:	ANSSI-CERT-FR
+Envoyé:	lundi 27 avril 2026 17:46
+À:	BERTRAND Philippe
+Objet:	TR : [CB-Report#20260427-10003698] Adware/PUA in country FR
+
+
+
+
+________________________________________
+De : CERT-Bund Reports
+Envoyé : lundi 27 avril 2026 17:46:23 (UTC+01:00) Bruxelles, Copenhague, Madrid, Paris À : ANSSI-CERT-
+FR Sujet : [CB-Report#20260427-10003698] Adware/PUA in country FR
+
+Dear CERT-Team,
+
+please find below information on IPs gelocated in your country which are most likely hosting a system on 
+which adware or other potentially unwanted applications (PUA) are installed.
+These applications include functions to show advertising, perform click-fraud or download and install 
+additional malware without the users consent.
+
+Next to the affected IP, each record includes a timestamp (UTC) and the name of the potentially 
+unwanted application.
+If available, the record also includes the source port, destination IP, destination port and destination 
+hostname for the connection most likely triggered by the application to connect to a control server.
+
+We would like to ask you to notify the owners of the affected hosts and/or the responsible network 
+providers accordingly.
+
+This message is digitally signed using PGP.
+Information on the signature key is available at:
+<https://reports.cert-bund.de/en/digital-signature>
+
+Please note:
+This is an automatically generated message. Replies to the sender address <reports@reports.cert-
+bund.de> will NOT be read but silently be discarded. In case of questions, please contact 
+<certbund@bsi.bund.de> and keep the ticket number [CB-Report#...] of this message in the subject line.
+
+=========================================================================
+Please let us know at <certbund@bsi.bund.de> if you would like to receive the data on affected systems 
+as a file attachment instead of inline.
+==========================================================================
+
+Affected hosts on your networks:
+
+"asn","ip","timestamp","malware","src_port","dst_ip","dst_port","dst_host","proto"
+"16276","141.95.18.234","2026-04-26 
+08:46:14","mobidash","37424","3.229.117.57","80","pindanul.info","tcp"
+"16276","51.195.45.179","2026-04-26 
+20:00:21","arrkiisdk","60562","3.250.92.156","80","realtime.icecyber.org","tcp"
+"16276","51.195.45.206","2026-04-26 
+05:22:42","mobidash","40488","44.244.22.128","80","czynyce.website","tcp"
+"16276","51.75.79.201","2026-04-26 
+19:48:17","mobidash","43814","3.229.117.57","80","pindanul.info","tcp"
+"16276","141.95.19.229","2026-04-26 
+16:20:56","mobidash","60544","44.244.22.128","80","czynyce.website","tcp"
+"16276","51.195.45.220","2026-04-26 
+06:21:02","mobidash","60560","44.244.22.128","80","czynyce.website","tcp"
+"16276","51.195.46.106","2026-04-26 
+05:58:40","mobidash","59522","3.229.117.57","80","pindanul.info","tcp"
+"16276","141.95.17.4","2026-04-26 
+16:08:07","pushiran","37120","44.244.22.128","80","pushnotificationws.com","tcp"
+"16276","51.38.127.5","2026-04-26 
+21:51:43","mobidash","36302","54.146.6.253","80","edalupa.website","tcp"
+"16276","54.38.156.40","2026-04-26 
+12:27:38","mobidash","37634","3.229.117.57","80","pindanul.info","tcp"
+"16276","51.195.44.200","2026-04-26 
+09:08:04","mobidash","44562","44.244.22.128","80","czynyce.website","tcp"
+"16276","141.95.17.57","2026-04-26 
+14:35:56","mobidash","34288","3.229.117.57","80","pindanul.info","tcp"
+"16276","51.75.77.185","2026-04-26 
+15:44:56","mobidash","56816","44.244.22.128","80","czynyce.website","tcp"
+"16276","141.95.18.23","2026-04-26 
+10:22:05","apk.triada","53248","3.250.92.156","80","a.mydataprovider.in","tcp"
+"16276","51.89.23.77","2026-04-26 
+03:44:08","mobidash","40442","44.244.22.128","80","czynyce.website","tcp"
+"16276","135.125.201.72","2026-04-26 
+17:10:17","mobidash","48454","44.244.22.128","80","czynyce.website","tcp"
+"16276","141.95.18.25","2026-04-26 
+18:43:47","pushiran","44928","44.244.22.128","80","pushnotificationws.com","tcp"
+"16276","51.195.46.220","2026-04-26 
+19:23:56","pushiran","52944","44.244.22.128","80","pushnotificationws.com","tcp"
+"16276","51.195.47.191","2026-04-26 
+19:48:27","mobidash","51422","3.229.117.57","80","pindanul.info","tcp"
+"16276","141.95.19.162","2026-04-26 
+13:59:28","mobidash","40134","54.146.6.253","80","edalupa.website","tcp"
+"16276","51.195.44.188","2026-04-26 
+18:03:53","mobidash","37656","54.146.6.253","80","edalupa.website","tcp"
+"16276","141.95.19.144","2026-04-26 
+12:17:27","mobidash","37964","54.146.6.253","80","edalupa.website","tcp"
+"16276","51.195.46.72","2026-04-26 
+01:50:36","pushiran","39886","44.244.22.128","80","pushnotificationws.com","tcp"
+"16276","135.125.203.37","2026-04-26 
+18:37:48","arrkiisdk","61520","3.250.92.156","80","ak.icecyber.org","tcp"
+"16276","51.195.46.240","2026-04-26 
+12:03:36","mobidash","39208","3.229.117.57","80","kolmen.xyz","tcp"
+"16276","51.195.46.167","2026-04-26 
+14:57:31","pushiran","47690","44.244.22.128","80","pushnotificationws.com","tcp"
+"16276","135.125.200.158","2026-04-26 
+20:09:11","mobidash","8848","54.146.6.253","80","edalupa.website","tcp"
+"16276","51.195.47.52","2026-04-26 
+20:36:53","mobidash","58460","54.146.6.253","80","edalupa.website","tcp"
+"16276","54.38.157.229","2026-04-26 
+15:01:53","mobidash","36542","3.229.117.57","80","pindanul.info","tcp"
+"16276","51.89.41.182","2026-04-26 
+17:24:50","mobidash","49598","44.244.22.128","80","czynyce.website","tcp"
+"16276","141.95.17.201","2026-04-26 
+22:58:31","mobidash","45866","3.229.117.57","80","pindanul.info","tcp"
+"16276","141.95.19.144","2026-04-26 
+04:00:51","pushiran","48892","44.244.22.128","80","pushnotificationws.com","tcp"
+"16276","51.195.46.220","2026-04-26 
+15:14:37","mobidash","39692","3.229.117.57","80","pindanul.info","tcp"
+"16276","51.195.46.95","2026-04-26 
+07:46:04","pushiran","45858","44.244.22.128","80","pushnotificationws.com","tcp"
+"16276","51.195.46.167","2026-04-26 
+17:11:45","mobidash","51034","44.244.22.128","80","czynyce.website","tcp"
+"16276","51.195.46.153","2026-04-26 
+01:09:26","pushiran","47552","44.244.22.128","80","pushnotificationws.com","tcp"
+"16276","141.95.18.31","2026-04-26 
+17:55:50","apk.triada","39968","3.250.92.156","80","a.mydataprovider.in","tcp"
+"16276","135.125.200.64","2026-04-26 
+13:36:31","apk.triada","35130","3.250.92.156","80","a.mydataprovider.in","tcp"
+"16276","51.75.79.23","2026-04-26 
+11:07:06","mobidash","42638","3.229.117.57","80","pindanul.info","tcp"
+"16276","135.125.203.37","2026-04-26 
+04:51:30","mobidash","56108","54.146.6.253","80","edalupa.website","tcp"
+"16276","51.195.46.95","2026-04-26 
+18:15:12","mobidash","54638","44.244.22.128","80","czynyce.website","tcp"
+"16276","141.95.19.144","2026-04-26 
+08:42:32","arrkiisdk","60814","3.250.92.156","80","ak.icecyber.org","tcp"
+"16276","141.95.18.191","2026-04-26 
+19:39:59","mobidash","36890","44.244.22.128","80","czynyce.website","tcp"
+"16276","135.125.203.70","2026-04-26 
+08:34:15","mobidash","2492","54.146.6.253","80","edalupa.website","tcp"
+"16276","51.195.45.130","2026-04-26 
+17:15:45","mobidash","36668","44.244.22.128","80","czynyce.website","tcp"
+"16276","141.95.17.246","2026-04-26 
+15:35:29","mobidash","39436","44.244.22.128","80","czynyce.website","tcp"
+"16276","135.125.203.22","2026-04-26 
+14:20:39","pushiran","42808","44.244.22.128","80","pushnotificationws.com","tcp"
+"16276","51.195.44.94","2026-04-26 
+20:01:28","mobidash","53484","44.244.22.128","80","czynyce.website","tcp"
+"16276","51.89.41.182","2026-04-26 
+13:55:07","pushiran","46758","44.244.22.128","80","pushnotificationws.com","tcp"
+"16276","141.95.17.201","2026-04-26 
+14:47:02","arrkiisdk","47552","3.250.92.156","80","ak.icecyber.org","tcp"
+"16276","54.38.159.250","2026-04-26 
+00:51:22","mobidash","46064","54.146.6.253","80","edalupa.website","tcp"
+"16276","51.195.47.105","2026-04-26 
+04:10:19","mobidash","40938","44.244.22.128","80","czynyce.website","tcp"
+"16276","135.125.201.63","2026-04-26 
+11:58:35","mobidash","59900","54.146.6.253","80","edalupa.website","tcp"
+"16276","54.38.157.229","2026-04-26 
+10:28:29","arrkiisdk","40175","3.250.92.156","80","realtime.icecyber.org","tcp"
+"16276","51.75.79.24","2026-04-26 
+08:59:43","pushiran","36990","44.244.22.128","80","pushnotificationws.com","tcp"
+"16276","135.125.203.22","2026-04-26 
+12:39:29","mobidash","38778","3.229.117.57","80","pindanul.info","tcp"
+"16276","141.95.17.117","2026-04-26 
+07:12:15","mobidash","36962","44.244.22.128","80","czynyce.website","tcp"
+"16276","51.195.46.176","2026-04-26 
+19:54:44","mobidash","36172","54.146.6.253","80","edalupa.website","tcp"
+"16276","51.75.72.79","2026-04-26 
+23:30:55","mobidash","38284","54.146.6.253","80","edalupa.website","tcp"
+"16276","51.195.44.8","2026-04-26 
+18:15:14","mobidash","46724","54.146.6.253","80","edalupa.website","tcp"
+"16276","51.195.46.72","2026-04-26 
+19:40:31","mobidash","42594","54.146.6.253","80","edalupa.website","tcp"
+"16276","141.95.19.39","2026-04-26 
+14:03:36","mobidash","49804","44.244.22.128","80","czynyce.website","tcp"
+"16276","51.195.47.9","2026-04-26 
+16:06:21","mobidash","52806","3.229.117.57","80","pindanul.info","tcp"
+"16276","141.95.16.123","2026-04-26 
+21:45:06","mobidash","37050","44.244.22.128","80","czynyce.website","tcp"
+"16276","51.195.44.68","2026-04-26 
+05:53:19","pushiran","40180","44.244.22.128","80","pushnotificationws.com","tcp"
+"16276","51.195.44.140","2026-04-26 
+12:44:48","pushiran","52373","44.244.22.128","80","pushnotificationws.com","tcp"
+"16276","51.75.77.185","2026-04-26 
+18:00:08","pushiran","32870","44.244.22.128","80","pushnotificationws.com","tcp"
+"16276","135.125.203.50","2026-04-26 
+03:25:19","mobidash","51682","44.244.22.128","80","czynyce.website","tcp"
+"16276","51.195.44.42","2026-04-26 
+10:54:54","mobidash","39058","44.244.22.128","80","czynyce.website","tcp"
+"16276","141.95.16.46","2026-04-26 
+22:23:58","mobidash","37172","54.146.6.253","80","edalupa.website","tcp"
+"16276","51.89.41.178","2026-04-26 
+21:56:25","arrkiisdk","60684","3.250.92.156","80","realtime.icecyber.org","tcp"
+"16276","51.195.45.72","2026-04-26 
+18:22:02","mobidash","59094","3.229.117.57","80","pindanul.info","tcp"
+"16276","51.195.47.60","2026-04-26 
+17:07:02","mobidash","33222","3.229.117.57","80","pindanul.info","tcp"
+"16276","135.125.201.157","2026-04-26 
+16:07:12","pushiran","35770","44.244.22.128","80","pushnotificationws.com","tcp"
+"16276","51.195.44.63","2026-04-26 
+17:47:00","mobidash","53426","44.244.22.128","80","czynyce.website","tcp"
+"16276","51.195.46.249","2026-04-26 
+19:46:53","mobidash","40026","3.229.117.57","80","pindanul.info","tcp"
+"16276","141.95.17.4","2026-04-26 
+15:46:11","mobidash","42874","44.244.22.128","80","czynyce.website","tcp"
+"16276","54.38.158.24","2026-04-26 
+13:51:25","mobidash","37854","3.229.117.57","80","pindanul.info","tcp"
+"16276","54.37.72.75","2026-04-26 
+08:33:58","mobidash","44294","44.244.22.128","80","czynyce.website","tcp"
+"16276","51.195.46.239","2026-04-26 
+10:00:47","pushiran","53786","44.244.22.128","80","pushnotificationws.com","tcp"
+"16276","51.195.46.150","2026-04-26 
+12:32:28","mobidash","43354","3.229.117.57","80","pindanul.info","tcp"
+"16276","51.195.45.159","2026-04-26 
+10:46:42","arrkiisdk","60293","3.250.92.156","80","realtime.icecyber.org","tcp"
+"16276","51.75.79.201","2026-04-26 
+17:06:45","pushiran","48946","44.244.22.128","80","pushnotificationws.com","tcp"
+"16276","51.195.47.227","2026-04-26 
+17:45:18","mobidash","47178","3.229.117.57","80","eblantol.win","tcp"
+"16276","51.195.45.217","2026-04-26 
+17:08:52","mobidash","39848","54.146.6.253","80","edalupa.website","tcp"
+"16276","51.75.79.225","2026-04-26 
+20:49:35","mobidash","46722","3.229.117.57","80","pindanul.info","tcp"
+"16276","51.195.45.100","2026-04-26 
+20:50:30","mobidash","50198","3.229.117.57","80","pindanul.info","tcp"
+"5410","31.39.211.235","2026-04-26 14:08:00","pitou","10029","195.201.179.205","5940","","tcp"
+
+
+Kind regards
+Team CERT-Bund
+
+Bundesamt für Sicherheit in der Informationstechnik Federal Office for Information Security (BSI) CERT-
+Bund Godesberger Allee 87, 53175 Bonn, Germany
+
