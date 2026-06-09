@@ -178,6 +178,75 @@ export async function fetchWorkforceLive() {
   return { rows, audit };
 }
 
+// ----- GDP (World Bank, current USD) ---------------------------------------
+
+const GDP_IND = 'NY.GDP.MKTP.CD'; // GDP, current US$
+const GDP_ROW_ORDER = [
+  'USA', 'China', 'EU', 'UK', 'Asia (Ex-China)',
+  'India', 'France', 'Germany', 'South America', 'Africa',
+];
+
+function gdpTrillions(iso3, gdp) {
+  if (!gdp[iso3]) return null;
+  return gdp[iso3].value / 1e12;
+}
+
+function gdpRegionSum(members, gdp) {
+  let total = 0; let reporting = 0;
+  for (const iso3 of members) {
+    const t = gdpTrillions(iso3, gdp);
+    if (t != null) { total += t; reporting += 1; }
+  }
+  return { value: Number(total.toFixed(3)), reporting, count: members.length };
+}
+
+/**
+ * Fetch GDP live from the World Bank, with the committed CSV as fallback.
+ * Returns { rows: [{Country, GDP_Trillions_USD}], audit: {key:string} }.
+ */
+export async function fetchGdpLive() {
+  const baseline = await loadBaselineCSV('gdp_data.csv');
+  const results = {};
+  const audit = {};
+  for (const key of GDP_ROW_ORDER) {
+    if (baseline[key]) {
+      results[key] = Number(baseline[key].GDP_Trillions_USD);
+      audit[key] = 'CSV fallback';
+    }
+  }
+
+  let gdp;
+  try {
+    gdp = await wbFetchAll(GDP_IND);
+  } catch (e) {
+    const rows = GDP_ROW_ORDER.filter((k) => k in results)
+      .map((k) => ({ Country: k, GDP_Trillions_USD: results[k] }));
+    return { rows, audit, error: `World Bank GDP unavailable, using CSV (${e.message})` };
+  }
+
+  for (const [key, iso3] of Object.entries(SINGLE)) {
+    const t = gdpTrillions(iso3, gdp);
+    if (t == null) continue;
+    results[key] = Number(t.toFixed(3));
+    audit[key] = `${iso3} (yr ${gdp[iso3].year})`;
+  }
+
+  const regions = [
+    ['EU', EU27], ['South America', SOUTH_AMERICA],
+    ['Africa', AFRICA], ['Asia (Ex-China)', ASIA_EX_CHINA],
+  ];
+  for (const [key, members] of regions) {
+    const r = gdpRegionSum(members, gdp);
+    if (r.reporting === 0) continue;
+    results[key] = r.value;
+    audit[key] = `sum of ${r.reporting}/${r.count} reporting countries`;
+  }
+
+  const rows = GDP_ROW_ORDER.filter((k) => k in results)
+    .map((k) => ({ Country: k, GDP_Trillions_USD: results[k] }));
+  return { rows, audit };
+}
+
 // ----- Factor E: industrial electricity price (Eurostat + EIA) --------------
 
 const ENERGY_ROW_ORDER = ['USA', 'China', 'France', 'Germany', 'UK', 'India',
