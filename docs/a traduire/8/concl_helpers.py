@@ -62,6 +62,16 @@ LABELS = {
     }
 }
 
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.append(str(_Path(__file__).resolve().parents[1]))
+import caci_data_helper as _cdh
+_m = _cdh.get_metrics()
+_S = f"{_m['us_compute_share']:.1f}"
+_Sc = _S.replace('.', ',')
+_R = f"{_m['us_eu_caci_power_ratio']:.2f}"
+_Rc = _R.replace('.', ',')
+
 def set_run(run, *, font="Calibri", size=11, bold=False, italic=False, color=None):
     """Apply consistent typography to a docx run."""
     run.font.name = font
@@ -125,21 +135,21 @@ def add_cover(doc, lang: str, *, chapter_label: str, chapter_subtitle: str):
     # Stats from April 2026 baseline
     if lang == "FR":
         chips = [
-            "76,9 pct du compute IA operationnel mondial = USA",
+            f"{_Sc} pct du compute IA operationnel mondial = USA",
             "1,59x cout energie EU/US (ajuste-PPA)",
-            "3,46:1 ratio CACI US/EU (Power Mode)",
+            f"{_Rc}:1 ratio CACI US/EU (Power Mode)",
         ]
     elif lang == "PT-BR":
         chips = [
-            "76,9 pct do compute IA operacional mundial = EUA",
+            f"{_Sc} pct do compute IA operacional mundial = EUA",
             "1,59x custo energia UE/EUA (ajustado-PPP)",
-            "3,46:1 razao CACI EUA/UE (Power Mode)",
+            f"{_Rc}:1 razao CACI EUA/UE (Power Mode)",
         ]
     else: # EN
         chips = [
-            "76.9% of global operational AI compute = USA",
+            f"{_S}% of global operational AI compute = USA",
             "1.59x EU/US energy cost (PPP-adjusted)",
-            "3.46:1 US/EU CACI ratio (Power Mode)",
+            f"{_R}:1 US/EU CACI ratio (Power Mode)",
         ]
         
     for i, line in enumerate(chips):
