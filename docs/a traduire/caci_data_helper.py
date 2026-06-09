@@ -4,7 +4,8 @@ import os
 import sys
 
 # Paths to the CSV files in caci-dashboard/public/data/
-BASE_DIR = r"c:\Users\pizzif\Documents\GitHub\America-First-IA-main"
+# Resolve repo root relative to this file (docs/a traduire/caci_data_helper.py -> repo root is two levels up)
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 DATA_DIR = os.path.join(BASE_DIR, "caci-dashboard", "public", "data")
 GPU_CLUSTERS = os.path.join(DATA_DIR, "gpu_clusters.csv")
 GDP_DATA = os.path.join(DATA_DIR, "gdp_data.csv")

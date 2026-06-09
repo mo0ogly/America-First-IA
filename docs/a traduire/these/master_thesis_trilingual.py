@@ -389,7 +389,7 @@ def build_master(lp: MasterLangPack, base_dir: Path, output_dir: Path):
     log.info("Saved %s", out)
 
 def main():
-    base_dir = Path(r"c:\Users\pizzif\Documents\GitHub\America-First-IA-main\docs\a traduire")
+    base_dir = Path(__file__).resolve().parents[1]
     output_dir = base_dir / "these"
     output_dir.mkdir(exist_ok=True)
     
