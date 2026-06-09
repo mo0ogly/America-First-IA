@@ -12,6 +12,16 @@ from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.shared import Cm, Pt, RGBColor
 
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.append(str(_Path(__file__).resolve().parents[2]))
+import caci_data_helper as _cdh
+_m = _cdh.get_metrics()
+_S = f"{_m['us_compute_share']:.1f}"
+_Sc = _S.replace('.', ',')
+_R = f"{_m['us_eu_caci_power_ratio']:.2f}"
+_Rc = _R.replace('.', ',')
+
 NAVY = RGBColor(0x1A, 0x27, 0x44)
 GOLD = RGBColor(0xB8, 0x92, 0x2F)
 GREY = RGBColor(0x55, 0x55, 0x55)
@@ -33,9 +43,9 @@ LABELS = {
         "dashboard": "Public dashboard: https://mo0ogly.github.io/America-First-IA/dashboard/",
         "repo": "Repository: https://github.com/mo0ogly/America-First-IA",
         "chips": [
-            "76.9% of global operational AI compute = USA",
+            f"{_S}% of global operational AI compute = USA",
             "1.59x energy cost EU/US (PPP-adjusted)",
-            "3.46:1 CACI US/EU ratio (Power Mode)",
+            f"{_R}:1 CACI US/EU ratio (Power Mode)",
         ]
     },
     "FR": {
@@ -53,9 +63,9 @@ LABELS = {
         "dashboard": "Tableau de bord public : https://mo0ogly.github.io/America-First-IA/dashboard/",
         "repo": "Depot : https://github.com/mo0ogly/America-First-IA",
         "chips": [
-            "76,9 pct du compute IA operationnel mondial = USA",
+            f"{_Sc} pct du compute IA operationnel mondial = USA",
             "1,59x cout energie EU/US (ajuste-PPA)",
-            "3,46:1 ratio CACI US/EU (Power Mode)",
+            f"{_Rc}:1 ratio CACI US/EU (Power Mode)",
         ]
     },
     "PT-BR": {
@@ -73,9 +83,9 @@ LABELS = {
         "dashboard": "Painel publico: https://mo0ogly.github.io/America-First-IA/dashboard/",
         "repo": "Repositorio: https://github.com/mo0ogly/America-First-IA",
         "chips": [
-            "76,9% da computacao de IA operacional global = EUA",
+            f"{_Sc}% da computacao de IA operacional global = EUA",
             "1,59x custo de energia UE/EUA (ajustado-PPP)",
-            "3,46:1 ratio CACI EUA/UE (Power Mode)",
+            f"{_Rc}:1 ratio CACI EUA/UE (Power Mode)",
         ]
     }
 }

@@ -27,4 +27,4 @@ When writing or editing text (DOCX, Markdown, code comments, commit messages):
 - Formula: `CACI = F^0.40 x L^0.20 x R^0.15 / E^0.25` (Power Mode)
 - Intensity Mode adds `/ GDP` in denominator
 - Data comes from CSV files in `caci-dashboard/public/data/`
-- Key stats (from CSV): 77% US compute share, CACI US/EU ratio 3.4:1
+- Key stats (from CSV): 78.9% US compute share, CACI US/EU ratio 3.47:1

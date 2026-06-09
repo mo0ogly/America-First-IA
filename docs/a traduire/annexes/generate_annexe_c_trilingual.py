@@ -182,7 +182,7 @@ BR = LangPack(
     ),
     sections=[
         ("C.1 Objeto e Problemática", [
-            "A IA surgiu desde 2023 como o principal vetor de inovaçao economica e competiçao geopolitica. No snapshot de abril de 2026, os Estados Unidos controlam 76,9 por cento do compute de IA operacional global.",
+            "A IA surgiu desde 2023 como o principal vetor de inovaçao economica e competiçao geopolitica. No snapshot de abril de 2026, os Estados Unidos controlam 78,9 por cento do compute de IA operacional global.",
         ]),
         ("C.2 Quadro Metodológico", [
             "A metodologia baseia-se em tres pilares: diagnostico empirico 2020-2026, indice CACI e matriz de cenarios 2x2.",

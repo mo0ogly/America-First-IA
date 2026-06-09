@@ -23,7 +23,7 @@ Generates the Chapter IV .docx for the doctoral study
 "AI for Americans First" in English, French and Brazilian Portuguese.
 
 Key revisions vs the previous version (April 2026 dashboard alignment):
-    1. Cover banner band updated to 76.9 / 1.59x / {fmt_en(us_eu_caci, 2)}:1, in line with
+    1. Cover banner band updated to 78.9 / 1.59x / {fmt_en(us_eu_caci, 2)}:1, in line with
        Chapters I, II and III.
     2. Section 4 introduction: 'US concentrates 75 percent of global AI
        computef' replaced by '{fmt_en(us_share, 1)} percent of operational compute'.
@@ -38,7 +38,7 @@ Key revisions vs the previous version (April 2026 dashboard alignment):
        Table 9 f'CACI 7-12x inferior' line refreshed to '{fmt_en(us_eu_caci, 2)}:1 in Power
        Mode (28.9 vs 100)'.
     6. Section 4.5: synthesis paragraph reformulated so the loop runs
-       on the live 76.9 / 49.9 / 3.46 figures rather than 75 / 70 / 3.4.
+       on the live 78.9 / 49.9 / 3.46 figures rather than 75 / 70 / 3.4.
 
 Author: Fabrice Pizzi (Universite Paris-Sorbonne, M2 Economic Intelligence).
 Build: python3 generate_chapter4_trilingual.py
@@ -591,7 +591,7 @@ PT = LangPack(
     chapter_label="CAPITULO IV",
     chapter_title="Mecanismos da vantagem competitiva americana via IA",
     chapter_intro=(
-        "O Capitulo III estabeleceu os fatos: os Estados Unidos concentram 76,9 por cento do "
+        "O Capitulo III estabeleceu os fatos: os Estados Unidos concentram 78,9 por cento do "
         "compute IA operacional mundial (49,9 por cento se incluidos os clusters planejados), "
         "45 por cento do consumo eletrico dos data centers, e controlam 70 por cento do "
         "mercado de nuvem europeu por meio de tres hyperscalers. Este capitulo analisa os "
@@ -658,7 +658,7 @@ PT.sections = [
         "A trajetoria e ainda mais preocupante uma vez que a UE esta ausente de quatro dos oito segmentos da cadeia de valor da IA generativa mapeados pela McKinsey (2024): semicondutores AI-design (dominados pela Nvidia), plataformas de nuvem IA (AWS, Azure, GCP), modelos de fundacao (OpenAI, Google, Anthropic, Meta) e ferramentas de desenvolvimento de IA. So e competitiva em segmentos de aplicacao a jusante: aplicacoes setoriais (SAP, Siemens), integracao industrial e semicondutores especializados (semicondutores de potencia: Infineon, STMicroelectronics, NXP, com cerca de 15 por cento de participacao de mercado global).[19]",
     ]),
     ("4.5 Sintese: a mecanica da vantagem competitiva dos EUA", [
-        f"Os quatro canais identificados formam um sistema reforcador. A assimetria de compute (Capitulo III) alimenta custos de treinamento diferenciados (4.1), que reforcam a dependencia da nuvem dos EUA (4.2), que restringe a produtividade realizavel (4.3), que retarda o investimento europeu e reforca a captura de rendas pelos atores americanos (4.4), que por sua vez amplia o gap de compute. Com o snapshot de abril de 2026 - 76,9 por cento de parcela de compute operacional, 1,59x de custo energetico ajustado-PPA e uma razao CACI Power Mode de {fmt_fr(us_eu_caci, 2)}:1 - esse circulo constitui o que Farrell e Newman (2019) descreveriam como uma weaponizacao da interdependencia estrutural: a dependencia europeia da infraestrutura americana, inicialmente fundada na eficiencia economica, torna-se uma alavanca de poder geopolitico quando instrumentalizada por medidas como a Secao 232.",
+        f"Os quatro canais identificados formam um sistema reforcador. A assimetria de compute (Capitulo III) alimenta custos de treinamento diferenciados (4.1), que reforcam a dependencia da nuvem dos EUA (4.2), que restringe a produtividade realizavel (4.3), que retarda o investimento europeu e reforca a captura de rendas pelos atores americanos (4.4), que por sua vez amplia o gap de compute. Com o snapshot de abril de 2026 - 78,9 por cento de parcela de compute operacional, 1,59x de custo energetico ajustado-PPA e uma razao CACI Power Mode de {fmt_fr(us_eu_caci, 2)}:1 - esse circulo constitui o que Farrell e Newman (2019) descreveriam como uma weaponizacao da interdependencia estrutural: a dependencia europeia da infraestrutura americana, inicialmente fundada na eficiencia economica, torna-se uma alavanca de poder geopolitico quando instrumentalizada por medidas como a Secao 232.",
         "O protecionismo Trump (Capitulo III, fase 4) nao criou essa assimetria, ela preexistia massivamente. Ele a institucionaliza e legaliza por meio de um mecanismo tarifario que diferencia o custo de acesso ao compute por nacionalidade. Ao faze-lo, transforma uma vantagem de fato em uma vantagem de direito, cujo desmantelamento e politica e juridicamente muito mais dificil. O Capitulo V examina como esses mecanismos poderiam evoluir em quatro cenarios prospectivos.",
     ]),
 ]
