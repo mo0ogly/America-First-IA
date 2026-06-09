@@ -1,12 +1,30 @@
 """
+
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parents[1]))
+import caci_data_helper
+m = caci_data_helper.get_metrics()
+us_share = m['us_compute_share']
+us_eu_caci = m['us_eu_caci_power_ratio']
+us_eu_raw = m['us_eu_raw_ratio']
+eu_sov = m['eu_sovereignty_ratio']
+caci_scores = {k: v['caci_power_phys'] for k, v in m['country_results'].items()}
+
+def fmt_fr(val, decimals=1):
+    return f"{val:.{decimals}f}".replace(".", ",")
+
+def fmt_en(val, decimals=1):
+    return f"{val:.{decimals}f}"
+
 Chapter V - Prospective Scenarios 2026-2030 - trilingual generator.
 
 Generates the Chapter V .docx for the doctoral study
 "AI for Americans First" in English, French and Brazilian Portuguese.
 
 All metrics are aligned with the April 2026 dashboard snapshot:
-    - Cover banner: 76.9% / 1.59x / 3.46:1
-    - CACI Power Mode: 3.46:1
+    - Cover banner: {fmt_en(us_share, 1)}% / 1.59x / {fmt_en(us_eu_caci, 2)}:1
+    - CACI Power Mode: {fmt_en(us_eu_caci, 2)}:1
     - Scenario M1 (compute) and M6 (CACI) rebased on the live dataset.
 
 Author: Fabrice Pizzi (Universite Paris-Sorbonne, M2 Economic Intelligence).
@@ -256,9 +274,9 @@ EN = LangPack(
     cover_subtitle="AI Protectionism, Energy and Semiconductors: US/Europe Divergence Trajectories 2024-2030",
     cover_blurb="Integrated Geostrategic and Economic Analysis - Chapter V",
     cover_chip_lines=[
-        "76.9% global operational AI compute = USA",
+        f"{fmt_en(us_share, 1)}% global operational AI compute = USA",
         "1.59x energy cost EU/US (PPA-adjusted)",
-        "3.46:1 CACI ratio US/EU (Power Mode)",
+        f"{fmt_en(us_eu_caci, 2)}:1 CACI ratio US/EU (Power Mode)",
     ],
     cover_meta="Paris - February 2026  |  7 chapters  |  4 prospective scenarios  |  3 geographic zones",
     cover_keywords_label="Keywords",
@@ -291,7 +309,7 @@ EN.sections = [
     ("5.1 Predetermined elements: what will not change", [
         "In accordance with the Schwartz method (1991), we distinguish predetermined elements (quasi-certain trends by the 2030 horizon) from critical uncertainties (factors whose evolution depends on political decisions not yet taken). Four predetermined elements structure all scenarios.",
         "EP1 - Exponential growth in AI compute demand. Semiconductor sales doubled in two years (2023-2025), the power of installed AI chips doubles every seven months (Epoch AI), and no sign of slowing down is observable as of February 2026. Even under the hypothesis of a deceleration in scaling laws (Chinchilla saturation), the diffusion of AI towards inference, robotics, and autonomous agents will maintain a strongly growing compute demand.[1]",
-        "EP2 - Persistent concentration of compute in the United States. The US/EU ratio of 17.6:1 in raw installed compute (Chapter III, April 2026 dashboard snapshot: 2,759,968 vs 156,632 PFLOP/s), resulting in a CACI Power Mode ratio of 3.46:1 once weighted by the geometric formula F^0.40 x L^0.20 x R^0.15 / E^0.25, reflects investment decisions taken in 2022-2025 whose effects materialise until 2028-2029 (data center construction delays: 18-36 months). Even an immediate political reversal would not alter the installed stock before the end of the decade.",
+        f"EP2 - Persistent concentration of compute in the United States. The US/EU ratio of {fmt_en(us_eu_raw, 1)}:1 in raw installed compute (Chapter III, April 2026 dashboard snapshot: 2,759,968 vs 156,632 PFLOP/s), resulting in a CACI Power Mode ratio of {fmt_en(us_eu_caci, 2)}:1 once weighted by the geometric formula F^0.40 x L^0.20 x R^0.15 / E^0.25, reflects investment decisions taken in 2022-2025 whose effects materialise until 2028-2029 (data center construction delays: 18-36 months). Even an immediate political reversal would not alter the installed stock before the end of the decade.",
         "EP3 - Growing energy tension. Global data center consumption, estimated at 415 TWh in 2024, will reach 800-950 TWh by 2030 according to IEA projections (Chapter III). The asymmetry in energy costs (US 1.4-1.7x cheaper after PPA correction, 2-3x cheaper on unadjusted industrial Eurostat tariffs) will persist, unless massive investment in European nuclear power, whose deployment delays (SMR: 5-7 years for the first reactors) exceed the 2030 horizon.[2]",
         "EP4 - Section 232 regulatory framework in place. Proclamation 11002 of January 14, 2026, is a legal fait accompli. Unlike IEEPA tariffs (annulled by the Supreme Court on February 20, 2026[3]), Section 232 tariffs rest on a confirmed legal basis. The Secretary of Commerce's report on the data center semiconductor market is expected by July 1, 2026, and may recommend an extension or modification of tariffs. Regardless of the direction taken, the legal instrument will remain available.[4]",
     ]),
@@ -310,12 +328,12 @@ EN.sections = [
         "Following the July 2026 report, the Secretary of Commerce recommends maintaining the 25 percent tariff on re-exported advanced chips but without extending it significantly. The August 2025 US-EU trade agreement is respected: semiconductor tariffs for the EU remain capped at 15 percent.[7] The EU, reassured by this status quo, slows the deployment of its own initiatives. EuroHPC AI Factories struggle to reach nominal capacity (authorisation delays, inter-state coordination). Gigafactories are postponed to 2029-2030. The InvestAI fund is partially mobilised (8-10 billion EUR out of 20). European companies continue to rely heavily on US cloud, whose performance and costs remain unbeatable.",
     ]),
     ("5.3.2 Metric trajectories", [
-        "M1 - Compute ratio (US/EU installed GPUs): goes from 17.6:1 raw (2025) to 18-22:1 raw (2030) on operational installed compute. The gap widens slightly as US investments accelerate (Stargate, xAI mega-clusters, Meta) while the EU only adds the 19 AI Factories (max 25,000 GPUs each, approx. 475,000 public GPUs, an order of magnitude below a single US hyperscaler).[8]",
+        f"M1 - Compute ratio (US/EU installed GPUs): goes from {fmt_en(us_eu_raw, 1)}:1 raw (2025) to 18-22:1 raw (2030) on operational installed compute. The gap widens slightly as US investments accelerate (Stargate, xAI mega-clusters, Meta) while the EU only adds the 19 AI Factories (max 25,000 GPUs each, approx. 475,000 public GPUs, an order of magnitude below a single US hyperscaler).[8]",
         "M2 - FLOP cost gap (EU/US): remains in the 2.4-3.2x range. The absence of aggressive tariffs on the EU maintains access to US cloud at prices close to current levels, but European energy costs continue to weigh in.",
         "M3 - US cloud share in European AI spending: goes from 70 percent (2024) to 72-75 percent (2030). European providers (OVHcloud, Deutsche Telekom) maintain their 15 percent in the sovereignty segment but do not gain ground on generative AI services.",
         "M4 - AI productivity (percent/year): US +2.5-3.0; EU +1.0-1.5. The EU realises part of the AI potential via downstream applications (SAP, Siemens, fintech), but slow adoption and compute deficit cap the gains.",
         "M5 - Energy dependence (data center TWh): EU approx. 115 TWh in 2030 (+65 percent vs 2024). French nuclear power absorbs part of the demand, but the absence of Special Compute Zones delays the network connection of new data centers.",
-        "M6 - CACI(US)/CACI(EU): goes from 3.46:1 (April 2026) to 4-5:1 (2030). The gap widens moderately as the F factor (compute) accumulates on the US side while E costs (energy) weigh on the EU side.",
+        f"M6 - CACI(US)/CACI(EU): goes from {fmt_en(us_eu_caci, 2)}:1 (April 2026) to 4-5:1 (2030). The gap widens moderately as the F factor (compute) accumulates on the US side while E costs (energy) weigh on the EU side.",
     ]),
     ("5.3.3 Consequences for France", [
         "This scenario is the most probable in the short term (estimated probability: 40-50 percent). It is also the most insidious: the absence of a visible shock demobilises European actors, while dependence deepens structurally. French companies benefit from access to US cloud for AI adoption (BNP Paribas, Airbus, TotalEnergies via AWS/Azure), but this adoption reinforces the lock-in described in Chapter IV. The AI productivity deficit relative to the United States (-1.0 to -1.5 points per year) accumulates over five years, widening the competitiveness gap by 5 to 8 GDP points.",
@@ -325,12 +343,12 @@ EN.sections = [
         "The July 2026 report leads to a significant extension. The Secretary of Commerce recommends tariffs extended to semiconductor equipment and derived products, with a tariff offset program reserved for companies investing in American production.[9] The 15 percent EU agreement is revised upwards or accompanied by restrictive conditions (volume quotas on advanced GPUs, reciprocity requirements on the AI Act). Simultaneously, access to frontier AI cloud is made conditional for non-US entities (API access limitations to frontier models, weight restrictions). The EU, fragmented, fails to formulate a coherent response: member states divide between accommodation (Nordic countries, Netherlands) and confrontation (France, Italy).",
     ]),
     ("5.4.2 Metric trajectories", [
-        "M1 - Compute ratio: goes from 17.6:1 raw (2025) to 25-35:1 raw (2030). GPU quotas limit European imports at the moment demand explodes. AI Factory projects are compromised by the inability to procure Nvidia/AMD GPUs at the planned volumes.",
+        f"M1 - Compute ratio: goes from {fmt_en(us_eu_raw, 1)}:1 raw (2025) to 25-35:1 raw (2030). GPU quotas limit European imports at the moment demand explodes. AI Factory projects are compromised by the inability to procure Nvidia/AMD GPUs at the planned volumes.",
         "M2 - FLOP cost gap: jumps to 4-6x. Extended tariffs, combined with quotas and energy asymmetry, massively increase European compute costs. French companies face a 3x to 5x surcharge for model training.",
         "M3 - US cloud share: paradoxically rises to 78-82 percent. Failing a credible local alternative, European companies wanting access to frontier AI must go through US hyperscalers, at the price conditions they dictate. Sovereign services (OVHcloud, Scaleway) lack the hardware to offer competitive GenAI services.",
         "M4 - AI productivity: US +2.5-3.5; EU +0.3-0.8. European AI potential is severely constrained. The McKinsey Global Institute estimates that with slow adoption, European productivity would not exceed 0.3 percent, close to stagnation.[10]",
         "M5 - Energy dependence: EU approx. 95 TWh only (2030), not by virtue but by default - the lack of GPUs limits data center construction. Ironically, the compute constraint mitigates the energy constraint.",
-        "M6 - CACI ratio: explodes from 3.46:1 (April 2026) to 6-8:1 (2030). This is the scenario where the gap is largest, with all three CACI factors deteriorating simultaneously on the European side: F capped by quotas, E inflated by tariffs, L weakened by an accelerated brain drain to the United States.",
+        f"M6 - CACI ratio: explodes from {fmt_en(us_eu_caci, 2)}:1 (April 2026) to 6-8:1 (2030). This is the scenario where the gap is largest, with all three CACI factors deteriorating simultaneously on the European side: F capped by quotas, E inflated by tariffs, L weakened by an accelerated brain drain to the United States.",
     ]),
     ("5.4.3 Consequences for France", [
         "This scenario (estimated probability: 15-20 percent) represents the worst-case. France suffers structural technological decoupling: compute-intensive projects (Mistral foundation models, Exotec robotics, Dassault simulations) are relocated to the United States or depend on increasingly costly US cloud access. Time-to-market for French AI solutions lengthens by 25 to 40 percent. SMEs, unable to absorb surcharges, renounce frontier AI and opt for degraded solutions (smaller open-source models, local inference). The cumulative productivity gap with the United States reaches 10 to 15 points over five years.",
@@ -340,12 +358,12 @@ EN.sections = [
         "US protectionism remains moderate (as in A), but the EU exploits this window to accelerate its own investments. AI Factories are deployed on schedule (2026-2027), the first 100,000+ GPU Gigafactories are ordered end-2026 and delivered in 2028.[11] France plays a central role thanks to its nuclear fleet (65-70 percent of electricity mix, competitive marginal cost), and Special Compute Zones are designated on former industrial sites with heavy network connections.[12] However, the EU de facto accepts a status as a junior technological partner: it uses Nvidia/AMD GPUs (no European AI ASIC design champion), depends on TSMC/Samsung/Intel foundries for production, and its foundation models remain one step below US leaders.",
     ]),
     ("5.5.2 Metric trajectories", [
-        "M1 - Compute ratio: drops from 17.6:1 raw (2025) to 8-10:1 raw (2030) on installed compute. Gigafactories and private investment (InvestAI plus industrial co-investments) add 1-2 million H100 equivalents in Europe, narrowing the gap without closing it.",
+        f"M1 - Compute ratio: drops from {fmt_en(us_eu_raw, 1)}:1 raw (2025) to 8-10:1 raw (2030) on installed compute. Gigafactories and private investment (InvestAI plus industrial co-investments) add 1-2 million H100 equivalents in Europe, narrowing the gap without closing it.",
         "M2 - FLOP cost gap: drops to 1.5-2.0x. French nuclear power and Gigafactory economies of scale compress energy and infrastructure costs, although a residual gap persists (absence of proprietary GPU design).",
         "M3 - US cloud share: drops slightly to 60-65 percent. European sovereign services gain market share in regulated segments (defense, health, finance), while US cloud retains the majority of commercial workloads. The market segments into sovereign and performance.",
         "M4 - AI productivity: US +2.5-3.0; EU +1.8-2.5. The EU reaches 60-80 percent of its theoretical potential thanks to sufficient local compute for large-scale adoption of downstream applications, even if frontier model training remains dependent on US hardware.",
         "M5 - Energy: EU approx. 140 TWh (2030). Demand is higher than in A because European compute increases, but nuclear and planned SMRs absorb most of it. RTE France confirms the feasibility of +10 GW subject to network investments.",
-        "M6 - CACI ratio: drops from 3.46:1 (April 2026) to 2.0-2.5:1 (2030). This is the most favourable realistically achievable scenario at the 2030 horizon. The F factor improves significantly, E benefits from nuclear, but L remains slightly lower (the US AI ecosystem being more attractive for top talent).",
+        f"M6 - CACI ratio: drops from {fmt_en(us_eu_caci, 2)}:1 (April 2026) to 2.0-2.5:1 (2030). This is the most favourable realistically achievable scenario at the 2030 horizon. The F factor improves significantly, E benefits from nuclear, but L remains slightly lower (the US AI ecosystem being more attractive for top talent).",
     ]),
     ("5.5.3 Consequences for France", [
         "This scenario (estimated probability: 15-20 percent) is the most favourable for France in the short-to-medium term. France becomes the EU's AI energy hub thanks to its nuclear fleet, attracting data center and Gigafactory investments. French companies gain access to competitive local compute for inference and fine-tuning, reducing dependence on US cloud for standard uses. Mistral and French startups can train specialised models locally. However, frontier model training remains dependent on US hardware, and strategic autonomy is partial: France is sovereign in application, but not in the creation of fundamental technologies.",
@@ -355,19 +373,19 @@ EN.sections = [
         "US protectionism intensifies (as in B), but the EU responds with determination. The American threat becomes the political catalyst for an unprecedented European industrial mobilisation since the AIRBUS project of the 1970s. The AI Continent program is accelerated and extended: the 5 Gigafactories are ordered as an emergency, France announces 20 GW of nuclear capacity dedicated to AI data centers by 2032 (combining fleet extension, new EPR2s and SMRs), the DARE project (European RISC-V) is escalated to design AI accelerators reducing dependence on Nvidia.[13] Simultaneously, the EU negotiates alternative technological alliances (Japan, South Korea, Taiwan) to secure GPU and foundry supplies.",
     ]),
     ("5.6.2 Metric trajectories", [
-        "M1 - Compute ratio: evolves from 17.6:1 raw (2025) to 12-15:1 raw (2030). The EU invests massively but starts from very far. US quotas slow imports, but alternative alliances and local production (Gigafactories using Samsung/Intel GPUs as alternatives to Nvidia) partially compensate.",
+        f"M1 - Compute ratio: evolves from {fmt_en(us_eu_raw, 1)}:1 raw (2025) to 12-15:1 raw (2030). The EU invests massively but starts from very far. US quotas slow imports, but alternative alliances and local production (Gigafactories using Samsung/Intel GPUs as alternatives to Nvidia) partially compensate.",
         "M2 - FLOP cost gap: 2.5-4.0x initially (2027, peak tariff shock), then progressive reduction towards 1.8-2.5x (2030) as Gigafactories scale up and GPU alternatives mature.",
         "M3 - US cloud share: drops to 50-55 percent (2030), the most pronounced decline of the four scenarios. Geopolitical defiance and US restrictions push European companies towards sovereign alternatives, even if imperfect. US hyperscalers lose ground in regulated segments.",
         "M4 - AI productivity: US +2.5-3.5; EU +1.2-2.0. The EU traverses a productivity trough in 2027-2028 (transition period where US restrictions bite but European investments are not yet operational), then a partial catch-up from 2029.",
         "M5 - Energy: EU approx. 150-160 TWh (2030). This is the most energy-intensive scenario for the EU, with massive local data center construction creating huge demand. French nuclear power becomes a continental strategic asset, but network pressure is at its maximum.",
-        "M6 - CACI ratio: follows a U-shaped trajectory: degradation from 3.46:1 to 8-12:1 in 2027-2028 (peak shock), then improvement to 4-7:1 by 2030. The result depends heavily on European execution speed: each year of delay on Gigafactories prolongs the period of maximum vulnerability.",
+        f"M6 - CACI ratio: follows a U-shaped trajectory: degradation from {fmt_en(us_eu_caci, 2)}:1 to 8-12:1 in 2027-2028 (peak shock), then improvement to 4-7:1 by 2030. The result depends heavily on European execution speed: each year of delay on Gigafactories prolongs the period of maximum vulnerability.",
     ]),
     ("5.6.3 Consequences for France", [
         "This scenario (estimated probability: 15-20 percent) is the most ambitious and riskiest. It places France at the heart of an unprecedented European technological sovereignty effort. Massive nuclear investments (SMR, fleet extension) become a top-tier geopolitical issue. The DARE/RISC-V project could, if successful, constitute the first credible European alternative to Nvidia GPUs for AI, but on a 5-7 year horizon, well beyond 2030. In the short term (2026-2028), France traverses a period of maximum vulnerability where surcharges and shortages degrade competitiveness, before a catch-up conditional on infrastructure deployment speed.",
     ]),
     ("5.7 Comparative synthesis and tipping points", []),
     ("5.7.1 Metric synthesis table", [
-        "Table 11 below consolidates the trajectory of the six divergence metrics for the four scenarios by the 2030 horizon, anchored on the April 2026 dashboard snapshot (US/EU raw operational compute 17.6:1, CACI Power Mode 3.46:1).",
+        f"Table 11 below consolidates the trajectory of the six divergence metrics for the four scenarios by the 2030 horizon, anchored on the April 2026 dashboard snapshot (US/EU raw operational compute {fmt_en(us_eu_raw, 1)}:1, CACI Power Mode {fmt_en(us_eu_caci, 2)}:1).",
     ]),
     ("5.7.2 Tipping points between scenarios", [
         "The real trajectory will likely follow a hybrid path between these scenarios. Three tipping points determine possible transitions.",
@@ -422,7 +440,7 @@ EN.sections = [
         "Europe occupies an intermediate and evolving position. Legally Tier 1, the UE nevertheless maintains a strategic autonomy ambition that the American Alliance does not fully satisfy.",
         "The Cloud and AI Development Act (CADA), expected Q1 2026, attempts to resolve this by defining an 'EU Sovereignty Level' that would structurally exclude CLOUD Act-subject providers from sensitive public procurement.[25] The October 2025 Cloud Sovereignty Framework defines three assurance levels, with SOV-3 requiring the provider to be beyond the reach of non-European extraterritorial legislation.[26]",
         "This architecture is under construction, but its timing is problematic: CADA will be at best operational in 2027-2028, precisely when US Mandates could be activated. The vulnerability window is maximal.",
-        "Note from Chapter I: the EU is largely sovereign on installed compute (99.2% of F_total is EU-owned). The vulnerability is not on installed F but on the cloud workload layer (the compute actually used by EU firms, majorly on AWS/Azure/GCP). CADA targets exactly this layer.",
+        f"Note from Chapter I: the EU is largely sovereign on installed compute ({fmt_en(eu_sov, 1)}% of F_total is EU-owned). The vulnerability is not on installed F but on the cloud workload layer (the compute actually used by EU firms, majorly on AWS/Azure/GCP). CADA targets exactly this layer.",
     ]),
     ("5.11 Transversal impacts on scenarios A-D", [
         "The Cloud-Nationality Pivot superimposes on the four scenarios, modifying their conclusions non-linearly. It adds a third dimension: the degree of installed compute autonomy. Table 13 synthesises the impact.",
@@ -458,7 +476,7 @@ EN.table_blocks = [
           "Scenario D - Contested Sovereignty (race for autonomy under pressure)"],
      ]),
     ("Table 11. Comparative synthesis of the four scenarios on the six divergence metrics (2030 horizon).",
-     "Source: author's construction; baseline April 2026 snapshot (US/EU raw operational compute 17.6:1, CACI Power Mode 3.46:1).",
+     f"Source: author's construction; baseline April 2026 snapshot (US/EU raw operational compute {fmt_en(us_eu_raw, 1)}:1, CACI Power Mode {fmt_en(us_eu_caci, 2)}:1).",
      [
          ["Metric (2030)", "A - Status Quo", "B - Fracture", "C - Partnership", "D - Sovereignty"],
          ["M1 Raw compute ratio US/EU (operational)", "18-22:1", "25-35:1", "8-10:1", "12-15:1"],
@@ -547,9 +565,9 @@ FR = LangPack(
     cover_subtitle="Protectionnisme IA, Energie et Semi-conducteurs : Trajectoires de divergence US/Europe 2024-2030",
     cover_blurb="Analyse geostrategique et economique integree - Chapitre V",
     cover_chip_lines=[
-        "76,9 pct du compute IA operationnel mondial = USA",
+        f"{fmt_fr(us_share, 1)} pct du compute IA operationnel mondial = USA",
         "1,59x cout energie EU/US (ajuste-PPA)",
-        "3,46:1 ratio CACI US/EU (Power Mode)",
+        f"{fmt_fr(us_eu_caci, 2)}:1 ratio CACI US/EU (Power Mode)",
     ],
     cover_meta="Paris - fevrier 2026  |  7 chapitres  |  4 scenarios prospectifs  |  3 zones geographiques",
     cover_keywords_label="Mots-cles",
@@ -585,7 +603,7 @@ FR.sections = [
     ("5.1 Elements predetermines : ce qui ne changera pas", [
         "Conformement a la methode Schwartz (1991), nous distinguons les elements predetermines (tendances quasi-certaines a l'horizon 2030) des incertitudes critiques (facteurs dont l'evolution depend de decisions politiques non encore prises). Quatre elements predetermines structurent l'ensemble des scenarios.",
         "EP1 - Croissance exponentielle de la demande de compute IA. Les ventes de semi-conducteurs ont double en deux ans (2023-2025), la puissance des puces IA installees double tous les sept mois (Epoch AI), et aucun signe de ralentissement n'est observable au moment de fevrier 2026. Meme dans l'hypothese d'une deceleration des scaling laws (saturation Chinchilla), la diffusion de l'IA vers l'inference, la robotique et les agents autonomes maintiendra une demande de compute fortement croissante.[1]",
-        "EP2 - Concentration persistante du compute aux Etats-Unis. Le ratio US/UE de 17,6:1 en compute installe brut (chapitre III, snapshot du tableau de bord d'avril 2026 : 2 759 968 vs 156 632 PFLOP/s), se traduisant par un ratio CACI Power Mode de 3,46:1 une fois pondere par la formule geometrique F^0,40 x L^0,20 x R^0,15 / E^0,25, reflete des decisions d'investissement prises en 2022-2025 dont les effets se materialisent jusqu'en 2028-2029 (delais de construction des centres de donnees : 18-36 mois). Meme un revirement politique immediat n'alterait pas le stock installe avant la fin de la decennie.",
+        f"EP2 - Concentration persistante du compute aux Etats-Unis. Le ratio US/UE de {fmt_fr(us_eu_raw, 1)}:1 en compute installe brut (chapitre III, snapshot du tableau de bord d'avril 2026 : 2 759 968 vs 156 632 PFLOP/s), se traduisant par un ratio CACI Power Mode de {fmt_fr(us_eu_caci, 2)}:1 une fois pondere par la formule geometrique F^0,40 x L^0,20 x R^0,15 / E^0,25, reflete des decisions d'investissement prises en 2022-2025 dont les effets se materialisent jusqu'en 2028-2029 (delais de construction des centres de donnees : 18-36 mois). Meme un revirement politique immediat n'alterait pas le stock installe avant la fin de la decennie.",
         "EP3 - Tension energetique croissante. La consommation mondiale des centres de donnees, estimee a 415 TWh en 2024, atteindra 800-950 TWh d'ici 2030 selon les projections AIE (chapitre III). L'asymetrie des couts energetiques (US 1,4-1,7x moins chers apres correction PPA, 2-3x moins chers sur les tarifs Eurostat industriels non ajustes) persistera, sauf investissement massif dans le nucleaire europeen, dont les delais de deploiement (SMR : 5-7 ans pour les premiers reacteurs) depassent l'horizon 2030.[2]",
         "EP4 - Cadre reglementaire Section 232 en place. La Proclamation 11002 du 14 janvier 2026 est un fait accompli juridique. Contrairement aux tarifs IEEPA (annules par la Cour supreme le 20 fevrier 2026[3]), les tarifs Section 232 reposent sur une base legale confirmee. Le rapport du Secretaire au Commerce sur le marche des semi-conducteurs pour centres de donnees est attendu d'ici le 1er juillet 2026, et peut recommander une extension ou modification des tarifs. Quelle que soit la direction prise, l'instrument legal restera disponible.[4]",
     ]),
@@ -604,12 +622,12 @@ FR.sections = [
         "Apres le rapport de juillet 2026, le Secretaire au Commerce recommande de maintenir le tarif de 25 pour cent sur les puces avancees re-exportees mais sans l'etendre significativement. L'accord commercial US-UE d'aout 2025 est respecte : les tarifs sur semi-conducteurs pour l'UE restent plafonnes a 15 pour cent.[7] L'UE, rassuree par ce statu quo, ralentit le deploiement de ses propres initiatives. Les AI Factories EuroHPC peinent a atteindre leur capacite nominale (delais d'autorisation, coordination inter-Etats). Les Gigafactories sont reportees a 2029-2030. Le fonds InvestAI est partiellement mobilise (8-10 milliards EUR sur 20). Les entreprises europeennes continuent de s'appuyer fortement sur le cloud US, dont la performance et les couts restent imbattables.",
     ]),
     ("5.3.2 Trajectoire des metriques", [
-        "M1 - Ratio compute (GPU installes US/UE) : passe de 17,6:1 brut (2025) a 18-22:1 brut (2030) sur le compute installe operationnel. L'ecart se creuse legerement a mesure que les investissements US s'accelerent (Stargate, mega-clusters xAI, Meta) tandis que l'UE n'ajoute que les 19 AI Factories (25 000 GPU max chacune, soit environ 475 000 GPU publics, un ordre de grandeur en dessous d'un seul hyperscaler US).[8]",
+        f"M1 - Ratio compute (GPU installes US/UE) : passe de {fmt_fr(us_eu_raw, 1)}:1 brut (2025) a 18-22:1 brut (2030) sur le compute installe operationnel. L'ecart se creuse legerement a mesure que les investissements US s'accelerent (Stargate, mega-clusters xAI, Meta) tandis que l'UE n'ajoute que les 19 AI Factories (25 000 GPU max chacune, soit environ 475 000 GPU publics, un ordre de grandeur en dessous d'un seul hyperscaler US).[8]",
         "M2 - Ecart cout du FLOP (UE/US) : reste dans la fourchette 2,4-3,2x. L'absence de tarifs agressifs sur l'UE maintient l'acces au cloud US a des prix proches des niveaux actuels, mais les couts energetiques europeens continuent de peser.",
         "M3 - Part cloud US dans les depenses IA europeennes : passe de 70 pour cent (2024) a 72-75 pour cent (2030). Les fournisseurs europeens (OVHcloud, Deutsche Telekom) conservent leurs 15 pour cent sur le segment souverainete mais ne gagnent pas de terrain sur les services IA generative.",
         "M4 - Productivite IA (pct/an) : US +2,5-3,0 ; UE +1,0-1,5. L'UE realise une partie du potentiel IA via les applications aval (SAP, Siemens, fintech), mais l'adoption lente et le deficit de compute plafonnent les gains.",
         "M5 - Dependance energetique (TWh centres de donnees) : UE environ 115 TWh en 2030 (+65 pour cent vs 2024). Le nucleaire francais absorbe une partie de la demande, mais l'absence de Special Compute Zones retarde la connexion au reseau de nouveaux centres de donnees.",
-        "M6 - CACI(US)/CACI(UE) : passe de 3,46:1 (avril 2026) a 4-5:1 (2030). L'ecart se creuse moderement a mesure que le facteur F (compute) s'accumule cote US tandis que les couts E (energie) pesent cote UE.",
+        f"M6 - CACI(US)/CACI(UE) : passe de {fmt_fr(us_eu_caci, 2)}:1 (avril 2026) a 4-5:1 (2030). L'ecart se creuse moderement a mesure que le facteur F (compute) s'accumule cote US tandis que les couts E (energie) pesent cote UE.",
     ]),
     ("5.3.3 Consequences pour la France", [
         "Ce scenario est le plus probable a court terme (probabilite estimee : 40-50 pour cent). Il est aussi le plus insidieux : l'absence de choc visible demobilise les acteurs europeens, tandis que la dependance se creuse structurellement. Les entreprises francaises beneficient de l'acces au cloud US pour l'adoption IA (BNP Paribas, Airbus, TotalEnergies via AWS/Azure), mais cette adoption renforce le verrouillage decrit au chapitre IV. Le deficit de productivite IA par rapport aux Etats-Unis (-1,0 a -1,5 points par an) s'accumule sur cinq ans, creusant l'ecart de competitivite de 5 a 8 points de PIB.",
@@ -619,12 +637,12 @@ FR.sections = [
         "Le rapport de juillet 2026 conduit a une extension significative. Le Secretaire au Commerce recommande des tarifs etendus aux equipements semi-conducteurs et produits derives, avec un tariff offset program reserve aux entreprises investissant dans la production americaine.[9] L'accord UE a 15 pour cent est revise a la hausse, ou accompagne de conditions restrictives (quotas de volume sur les GPU avances, exigences de reciprocite sur l'AI Act). Simultanement, l'acces au cloud IA de pointe est rendu conditionnel pour les entites non americaines (limitations d'acces aux API des modeles de frontiere, restrictions sur les poids). L'UE, fragmentee, ne parvient pas a formuler une reponse coherente : les Etats membres se divisent entre accommodation (pays nordiques, Pays-Bas) et confrontation (France, Italie).",
     ]),
     ("5.4.2 Trajectoire des metriques", [
-        "M1 - Ratio compute : passe de 17,6:1 brut (2025) a 25-35:1 brut (2030). Les quotas GPU limitent les importations europeennes au moment ou la demande explose. Les projets AI Factory sont compromis par l'incapacite a se procurer des GPU Nvidia/AMD aux volumes prevus.",
+        f"M1 - Ratio compute : passe de {fmt_fr(us_eu_raw, 1)}:1 brut (2025) a 25-35:1 brut (2030). Les quotas GPU limitent les importations europeennes au moment ou la demande explose. Les projets AI Factory sont compromis par l'incapacite a se procurer des GPU Nvidia/AMD aux volumes prevus.",
         "M2 - Ecart cout du FLOP : bondit a 4-6x. Les tarifs etendus, combines aux quotas et a l'asymetrie energetique, augmentent massivement les couts du compute europeen. Les entreprises francaises font face a une surcharge de 3x a 5x pour l'entrainement de modeles.",
         "M3 - Part cloud US : paradoxalement, monte a 78-82 pour cent. Faute d'alternative locale credible, les entreprises europeennes voulant acceder a l'IA de pointe doivent passer par les hyperscalers US, aux conditions tarifaires qu'ils dictent. Les services souverains (OVHcloud, Scaleway) manquent du materiel pour offrir des services GenAI competitifs.",
         "M4 - Productivite IA : US +2,5-3,5 ; UE +0,3-0,8. Le potentiel IA europeen est severement contraint. Le McKinsey Global Institute estime qu'avec une adoption lente, la productivite europeenne ne depasserait pas 0,3 pour cent, proche de la stagnation.[10]",
         "M5 - Dependance energetique : UE environ 95 TWh seulement (2030), non par vertu mais par defaut - le manque de GPU limite la construction des centres de donnees. Ironiquement, la contrainte de compute attenue la contrainte energetique.",
-        "M6 - Ratio CACI : explose de 3,46:1 (avril 2026) a 6-8:1 (2030). C'est le scenario ou l'ecart est le plus important, avec les trois facteurs CACI se deteriorant simultanement cote europeen : F plafonne par les quotas, E gonfle par les tarifs, L affaibli par un brain drain accelere vers les Etats-Unis.",
+        f"M6 - Ratio CACI : explose de {fmt_fr(us_eu_caci, 2)}:1 (avril 2026) a 6-8:1 (2030). C'est le scenario ou l'ecart est le plus important, avec les trois facteurs CACI se deteriorant simultanement cote europeen : F plafonne par les quotas, E gonfle par les tarifs, L affaibli par un brain drain accelere vers les Etats-Unis.",
     ]),
     ("5.4.3 Consequences pour la France", [
         "Ce scenario (probabilite estimee : 15-20 pour cent) represente le pire des cas. La France subit un decouplage technologique structurel : les projets compute-intensifs (modeles de fondation Mistral, robotique Comau/Exotec, simulations Dassault) sont relocalises aux Etats-Unis ou dependent d'un acces au cloud US de plus en plus couteux. Le time-to-market des solutions IA francaises s'allonge de 25 a 40 pour cent. Les PME industrielles, incapables d'absorber les surcharges, renoncent a l'IA de pointe et optent pour des solutions degradees (modeles open-source plus petits, inference locale). L'ecart de productivite cumule avec les Etats-Unis atteint 10 a 15 points sur cinq ans.",
@@ -634,12 +652,12 @@ FR.sections = [
         "Le protectionnisme US reste modere (comme en A), mais l'UE exploite cette fenetre pour accelerer ses propres investissements. Les AI Factories sont deployees dans les delais (2026-2027), les premieres Gigafactories de 100 000+ GPU sont commandees fin 2026 et livrees en 2028.[11] La France joue un role central grace a son parc nucleaire (65-70 pour cent du mix electrique, cout marginal competitif), et des Special Compute Zones sont designees sur d'anciens sites industriels avec connexions reseau lourdes.[12] Toutefois, l'UE accepte de facto un statut de partenaire technologique junior : elle utilise des GPU Nvidia/AMD (pas de champion europeen en design d'ASIC IA), depend des fonderies TSMC/Samsung/Intel pour la production, et ses modeles de fondation restent un cran en dessous des leaders US.",
     ]),
     ("5.5.2 Trajectoire des metriques", [
-        "M1 - Ratio compute : descend de 17,6:1 brut (2025) a 8-10:1 brut (2030) sur le compute installe. Les Gigafactories et l'investissement prive (InvestAI plus co-investissements industriels) ajoutent 1-2 millions d'equivalents H100 en Europe, reduisant l'ecart sans le combler.",
+        f"M1 - Ratio compute : descend de {fmt_fr(us_eu_raw, 1)}:1 brut (2025) a 8-10:1 brut (2030) sur le compute installe. Les Gigafactories et l'investissement prive (InvestAI plus co-investissements industriels) ajoutent 1-2 millions d'equivalents H100 en Europe, reduisant l'ecart sans le combler.",
         "M2 - Ecart cout du FLOP : descend a 1,5-2,0x. Le nucleaire francais et les economies d'echelle des Gigafactories compriment les couts d'energie et d'infrastructure, bien qu'un ecart residuel persiste (absence de design GPU proprietaire).",
         "M3 - Part cloud US : descend legerement a 60-65 pour cent. Les services souverains europeens gagnent des parts de marche sur les segments regules (defense, sante, finance), tandis que le cloud US conserve la majorite des charges commerciales. Le marche se segmente en souverain et performance.",
         "M4 - Productivite IA : US +2,5-3,0 ; UE +1,8-2,5. L'UE atteint 60-80 pour cent de son potentiel theorique grace a un compute local suffisant pour l'adoption a grande echelle d'applications aval, meme si l'entrainement des modeles de frontiere reste dependant du materiel US.",
         "M5 - Energie : UE environ 140 TWh (2030). La demande est plus elevee qu'en A car le compute europeen augmente, mais le nucleaire et les SMR planifies absorbent l'essentiel. RTE France confirme la faisabilite de +10 GW sous reserve d'investissements reseau.",
-        "M6 - Ratio CACI : descend de 3,46:1 (avril 2026) a 2,0-2,5:1 (2030). C'est le scenario le plus favorable realistement atteignable a l'horizon 2030. Le facteur F s'ameliore significativement, E beneficie du nucleaire, mais L reste legerement inferieur (l'ecosysteme IA US plus attractif pour les meilleurs talents).",
+        f"M6 - Ratio CACI : descend de {fmt_fr(us_eu_caci, 2)}:1 (avril 2026) a 2,0-2,5:1 (2030). C'est le scenario le plus favorable realistement atteignable a l'horizon 2030. Le facteur F s'ameliore significativement, E beneficie du nucleaire, mais L reste legerement inferieur (l'ecosysteme IA US plus attractif pour les meilleurs talents).",
     ]),
     ("5.5.3 Consequences pour la France", [
         "Ce scenario (probabilite estimee : 15-20 pour cent) est le plus favorable pour la France a court-moyen terme. La France devient le hub energetique IA de l'UE grace a son parc nucleaire, attirant les investissements en centres de donnees et Gigafactories. Les entreprises francaises gagnent un acces a un compute local competitif pour l'inference et le fine-tuning, reduisant la dependance au cloud US pour les usages standard. Mistral et les startups francaises peuvent entrainer des modeles specialises localement. Toutefois, l'entrainement des modeles de frontiere reste dependant du materiel US, et l'autonomie strategique est partielle : la France est souveraine en application, mais pas dans la creation des technologies fondamentales.",
@@ -649,19 +667,19 @@ FR.sections = [
         "Le protectionnisme US s'intensifie (comme en B), mais l'UE repond avec determination. La menace americaine devient le catalyseur politique d'une mobilisation industrielle europeenne sans precedent depuis le projet AIRBUS des annees 1970. Le programme AI Continent est accelere et etendu : les 5 Gigafactories sont commandees en urgence, la France annonce 20 GW de capacite nucleaire dediee aux centres de donnees IA d'ici 2032 (combinant extension du parc existant et SMR), le projet DARE (RISC-V europeen) est escalade pour concevoir des accelerateurs IA reduisant la dependance a Nvidia.[13] Simultanement, l'UE negocie des alliances technologiques alternatives (Japon, Coree du Sud, Taiwan) pour securiser l'approvisionnement en GPU et fonderies.",
     ]),
     ("5.6.2 Trajectoire des metriques", [
-        "M1 - Ratio compute : evolue de 17,6:1 brut (2025) a 12-15:1 brut (2030) sur le compute installe. L'UE investit massivement mais part de tres loin. Les quotas US ralentissent les importations, mais les alliances alternatives et la production locale (Gigafactories utilisant des GPU Samsung/Intel comme alternatives a Nvidia) compensent partiellement.",
+        f"M1 - Ratio compute : evolue de {fmt_fr(us_eu_raw, 1)}:1 brut (2025) a 12-15:1 brut (2030) sur le compute installe. L'UE investit massivement mais part de tres loin. Les quotas US ralentissent les importations, mais les alliances alternatives et la production locale (Gigafactories utilisant des GPU Samsung/Intel comme alternatives a Nvidia) compensent partiellement.",
         "M2 - Ecart cout du FLOP : 2,5-4,0x initialement (2027, pic du choc tarifaire), puis reduction progressive vers 1,8-2,5x (2030) a mesure que les Gigafactories montent en cadence et que les alternatives GPU murissent.",
         "M3 - Part cloud US : descend a 50-55 pour cent (2030), le declin le plus prononce des quatre scenarios. La defiance geopolitique et les restrictions US poussent les entreprises europeennes vers les alternatives souveraines, meme imparfaites. Les hyperscalers US perdent du terrain sur les segments regules.",
         "M4 - Productivite IA : US +2,5-3,5 ; UE +1,2-2,0. L'UE traverse un creux de productivite en 2027-2028 (periode de transition ou les restrictions US mordent mais les investissements europeens ne sont pas encore operationnels), puis un rattrapage partiel a partir de 2029.",
         "M5 - Energie : UE environ 150-160 TWh (2030). C'est le scenario le plus energivore pour l'UE, la construction massive de centres de donnees locaux creant une demande enorme. Le nucleaire francais devient un actif strategique continental, mais la pression sur le reseau est maximale.",
-        "M6 - Ratio CACI : suit une trajectoire en U : degradation de 3,46:1 a 8-12:1 en 2027-2028 (pic du choc), puis amelioration vers 4-7:1 d'ici 2030. Le resultat depend fortement de la vitesse d'execution europeenne : chaque annee de retard sur les Gigafactories prolonge la periode de vulnerabilite maximale.",
+        f"M6 - Ratio CACI : suit une trajectoire en U : degradation de {fmt_fr(us_eu_caci, 2)}:1 a 8-12:1 en 2027-2028 (pic du choc), puis amelioration vers 4-7:1 d'ici 2030. Le resultat depend fortement de la vitesse d'execution europeenne : chaque annee de retard sur les Gigafactories prolonge la periode de vulnerabilite maximale.",
     ]),
     ("5.6.3 Consequences pour la France", [
         "Ce scenario (probabilite estimee : 15-20 pour cent) est le plus ambitieux et le plus risque. Il place la France au coeur d'un effort de souverainete technologique europeen sans precedent. Les investissements nucleaires massifs (SMR, extension du parc) deviennent un enjeu geopolitique de premier ordre. Le projet DARE/RISC-V pourrait, en cas de succes, constituer la premiere alternative europeenne credible aux GPU Nvidia pour l'IA, mais sur un horizon de 5-7 ans, bien au-dela de 2030. A court terme (2026-2028), la France traverse une periode de vulnerabilite maximale ou les surcharges et penuries degradent la competitivite, avant un rattrapage conditionnel a la vitesse de deploiement de l'infrastructure.",
     ]),
     ("5.7 Synthese comparative et conditions de bascule", []),
     ("5.7.1 Tableau de synthese des metriques", [
-        "Le Tableau 11 ci-dessous consolide la trajectoire des six metriques de divergence pour les quatre scenarios a l'horizon 2030, ancre sur le snapshot du tableau de bord d'avril 2026 (compute brut operationnel US/UE 17,6:1, CACI Power Mode 3,46:1).",
+        f"Le Tableau 11 ci-dessous consolide la trajectoire des six metriques de divergence pour les quatre scenarios a l'horizon 2030, ancre sur le snapshot du tableau de bord d'avril 2026 (compute brut operationnel US/UE {fmt_fr(us_eu_raw, 1)}:1, CACI Power Mode {fmt_fr(us_eu_caci, 2)}:1).",
     ]),
     ("5.7.2 Conditions de bascule entre scenarios", [
         "La trajectoire reelle suivra probablement un chemin hybride entre ces scenarios. Trois points de bascule determinent les transitions possibles.",
@@ -716,7 +734,7 @@ FR.sections = [
         "L'Europe occupe une position intermediaire et evolutive. Legalement Tier 1 (France, Allemagne, Pays-Bas, etc. sont explicitement dans la presomption d'approbation BIS pour les puces avancees), l'UE maintient neanmoins une ambition d'autonomie strategique que l'Alliance americaine ne satisfait pas pleinement.",
         "Le Cloud and AI Development Act (CADA), dont la proposition formelle est attendue au T1 2026, tente de repondre a ce dilemme en definissant un EU Sovereignty Level qui exclurait structurellement les fournisseurs soumis au CLOUD Act des marches publics sensibles.[25] La Commission europeenne a publie en octobre 2025 un Cloud Sovereignty Framework definissant trois niveaux d'assurance (SOV-1 a SOV-3), avec SOV-3 exigeant que le fournisseur soit hors d'atteinte de toute legislation extraterritoriale non europeenne.[26]",
         "Cette architecture legislative est en construction, mais son calendrier est problematique : le CADA sera au mieux operationnel en 2027-2028, precisement quand les Cloud Sovereignty Mandates US pourraient etre actives. La fenetre de vulnerabilite est maximale entre 2028 et 2030.",
-        "Une nuance importante du chapitre I : l'UE est largement souveraine sur le compute installe (99,2 pour cent du F_total est detenu par des operateurs UE). La fenetre de vulnerabilite n'est donc pas sur le F installe mais sur la couche des charges cloud (le compute reellement utilise par les entreprises UE, majoritairement heberge sur AWS/Azure/GCP). Le CADA cible exactement cette couche.",
+        f"Une nuance importante du chapitre I : l'UE est largement souveraine sur le compute installe ({fmt_fr(eu_sov, 1)} pour cent du F_total est detenu par des operateurs UE). La fenetre de vulnerabilite n'est donc pas sur le F installe mais sur la couche des charges cloud (le compute reellement utilise par les entreprises UE, majoritairement heberge sur AWS/Azure/GCP). Le CADA cible exactement cette couche.",
     ]),
     ("5.11 Impacts transversaux sur les scenarios A-D", [
         "Le Pivot Cloud-Nationalite se superpose aux quatre scenarios, modifiant leurs conclusions de maniere non-lineaire. Il n'invalide pas la matrice 2x2 mais ajoute une troisieme dimension : le degre d'autonomie du compute installe. Le Tableau 13 synthetise l'impact.",
@@ -752,7 +770,7 @@ FR.table_blocks = [
           "Scenario D - Souverainete contestee (course a l'autonomie sous pression)"],
      ]),
     ("Tableau 11. Synthese comparative des quatre scenarios sur les six metriques de divergence (horizon 2030).",
-     "Source : construction de l'auteur ; baseline snapshot avril 2026 (compute brut operationnel US/UE 17,6:1, CACI Power Mode 3,46:1).",
+     f"Source : construction de l'auteur ; baseline snapshot avril 2026 (compute brut operationnel US/UE {fmt_fr(us_eu_raw, 1)}:1, CACI Power Mode {fmt_fr(us_eu_caci, 2)}:1).",
      [
          ["Metrique (2030)", "A - Statu quo", "B - Fracture", "C - Partenariat", "D - Souverainete"],
          ["M1 Ratio compute brut US/UE (operationnel)", "18-22:1", "25-35:1", "8-10:1", "12-15:1"],
@@ -811,9 +829,9 @@ PT = LangPack(
     cover_subtitle="Protecionismo de IA, Energia e Semicondutores: Trajetorias de Divergencia EUA/Europa 2024-2030",
     cover_blurb="Analise geoestrategica e economica integrada - Capitulo V",
     cover_chip_lines=[
-        "76,9 pct do compute IA operacional mundial = EUA",
+        f"{fmt_fr(us_share, 1)} pct do compute IA operacional mundial = EUA",
         "1,59x custo de energia UE/EUA (ajustado-PPA)",
-        "3,46:1 razao CACI EUA/UE (Power Mode)",
+        f"{fmt_fr(us_eu_caci, 2)}:1 razao CACI EUA/UE (Power Mode)",
     ],
     cover_meta="Paris - fevereiro de 2026  |  7 capitulos  |  4 cenarios prospectivos  |  3 zonas geograficas",
     cover_keywords_label="Palavras-chave",
@@ -847,7 +865,7 @@ PT.sections = [
     ("5.1 Elementos predeterminados: o que nao mudara", [
         "De acordo com o metodo Schwartz (1991), distinguimos os elementos predeterminados (tendencias quase certas no horizonte 2030) das incertezas criticas (fatores cuja evolucao depende de decisoes politicas ainda nao tomadas). Quatro elementos predeterminados estruturam todos os cenarios.",
         "EP1 - Crescimento exponencial da demanda de compute IA. As vendas de semicondutores dobraram em dois anos (2023-2025), a potencia dos chips de IA instalados dobra a cada sete meses (Epoch AI), e nenhum sinal de desaceleracao e observavel em fevereiro de 2026. Mesmo sob a hipotese de uma desaceleracao nas scaling laws (saturacao Chinchilla), a difusao da IA em direcao a inferencia, robotica e agentes autonomos mantera uma demanda de compute em forte crescimento.[1]",
-        "EP2 - Concentracao persistente do compute nos Estados Unidos. A razao EUA/UE de 17,6:1 em compute instalado bruto (Capitulo III, snapshot do painel de abril de 2026: 2.759.968 vs 156.632 PFLOP/s), resultando em uma razao CACI Power Mode de 3,46:1 uma vez ponderada pela formula geometrica F^0,40 x L^0,20 x R^0,15 / E^0,25, reflete decisoes de investimento tomadas em 2022-2025 cujos efeitos se materializam ate 2028-2029 (atrasos na construcao de data centers: 18-36 meses). Mesmo uma reversao politica imediata nao alteraria o estoque instalado antes do final da decada.",
+        f"EP2 - Concentracao persistente do compute nos Estados Unidos. A razao EUA/UE de {fmt_fr(us_eu_raw, 1)}:1 em compute instalado bruto (Capitulo III, snapshot do painel de abril de 2026: 2.759.968 vs 156.632 PFLOP/s), resultando em uma razao CACI Power Mode de {fmt_fr(us_eu_caci, 2)}:1 uma vez ponderada pela formula geometrica F^0,40 x L^0,20 x R^0,15 / E^0,25, reflete decisoes de investimento tomadas em 2022-2025 cujos efeitos se materializam ate 2028-2029 (atrasos na construcao de data centers: 18-36 meses). Mesmo uma reversao politica imediata nao alteraria o estoque instalado antes do final da decada.",
         "EP3 - Tensao energetica crescente. O consumo global dos data centers, estimado em 415 TWh em 2024, atingira 800-950 TWh ate 2030, de acordo com as projecoes da IEA (Capitulo III). A assimetria nos custos de energia (EUA 1,4-1,7x mais baratos apos correcao PPA, 2-3x mais baratos nas tarifas Eurostat industriais nao ajustadas) persistira, a menos que haja um investimento massivo na energia nuclear europeia, cujos atrasos de implantacao (SMR: 5-7 anos para os primeiros reatores) excedem o horizonte de 2030.[2]",
         "EP4 - Estrutura regulatoria da Secao 232 em vigor. A Proclamacao 11002 de 14 de janeiro de 2026 e um fato consumado juridico. Ao contrario das tarifas IEEPA (anuladas pela Suprema Corte em 20 de fevereiro de 2026[3]), as tarifas da Secao 232 repousam sobre uma base legal confirmada. O relatorio do Secretario do Comercio sobre o mercado de semicondutores para data centers e esperado para 1 de julho de 2026, e pode recomendar uma extensao ou modificacao das tarifas. Independentemente da direcao tomada, o instrumento legal permanecera disponivel.[4]",
     ]),
@@ -866,12 +884,12 @@ PT.sections = [
         "Apos o relatorio de julho de 2026, o Secretario do Comercio recomenda manter a tarifa de 25 por cento sobre chips avancados reexportados, mas sem estende-la significativamente. O acordo comercial EUA-UE de agosto de 2025 e respeitado: as tarifas de semicondutores para a UE permanecem limitadas a 15 por cento.[7] A UE, tranquilizada por esse status quo, retarda a implantacao de suas proprias iniciativas. As AI Factories do EuroHPC lutam para atingir a capacidade nominal (atrasos nas autorizacoes, coordenacao interestadual). As Gigafactories sao adiadas para 2029-2030. O fundo InvestAI e parcialmente mobilizado (8-10 bilhoes de EUR de um total de 20). As empresas europeias continuam a depender fortemente da nuvem dos EUA, cujo desempenho e custos permanecem imbativeis.",
     ]),
     ("5.3.2 Trajetoria das metricas", [
-        "M1 - Razao de compute (GPUs instaladas EUA/UE): passa de 17,6:1 bruto (2025) para 18-22:1 bruto (2030) no compute instalado operacional. O gap aumenta ligeiramente a medida que os investimentos nos EUA aceleram (Stargate, mega-clusters xAI, Meta), enquanto a UE adiciona apenas as 19 AI Factories (max 25.000 GPUs cada, aprox. 475.000 GPUs publicas, uma ordem de grandeza abaixo de um unico hyperscaler dos EUA).[8]",
+        f"M1 - Razao de compute (GPUs instaladas EUA/UE): passa de {fmt_fr(us_eu_raw, 1)}:1 bruto (2025) para 18-22:1 bruto (2030) no compute instalado operacional. O gap aumenta ligeiramente a medida que os investimentos nos EUA aceleram (Stargate, mega-clusters xAI, Meta), enquanto a UE adiciona apenas as 19 AI Factories (max 25.000 GPUs cada, aprox. 475.000 GPUs publicas, uma ordem de grandeza abaixo de um unico hyperscaler dos EUA).[8]",
         "M2 - Diferenca de custo do FLOP (UE/EUA): permanece na faixa de 2,4-3,2x. A ausencia de tarifas agressivas sobre a UE mantem o acesso a nuvem dos EUA a precos proximos aos niveis atuais, mas os custos de energia europeus continuam a pesar.",
         "M3 - Parcela da nuvem dos EUA nos gastos de IA europeus: passa de 70 por cento (2024) para 72-75 por cento (2030). Os provedores europeus (OVHcloud, Deutsche Telekom) mantem seus 15 por cento no segmento de soberania, mas nao ganham terreno nos servicos de IA generativa.",
         "M4 - Produtividade da IA (por cento/ano): EUA +2,5-3,0; UE +1,0-1,5. A UE realiza parte do potencial de IA via aplicacoes a jusante (SAP, Siemens, fintech), mas a adocao lenta e o deficit de compute limitam os ganhos.",
         "M5 - Dependencia energetica (data center TWh): UE aprox. 115 TWh em 2030 (+65 por cento vs 2024). A energia nuclear francesa absorve parte da demanda, mas a ausencia de Special Compute Zones atrasa a conexao a rede de novos data centers.",
-        "M6 - CACI(EUA)/CACI(UE): passa de 3,46:1 (abril de 2026) para 4-5:1 (2030). O gap aumenta moderadamente a medida que o fator F (compute) se acumula no lado dos EUA, enquanto os custos E (energia) pesam no lado da UE.",
+        f"M6 - CACI(EUA)/CACI(UE): passa de {fmt_fr(us_eu_caci, 2)}:1 (abril de 2026) para 4-5:1 (2030). O gap aumenta moderadamente a medida que o fator F (compute) se acumula no lado dos EUA, enquanto os custos E (energia) pesam no lado da UE.",
     ]),
     ("5.3.3 Consequencias para a Franca", [
         "Este cenario e o mais provavel no curto prazo (probabilidade estimada: 40-50 por cento). E tambem o mais insidioso: a ausencia de um choque visivel desmobiliza os atores europeus, enquanto a dependencia se aprofunda estruturalmente. As empresas francesas beneficiam-se do acesso a nuvem dos EUA para a adocao de IA (BNP Paribas, Airbus, TotalEnergies via AWS/Azure), mas essa adocao reforca o bloqueio descrito no Capitulo IV. O deficit de produtividade da IA em relacao aos Estados Unidos (-1,0 a -1,5 pontos por ano) acumula-se ao longo de cinco anos, ampliando a lacuna de competitividade em 5 a 8 pontos do PIB.",
@@ -881,12 +899,12 @@ PT.sections = [
         "O relatorio de julho de 2026 leva a uma extensao significativa. O Secretario do Comercio recomenda tarifas estendidas a equipamentos de semicondutores e produtos derivados, com um programa de compensacao tarifaria reservado para empresas que investem na producao americana.[9] O acordo de 15 por cento da UE e revisado para cima ou acompanhado de condicoes restritivas (quotas de volume em GPUs avancadas, requisitos de reciprocidade no AI Act). Simultaneamente, o acesso a nuvem de IA de fronteira e tornado condicional para entidades nao americanas (limitacoes de acesso a API para modelos de fronteira, restricoes de peso). A UE, fragmentada, nao consegue formular uma resposta coerente: os Estados-membros dividem-se entre acomodacao (paises nordicos, Holanda) e confronto (Franca, Italia).",
     ]),
     ("5.4.2 Trajetoria das metricas", [
-        "M1 - Razao de compute: passa de 17,6:1 bruto (2025) para 25-35:1 bruto (2030). As quotas de GPU limitam as importacoes europeias no momento em que a demanda explode. Os projetos de AI Factory sao comprometidos pela incapacidade de adquirir GPUs Nvidia/AMD nos volumes planejados.",
+        f"M1 - Razao de compute: passa de {fmt_fr(us_eu_raw, 1)}:1 bruto (2025) para 25-35:1 bruto (2030). As quotas de GPU limitam as importacoes europeias no momento em que a demanda explode. Os projetos de AI Factory sao comprometidos pela incapacidade de adquirir GPUs Nvidia/AMD nos volumes planejados.",
         "M2 - Diferenca de custo do FLOP: salta para 4-6x. Tarifas estendidas, combinadas com quotas e assimetria energetica, aumentam massivamente os custos de compute europeus. As empresas francesas enfrentam uma sobretaxa de 3x a 5x para treinamento de modelos.",
         "M3 - Parcela da nuvem dos EUA: paradoxalmente sobe para 78-82 por cento. Na falta de uma alternativa local credivel, as empresas europeias que desejam acesso a IA de fronteira devem passar pelos hyperscalers dos EUA, nas condicoes de preco que eles ditam. Servicos soberanos (OVHcloud, Scaleway) carecem de hardware para oferecer servicos competitivos de GenAI.",
         "M4 - Produtividade da IA: EUA +2,5-3,5; UE +0,3-0,8. O potencial de IA europeu e severamente restrito. O McKinsey Global Institute estima que, com adocao lenta, a produtividade europeia nao passaria de 0,3 por cento, proximo a estagnacao.[10]",
         "M5 - Dependencia energetica: UE aprox. 95 TWh apenas (2030), nao por virtude, mas por padrao - a falta de GPUs limita a construcao de data centers. Ironicamente, a restricao de compute mitiga a restricao de energia.",
-        "M6 - Razao CACI: explode de 3,46:1 (abril de 2026) para 6-8:1 (2030). Este e o cenario onde o gap e maior, com todos os tres fatores CACI deteriorando-se simultaneamente no lado europeu: F limitado por quotas, E inflado por tarifas, L enfraquecido por uma fuga de cerebros acelerada para os Estados Unidos.",
+        f"M6 - Razao CACI: explode de {fmt_fr(us_eu_caci, 2)}:1 (abril de 2026) para 6-8:1 (2030). Este e o cenario onde o gap e maior, com todos os tres fatores CACI deteriorando-se simultaneamente no lado europeu: F limitado por quotas, E inflado por tarifas, L enfraquecido por uma fuga de cerebros acelerada para os Estados Unidos.",
     ]),
     ("5.4.3 Consequencias para a Franca", [
         "Este cenario (probabilidade estimada: 15-20 por cento) representa o pior caso. A Franca sofre um desacoplamento tecnologico estrutural: projetos intensivos em compute (modelos de fundacao Mistral, robotica Exotec, simulacoes Dassault) sao realocados para os Estados Unidos ou dependem de um acesso cada vez mais caro a nuvem dos EUA. O time-to-market das solucoes de IA francesas aumenta de 25 para 40 por cento. As PMEs, incapazes de absorver sobretaxas, renunciam a IA de fronteira e optam por solucoes degradadas (modelos de codigo aberto menores, inferencia local). O gap de produtividade acumulado com os Estados Unidos atinge 10 a 15 pontos em cinco anos.",
@@ -896,12 +914,12 @@ PT.sections = [
         "O protecionismo dos EUA permanece moderado (como em A), mas a UE explora esta janela para acelerar seus proprios investimentos. As AI Factories sao implantadas no cronograma (2026-2027), as primeiras Gigafactories de 100.000+ GPUs sao encomendadas no final de 2026 e entregues em 2028.[11] A Franca desempenha um papel central gracas a sua frota nuclear (65-70 por cento da matriz eletrica, custo marginal competitivo), e Special Compute Zones sao designadas em antigos locais industriais com conexoes de rede pesadas.[12] No entanto, a UE aceita de facto um status de parceiro tecnologico junior: utiliza GPUs Nvidia/AMD (nenhum campeao europeu de design de ASIC IA), depende de fundicoes TSMC/Samsung/Intel para producao, e seus modelos de fundacao permanecem um degrau abaixo dos lideres dos EUA.",
     ]),
     ("5.5.2 Trajetoria das metricas", [
-        "M1 - Razao de compute: cai de 17,6:1 bruto (2025) para 8-10:1 bruto (2030) no compute instalado. Gigafactories e investimento privado (InvestAI mais co-investimentos industriais) adicionam 1-2 milhoes de equivalentes H100 na Europa, reduzindo o gap sem fecha-lo.",
+        f"M1 - Razao de compute: cai de {fmt_fr(us_eu_raw, 1)}:1 bruto (2025) para 8-10:1 bruto (2030) no compute instalado. Gigafactories e investimento privado (InvestAI mais co-investimentos industriais) adicionam 1-2 milhoes de equivalentes H100 na Europa, reduzindo o gap sem fecha-lo.",
         "M2 - Diferenca de custo do FLOP: cai para 1,5-2,0x. A energia nuclear francesa e as economias de escala das Gigafactories comprimem os custos de energia e infraestrutura, embora persista um gap residual (ausencia de design de GPU proprietario).",
         "M3 - Parcela da nuvem dos EUA: cai ligeiramente para 60-65 por cento. Servicos soberanos europeus ganham participacao de mercado em segmentos regulamentados (defesa, saude, financas), enquanto a nuvem dos EUA mantem a maioria das cargas comerciais. O mercado segmenta-se em soberano e desempenho.",
         "M4 - Produtividade da IA: EUA +2,5-3,0; UE +1,8-2,5. A UE atinge 60-80 por cento de seu potencial teorico gracas ao compute local suficiente para a adocao em larga escala de aplicacoes a jusante, mesmo que o treinamento de modelos de fronteira permaneca dependente do hardware dos EUA.",
         "M5 - Energia: UE aprox. 140 TWh (2030). A demanda e maior do que em A porque o compute europeu aumenta, mas a energia nuclear e os SMRs planejados absorvem a maior parte. A RTE France confirma a viabilidade de +10 GW sujeitos a investimentos na rede.",
-        "M6 - Razao CACI: cai de 3,46:1 (abril de 2026) para 2,0-2,5:1 (2030). Este e o cenario mais favoravel realisticamente alcancavel no horizonte de 2030. O fator F melhora significativamente, E beneficia-se da energia nuclear, mas L permanece um pouco abaixo (o ecossistema de IA dos EUA sendo mais atraente para os melhores talentos).",
+        f"M6 - Razao CACI: cai de {fmt_fr(us_eu_caci, 2)}:1 (abril de 2026) para 2,0-2,5:1 (2030). Este e o cenario mais favoravel realisticamente alcancavel no horizonte de 2030. O fator F melhora significativamente, E beneficia-se da energia nuclear, mas L permanece um pouco abaixo (o ecossistema de IA dos EUA sendo mais atraente para os melhores talentos).",
     ]),
     ("5.5.3 Consequencias para a Franca", [
         "Este cenario (probabilidade estimada: 15-20 por cento) e o mais favoravel para a Franca no curto a medio prazo. A Franca torna-se o hub de energia de IA da UE gracas a sua frota nuclear, atraindo investimentos em data centers e Gigafactories. As empresas francesas ganham acesso a compute local competitivo para inferencia e fine-tuning, reduzindo a dependencia da nuvem dos EUA para usos padrao. Mistral e startups francesas podem treinar modelos especializados localmente. No entanto, o treinamento de modelos de fronteira permanece dependente do hardware dos EUA, e a autonomia estrategica e parcial: a Franca e soberana na aplicacao, mas nao na criacao de tecnologias fundamentais.",
@@ -911,19 +929,19 @@ PT.sections = [
         "O protecionismo dos EUA intensifica-se (como em B), mas a UE responde com determinacao. A ameaca americana torna-se o catalisador politico para uma mobilizacao industrial europeia sem precedentes desde o projeto AIRBUS da decada de 1970. O programa AI Continent e acelerado e estendido: as 5 Gigafactories sao encomendadas em carater de emergencia, a Franca anuncia 20 GW de capacidade nuclear dedicada a data centers de IA ate 2032 (combinando extensao da frota, novos EPR2s e SMRs), o projeto DARE (RISC-V europeu) e escalado para projetar aceleradores de IA reduzindo a dependencia da Nvidia.[13] Simultaneamente, a UE negocia aliancas tecnologicas alternativas (Japao, Coreia do Sul, Taiwan) para garantir suprimentos de GPU e fundicao.",
     ]),
     ("5.6.2 Trajetoria das metricas", [
-        "M1 - Razao de compute: evolui de 17,6:1 bruto (2025) para 12-15:1 bruto (2030). A UE investe massivamente, mas comeca de muito longe. As quotas dos EUA retardam as importacoes, mas aliancas alternativas e producao local (Gigafactories usando GPUs Samsung/Intel como alternativas a Nvidia) compensam parcialmente.",
+        f"M1 - Razao de compute: evolui de {fmt_fr(us_eu_raw, 1)}:1 bruto (2025) para 12-15:1 bruto (2030). A UE investe massivamente, mas comeca de muito longe. As quotas dos EUA retardam as importacoes, mas aliancas alternativas e producao local (Gigafactories usando GPUs Samsung/Intel como alternativas a Nvidia) compensam parcialmente.",
         "M2 - Diferenca de custo do FLOP: 2,5-4,0x inicialmente (2027, pico do choque tarifario), depois reducao progressiva para 1,8-2,5x (2030) a medida que as Gigafactories escalam e as alternativas de GPU amadurecem.",
         "M3 - Parcela da nuvem dos EUA: cai para 50-55 por cento (2030), o declinio mais acentuado dos quatro cenarios. O desafio geopolitico e as restricoes dos EUA empurram as empresas europeias para alternativas soberanas, mesmo que imperfeitas. Hyperscalers dos EUA perdem terreno em segmentos regulamentados.",
         "M4 - Produtividade da IA: EUA +2,5-3,5; UE +1,2-2,0. A UE atravessa um vale de produtividade em 2027-2028 (periodo de transicao onde as restricoes dos EUA mordem, mas os investimentos europeus ainda nao estao operacionais), depois uma recuperacao parcial a partir de 2029.",
         "M5 - Energia: UE aprox. 150-160 TWh (2030). Este e o cenario mais intensivo em energia para a UE, com a construcao massiva de data centers locais criando uma demanda enorme. A energia nuclear francesa torna-se um ativo estrategico continental, mas a pressao na rede esta no maximo.",
-        "M6 - Razao CACI: segue uma trajetoria em forma de U: degradacao de 3,46:1 para 8-12:1 em 2027-2028 (pico do choque), depois melhora para 4-7:1 ate 2030. O resultado depende fortemente da velocidade de execucao europeia: cada ano de atraso nas Gigafactories prolonga o periodo de vulnerabilidade maxima.",
+        f"M6 - Razao CACI: segue uma trajetoria em forma de U: degradacao de {fmt_fr(us_eu_caci, 2)}:1 para 8-12:1 em 2027-2028 (pico do choque), depois melhora para 4-7:1 ate 2030. O resultado depende fortemente da velocidade de execucao europeia: cada ano de atraso nas Gigafactories prolonga o periodo de vulnerabilidade maxima.",
     ]),
     ("5.6.3 Consequencias para a Franca", [
         "Este cenario (probabilidade estimada: 15-20 por cento) e o mais ambicioso e arriscado. Coloca a Franca no coracao de um esforco sem precedentes de soberania tecnologica europeia. Investimentos nucleares massivos (SMR, extensao da frota) tornam-se uma questao geopolitica de primeira ordem. O projeto DARE/RISC-V poderia, se bem-sucedido, constituir a primeira alternativa europeia credivel as GPUs Nvidia para IA, mas em um horizonte de 5 a 7 anos, bem alem de 2030. No curto prazo (2026-2028), a Franca atravessa um periodo de vulnerabilidade maxima onde sobretaxas e escassez degradam a competitividade, antes de uma recuperacao condicional a velocidade de implantacao da infraestrutura.",
     ]),
     ("5.7 Sintese comparativa e pontos de inflexao", []),
     ("5.7.1 Tabela de sintese das metricas", [
-        "A Tabela 11 abaixo consolida a trajetoria das seis metricas de divergencia para os quatro cenarios no horizonte de 2030, ancorada no snapshot do painel de abril de 2026 (compute operacional bruto EUA/UE 17,6:1, CACI Power Mode 3,46:1).",
+        f"A Tabela 11 abaixo consolida a trajetoria das seis metricas de divergencia para os quatro cenarios no horizonte de 2030, ancorada no snapshot do painel de abril de 2026 (compute operacional bruto EUA/UE {fmt_fr(us_eu_raw, 1)}:1, CACI Power Mode {fmt_fr(us_eu_caci, 2)}:1).",
     ]),
     ("5.7.2 Pontos de inflexao entre os cenarios", [
         "A trajetoria real provavelmente seguira um caminho hibrido entre esses cenarios. Tres pontos de inflexao determinam as transicoes possiveis.",
@@ -978,7 +996,7 @@ PT.sections = [
         "A Europa ocupa uma posicao intermediaria e em evolucao. Legalmente Tier 1, a UE mantém, no entanto, uma ambicao de autonomia estrategica que a Alianca Americana nao satisfaz plenamente.",
         "O Cloud and AI Development Act (CADA), esperado para o primeiro trimestre de 2026, tenta resolver isso definindo um 'Nivel de Soberania da UE' que excluiria estruturalmente os provedores sujeitos ao CLOUD Act das compras publicas sensiveis.[25] O Cloud Sovereignty Framework de outubro de 2025 define tres niveis de garantia, com o SOV-3 exigindo que o provedor esteja alem do alcance da legislacao extraterritorial nao europeia.[26]",
         "Esta arquitetura esta em construcao, mas seu tempo e problematico: o CADA estara, na melhor das hipoteses, operacional em 2027-2028, precisamente quando os Mandatos dos EUA poderao ser ativados. A janela de vulnerabilidade e maxima.",
-        "Nota do Capitulo I: a UE e amplamente soberana em compute instalado (99,2% do F_total e de propriedade da UE). A vulnerabilidade nao e no F instalado, mas na camada de carga de trabalho em nuvem (o compute realmente usado por empresas da UE, majoritariamente em AWS/Azure/GCP). O CADA visa exatamente esta camada.",
+        f"Nota do Capitulo I: a UE e amplamente soberana em compute instalado ({fmt_fr(eu_sov, 1)}% do F_total e de propriedade da UE). A vulnerabilidade nao e no F instalado, mas na camada de carga de trabalho em nuvem (o compute realmente usado por empresas da UE, majoritariamente em AWS/Azure/GCP). O CADA visa exatamente esta camada.",
     ]),
     ("5.11 Impactos transversais nos cenarios A-D", [
         "O Pivot de Nuvem-Nacionalidade sobrepoe-se aos quatro cenarios, modificando suas conclusoes de forma nao linear. Adiciona uma terceira dimensao: o grau de autonomia do compute instalado. A Tabela 13 sintetiza o impacto.",
@@ -1014,7 +1032,7 @@ PT.table_blocks = [
           "Cenario D - Soberania Contestada (corrida pela autonomia sob pressao)"],
      ]),
     ("Tabela 11. Sintese comparativa dos quatro cenarios nas seis metricas de divergencia (horizonte 2030).",
-     "Fonte: construcao do autor; snapshot de abril de 2026 (compute operacional bruto EUA/UE 17,6:1, CACI Power Mode 3,46:1).",
+     f"Fonte: construcao do autor; snapshot de abril de 2026 (compute operacional bruto EUA/UE {fmt_fr(us_eu_raw, 1)}:1, CACI Power Mode {fmt_fr(us_eu_caci, 2)}:1).",
      [
          ["Metrica (2030)", "A - Status Quo", "B - Fratura", "C - Parceria", "D - Soberania"],
          ["M1 Razao de compute bruto EUA/UE (operacional)", "18-22:1", "25-35:1", "8-10:1", "12-15:1"],

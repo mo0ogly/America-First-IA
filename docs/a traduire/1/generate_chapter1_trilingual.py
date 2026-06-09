@@ -1,4 +1,22 @@
 """
+
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parents[1]))
+import caci_data_helper
+m = caci_data_helper.get_metrics()
+us_share = m['us_compute_share']
+us_eu_caci = m['us_eu_caci_power_ratio']
+us_eu_raw = m['us_eu_raw_ratio']
+eu_sov = m['eu_sovereignty_ratio']
+caci_scores = {k: v['caci_power_phys'] for k, v in m['country_results'].items()}
+
+def fmt_fr(val, decimals=1):
+    return f"{val:.{decimals}f}".replace(".", ",")
+
+def fmt_en(val, decimals=1):
+    return f"{val:.{decimals}f}"
+
 Chapter I — Introduction & Theoretical Framework — trilingual generator.
 
 Generates the Chapter I .docx for the doctoral study
@@ -14,8 +32,8 @@ Key revisions vs previous version:
        (F domestic only) introduced in section 1.2.
     3. Section 1.4: footnote pointing to public dashboard and working paper.
     4. Headline figures aligned with the dashboard live data
-       (US share of operational compute = 76.9%, EU electricity / US ratio
-       = 1.59, US/EU CACI Power ratio = 3.46:1).
+       (US share of operational compute = {fmt_en(us_share, 1)}%, EU electricity / US ratio
+       = 1.59, US/EU CACI Power ratio = {fmt_en(us_eu_caci, 2)}:1).
 
 Author: Fabrice Pizzi (Universite Paris-Sorbonne, M2 Economic Intelligence).
 Build: python3 generate_chapter1_trilingual.py
@@ -250,9 +268,9 @@ EN = LangPack(
     cover_subtitle="AI Protectionism, Energy and Semiconductors: US/Europe Divergence Trajectories 2024-2030",
     cover_blurb="Integrated Geostrategic and Economic Analysis - Chapter I",
     cover_chip_lines=[
-        "76.9% global operational AI compute = USA",
+        f"{fmt_en(us_share, 1)}% global operational AI compute = USA",
         "1.59x energy cost EU/US",
-        "3.46:1 CACI ratio US/EU (Power Mode)",
+        f"{fmt_en(us_eu_caci, 2)}:1 CACI ratio US/EU (Power Mode)",
     ],
     cover_meta="Paris - February 2026  |  7 chapters  |  4 prospective scenarios  |  3 geographic zones",
     cover_keywords_label="Keywords",
@@ -351,7 +369,7 @@ EN.notes = [
     "European Parliament (2025), 'Making Europe an AI Continent,' EPRS BRI(2025)775923. EU large enterprise AI adoption: 41 percent vs 11 percent for small ones. US small business adoption: 58 percent (US Chamber of Commerce, August 2025).",
     "Accenture (2025), 'Europe Seeking Greater AI Sovereignty,' November 3, 2025. Survey of 1,928 organizations in 28 countries.",
     "CERRE / Meyers, Z. (2025), 'A Competition Policy for Cloud and AI,' Issue Paper, June 2025.",
-    "[a] Public dashboard: https://mo0ogly.github.io/America-First-IA/dashboard/. Working Paper: https://mo0ogly.github.io/America-First-IA/pdf/Working_Paper_CACI_AI_Competitiveness.pdf. The CACI Power Mode formula F^0.40 x L^0.20 x R^0.15 / E^0.25 reproduces the live calculation; the headline ratio of 3.46:1 between USA and EU (aggregated) is computed on the live dataset as of April 2026.",
+    f"[a] Public dashboard: https://mo0ogly.github.io/America-First-IA/dashboard/. Working Paper: https://mo0ogly.github.io/America-First-IA/pdf/Working_Paper_CACI_AI_Competitiveness.pdf. The CACI Power Mode formula F^0.40 x L^0.20 x R^0.15 / E^0.25 reproduces the live calculation; the headline ratio of {fmt_en(us_eu_caci, 2)}:1 between USA and EU (aggregated) is computed on the live dataset as of April 2026.",
 ]
 
 
@@ -366,9 +384,9 @@ FR = LangPack(
     cover_subtitle="Protectionnisme IA, Energie et Semi-conducteurs : Trajectoires de divergence US/Europe 2024-2030",
     cover_blurb="Analyse geostrategique et economique integree - Chapitre I",
     cover_chip_lines=[
-        "76,9 pct du compute IA operationnel mondial = USA",
+        f"{fmt_fr(us_share, 1)} pct du compute IA operationnel mondial = USA",
         "1,59x cout energie EU/US",
-        "3,46:1 ratio CACI US/EU (Power Mode)",
+        f"{fmt_fr(us_eu_caci, 2)}:1 ratio CACI US/EU (Power Mode)",
     ],
     cover_meta="Paris - fevrier 2026  |  7 chapitres  |  4 scenarios prospectifs  |  3 zones geographiques",
     cover_keywords_label="Mots-cles",
@@ -458,9 +476,9 @@ PT = LangPack(
     cover_subtitle="Protecionismo de IA, Energia e Semicondutores: Trajetorias de Divergencia EUA/Europa 2024-2030",
     cover_blurb="Analise geoestrategica e economica integrada - Capitulo I",
     cover_chip_lines=[
-        "76,9 pct do compute IA operacional mundial = EUA",
+        f"{fmt_fr(us_share, 1)} pct do compute IA operacional mundial = EUA",
         "1,59x custo de energia UE/EUA",
-        "3,46:1 razao CACI EUA/UE (Power Mode)",
+        f"{fmt_fr(us_eu_caci, 2)}:1 razao CACI EUA/UE (Power Mode)",
     ],
     cover_meta="Paris - fevereiro de 2026  |  7 capitulos  |  4 cenarios prospectivos  |  3 zonas geograficas",
     cover_keywords_label="Palavras-chave",

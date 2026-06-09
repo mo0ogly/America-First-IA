@@ -1,32 +1,50 @@
 """
+
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parents[1]))
+import caci_data_helper
+m = caci_data_helper.get_metrics()
+us_share = m['us_compute_share']
+us_eu_caci = m['us_eu_caci_power_ratio']
+us_eu_raw = m['us_eu_raw_ratio']
+eu_sov = m['eu_sovereignty_ratio']
+caci_scores = {k: v['caci_power_phys'] for k, v in m['country_results'].items()}
+
+def fmt_fr(val, decimals=1):
+    return f"{val:.{decimals}f}".replace(".", ",")
+
+def fmt_en(val, decimals=1):
+    return f"{val:.{decimals}f}"
+
 Chapter III - Empirical Diagnosis 2020-2026 - trilingual generator.
 
 Generates the Chapter III .docx file in English, French and Brazilian
 Portuguese for the doctoral study "AI for Americans First".
 
 Key revisions vs the previous version (April 2026 dashboard alignment):
-    1. Cover banner now reads 76.9 percent operational compute /
-       1.59x PPA-adjusted energy ratio / 3.46:1 CACI Power Mode US/EU,
+    1. Cover banner now reads {fmt_en(us_share, 1)} percent operational compute /
+       1.59x PPA-adjusted energy ratio / {fmt_en(us_eu_caci, 2)}:1 CACI Power Mode US/EU,
        in line with Chapters I and II.
     2. Section 3.3.1 (regional shares): updated to USA 76.9 / China 12.8
        / EU 4.4 percent (April 2026 snapshot, operational compute only),
-       with the US/EU H100-equivalent ratio at 17.6:1 (was 15:1).
+       with the US/EU H100-equivalent ratio at {fmt_en(us_eu_raw, 1)}:1 (was 15:1).
     3. Section 3.3.3 (CACI calibration): the PetaFLOP figures are
        refreshed to 2,759,968 PF for the USA and 156,632 PF for the
        EU(13) on operational compute, and the resulting CACI Power Mode
-       ratio is set to 3.46:1 (was 3.4:1).
+       ratio is set to {fmt_en(us_eu_caci, 2)}:1 (was 3.4:1).
     4. Section 3.1.3 (energy as competitive advantage): the "2 to 3
        times" claim is now annotated with the PPA-adjusted figure of
        1.4 to 1.7x for hyperscaler workloads, consistent with Chapter
        II section 2.4.3.
-    5. Section 3.5 (synthesis): item (2) clarifies that the 76.9 percent
+    5. Section 3.5 (synthesis): item (2) clarifies that the {fmt_en(us_share, 1)} percent
        share refers to operational compute, while the share including
        planned capacity is 49.9 percent because of the UAE/Saudi/Korea
        offshoring of US-owned compute. Item (3) aligns the energy
        claim on the 1.4 to 1.7x PPA-adjusted band.
     6. Table 6 (US dominance indicators): all rows refreshed to live
        dashboard values, and the US/EU GPU performance ratio updated
-       from "~15:1" to "~17.6:1".
+       from f"~15:1" to "~{fmt_en(us_eu_raw, 1)}:1".
 
 Author: Fabrice Pizzi (Universite Paris-Sorbonne, M2 Economic Intelligence).
 Build: python3 generate_chapter3_trilingual.py
@@ -286,9 +304,9 @@ EN = LangPack(
     cover_subtitle="AI Protectionism, Energy and Semiconductors: US/Europe Divergence Trajectories 2024-2030",
     cover_blurb="Integrated Geostrategic and Economic Analysis - Chapter III",
     cover_chip_lines=[
-        "76.9% global operational AI compute = USA",
+        f"{fmt_en(us_share, 1)}% global operational AI compute = USA",
         "1.59x energy cost EU/US",
-        "3.46:1 CACI ratio US/EU (Power Mode)",
+        f"{fmt_en(us_eu_caci, 2)}:1 CACI ratio US/EU (Power Mode)",
     ],
     cover_meta="Paris - February 2026  |  7 chapters  |  4 prospective scenarios  |  3 geographic zones",
     cover_keywords_label="Keywords",
@@ -349,7 +367,7 @@ EN.sections = [
     ("3.3 Geographical Distribution of Installed AI Compute", []),
     ("3.3.1 American Dominance: Three Quarters of Operational Compute", [
         "The most significant data point for our analysis is the geographical distribution of AI-dedicated computing capacity. The work of Epoch AI (Pilz et al., April 2025) provides the foundational dataset, refreshed monthly on the public dashboard.[11] As of April 2026, the dashboard catalogues 786 clusters, of which 609 are operational and 171 are planned or announced.",
-        "The result is unequivocal. On operational compute alone, the United States concentrates 76.9 percent of global H100-equivalent capacity, China holds 12.8 percent, and the EU(13) accounts for 4.4 percent. The remaining countries combine to roughly 6 percent. The operational US/EU H100-equivalent ratio is therefore 17.6:1, a gap of considerable magnitude that has widened slightly since the May 2025 GeoCoded/Sanchez snapshot (74.5 / 14.1 / 4.8 percent).[12]",
+        f"The result is unequivocal. On operational compute alone, the United States concentrates {fmt_en(us_share, 1)} percent of global H100-equivalent capacity, China holds 12.8 percent, and the EU(13) accounts for 4.4 percent. The remaining countries combine to roughly 6 percent. The operational US/EU H100-equivalent ratio is therefore {fmt_en(us_eu_raw, 1)}:1, a gap of considerable magnitude that has widened slightly since the May 2025 GeoCoded/Sanchez snapshot (74.5 / 14.1 / 4.8 percent).[12]",
         "Two dynamics explain this concentration. First, the private sector share of global AI compute has grown from 40 percent in 2019 to 80 percent in 2025, and the technology companies investing massively in AI are almost exclusively American (Microsoft, Meta, Google, Amazon, xAI). Second, cluster sizes have exploded: systems with more than 10,000 chips were rare in 2019; in 2024, xAI deployed a 200,000-GPU Colossus cluster. The performance of leading AI supercomputers doubles every nine months.[13]",
         "The picture shifts substantially when planned capacity is included. The dashboard F_total view, which counts both operational and announced clusters, shows the US share falling to 49.9 percent. The shift is not driven by foreign actors building independent capacity, but by US hyperscalers offshoring to allied jurisdictions: the announced UAE 5 GW campus and Stargate UAE Phase 2 represent 22.9 million H100-equivalents, Saudi Arabia 7.2 million, and South Korea 5.3 million, all largely owned or operated by US firms. This distinction between Physical CACI (where the cluster sits) and Sovereign CACI (who controls it) is developed in Chapter V. The Chinese share collapses to 0.5 percent in F_total, an artifact of the Epoch AI methodology rather than a real position change: the dataset anonymises Chinese systems and rounds them aggressively, so announced Chinese capacity is structurally under-recorded. The EU(13) F_total share also dips to 3.3 percent because the Fluidstack 1 GW campus in France pulls the total up while the rest of the EU shows few large announcements.",
     ]),
@@ -357,8 +375,8 @@ EN.sections = [
         "Epoch AI (January 2026) estimates the total electrical capacity of the global AI chip fleet at approximately 30 GW at end-2025, comparable to the peak power consumption of New York State.[14] This estimate is based on quarterly AI chip sales from major manufacturers (Nvidia, AMD, Google TPU), multiplied by their nominal power (TDP) and a 2.5x factor for data center infrastructure. Global AI chip production doubles every seven months, a pace that exceeds all prior forecasts. The five largest US AI server investors (Microsoft, Google, Meta, Amazon, xAI) announced 320 billion USD in investments in 2025, compared to 230 billion USD in 2024.",
     ]),
     ("3.3.3 Implications for the CACI Metric", [
-        "These data allow a sharp calibration of the CACI defined in Chapter II. Using the geometric weighted formula CACI = F^0.40 x L^0.20 x R^0.15 / E^0.25 (Power Mode), with the April 2026 dashboard reference values: operational US compute of 2,759,968 PetaFLOP/s (FP16) versus 156,632 PetaFLOP/s for the EU(13), an EU/US PPA-adjusted energy ratio of 1.59x (135 vs. 85 USD/MWh), comparable workforce orders of magnitude (3.5 vs. 9.6 million across the EU(13)), and geopolitical access factors of R(US) = 1.0 versus R(EU) = 0.9, the CACI(US)/CACI(EU) Power Mode ratio settles at 3.46:1.",
-        "The gap is substantially attenuated relative to the 17.6:1 raw H100-equivalent advantage because the geometric exponents (F at 0.40, L at 0.20, R at 0.15, E at 0.25) apply diminishing returns to the massive US compute lead and reward the EU partially on labour, geopolitical access and lower energy multipliers. In Intensity Mode (dividing additionally by GDP), the gap narrows further to roughly 1.4:1, which is why the headline ratio used throughout this study is the Power Mode ratio of 3.46:1. Chapter V projects the evolution of this ratio under each scenario.",
+        f"These data allow a sharp calibration of the CACI defined in Chapter II. Using the geometric weighted formula CACI = F^0.40 x L^0.20 x R^0.15 / E^0.25 (Power Mode), with the April 2026 dashboard reference values: operational US compute of 2,759,968 PetaFLOP/s (FP16) versus 156,632 PetaFLOP/s for the EU(13), an EU/US PPA-adjusted energy ratio of 1.59x (135 vs. 85 USD/MWh), comparable workforce orders of magnitude (3.5 vs. 9.6 million across the EU(13)), and geopolitical access factors of R(US) = 1.0 versus R(EU) = 0.9, the CACI(US)/CACI(EU) Power Mode ratio settles at {fmt_en(us_eu_caci, 2)}:1.",
+        f"The gap is substantially attenuated relative to the {fmt_en(us_eu_raw, 1)}:1 raw H100-equivalent advantage because the geometric exponents (F at 0.40, L at 0.20, R at 0.15, E at 0.25) apply diminishing returns to the massive US compute lead and reward the EU partially on labour, geopolitical access and lower energy multipliers. In Intensity Mode (dividing additionally by GDP), the gap narrows further to roughly 1.4:1, which is why the headline ratio used throughout this study is the Power Mode ratio of {fmt_en(us_eu_caci, 2)}:1. Chapter V projects the evolution of this ratio under each scenario.",
     ]),
     ("3.4 Timeline of American Regulatory Measures (2022-2026)", [
         "The sequence of American semiconductor and AI control measures constitutes the guiding thread of our hypothesis. Four phases are identifiable, marking a progressive escalation in the scope and intensity of restrictions.",
@@ -385,7 +403,7 @@ EN.sections = [
     ("3.5 Diagnostic Synthesis: The Predetermined Elements of 2026", [
         "The four dimensions of the diagnosis converge toward a coherent picture that structures the scenarios in Chapter V.",
         "(1) AI compute demand is growing exponentially (chip sales doubling in two years, energy consumption doubling projected over six years), and this growth shows no signs of slowing.",
-        "(2) This demand is structurally concentrated in the United States. The April 2026 dashboard snapshot puts the US share of operational AI compute at 76.9 percent in H100-equivalents and at 49.9 percent if announced clusters are included; 45 percent of data center electricity consumption; and more than 80 percent of frontier-AI private investment. The concentration on operational compute is increasing over time.",
+        f"(2) This demand is structurally concentrated in the United States. The April 2026 dashboard snapshot puts the US share of operational AI compute at {fmt_en(us_share, 1)} percent in H100-equivalents and at 49.9 percent if announced clusters are included; 45 percent of data center electricity consumption; and more than 80 percent of frontier-AI private investment. The concentration on operational compute is increasing over time.",
         "(3) Europe starts from a structurally deficit position: roughly 4.4 percent of operational compute in H100-equivalents, around 15 percent of data center consumption, energy costs that run 1.4 to 1.7 times higher after PPA correction (and 2 to 3 times higher on unadjusted Eurostat industrial tariffs), and 72 to 80 percent dependency on US hyperscalers for AI cloud workloads. The EU investment plans (Chips Act, AI Factories, SNIA) carry budgets at least one order of magnitude smaller than the 2025 Big Tech announcements (320 billion USD for the five US frontier-AI investors alone).",
         "(4) The American regulatory framework crossed a qualitative threshold in January 2026 with the shift from export controls to Section 232 tariffs, creating a legal mechanism for differentiating compute access costs by nationality. The proclamation explicitly signals the possibility of expansion, whose scope and timeline will depend on political variables, precisely the critical uncertainties that our scenarios explore.",
         "The following chapter (Chapter IV) analyzes the mechanisms by which this compute asymmetry translates into measurable competitive advantage for American companies.",
@@ -413,12 +431,12 @@ EN.table_blocks = [
      "Sources: Epoch AI GPU Clusters dataset April 2026; IEA (2025); Sanchez/GeoCoded (2025).",
      [
          ["Indicator", "United States", "China", "EU(13)", "US/EU Ratio"],
-         ["Operational H100-eq share", "76.9 pct", "12.8 pct", "4.4 pct", "17.6:1"],
+         ["Operational H100-eq share", f"{fmt_en(us_share, 1)} pct", "12.8 pct", "4.4 pct", f"{fmt_en(us_eu_raw, 1)}:1"],
          ["F_total share (op + planned)", "49.9 pct", "0.5 pct", "3.3 pct", "15.1:1"],
          ["Private sector share (2025)", "~65 pct of global", "~12 pct", "~3 pct", "~22:1"],
          ["Data center consumption 2024", "180 TWh", "102 TWh", "70 TWh", "2.6:1"],
          ["AI investment 2025", "320 bn USD (5 Big Tech)", "n.a.", "~20 bn EUR (EU total)", ">15:1"],
-         ["CACI Power Mode (April 2026)", "100", "15.7", "28.9", "3.46:1"],
+         ["CACI Power Mode (April 2026)", "100", fmt_en(caci_scores['China'], 1), fmt_en(caci_scores['EU'], 1), f"{fmt_en(us_eu_caci, 2)}:1"],
      ]),
     ("Table 7. Timeline of American regulatory measures on semiconductors and AI (2022-2026).",
      "Sources: BIS, White House, Pillsbury Law (2026), Gibson Dunn (2026).",
@@ -469,9 +487,9 @@ FR = LangPack(
     cover_subtitle="Protectionnisme IA, Energie et Semi-conducteurs : Trajectoires de divergence US/Europe 2024-2030",
     cover_blurb="Analyse geostrategique et economique integree - Chapitre III",
     cover_chip_lines=[
-        "76,9 pct du compute IA operationnel mondial = USA",
+        f"{fmt_fr(us_share, 1)} pct du compute IA operationnel mondial = USA",
         "1,59x cout energie EU/US",
-        "3,46:1 ratio CACI US/EU (Power Mode)",
+        f"{fmt_fr(us_eu_caci, 2)}:1 ratio CACI US/EU (Power Mode)",
     ],
     cover_meta="Paris - fevrier 2026  |  7 chapitres  |  4 scenarios prospectifs  |  3 zones geographiques",
     cover_keywords_label="Mots-cles",
@@ -532,7 +550,7 @@ FR.sections = [
     ("3.3 Repartition geographique du compute IA installe", []),
     ("3.3.1 Domination americaine : trois quarts du compute operationnel", [
         "La donnee la plus significative pour notre analyse est la repartition geographique de la capacite de calcul dediee a l'IA. Les travaux d'Epoch AI (Pilz et al., avril 2025) fournissent le jeu de donnees fondamental, rafraichi mensuellement sur le tableau de bord public.[11] A avril 2026, le tableau de bord catalogue 786 clusters, dont 609 operationnels et 171 planifies ou annonces.",
-        "Le resultat est sans ambiguite. Sur le compute operationnel uniquement, les Etats-Unis concentrent 76,9 pour cent de la capacite mondiale en H100-equivalents, la Chine en detient 12,8 pour cent, et l'UE(13) represente 4,4 pour cent. Les autres pays se partagent environ 6 pour cent. Le ratio US/UE en H100-equivalents operationnels est donc de 17,6:1, un ecart de magnitude considerable qui s'est legerement creuse depuis le snapshot GeoCoded/Sanchez de mai 2025 (74,5 / 14,1 / 4,8 pour cent).[12]",
+        f"Le resultat est sans ambiguite. Sur le compute operationnel uniquement, les Etats-Unis concentrent {fmt_fr(us_share, 1)} pour cent de la capacite mondiale en H100-equivalents, la Chine en detient 12,8 pour cent, et l'UE(13) represente 4,4 pour cent. Les autres pays se partagent environ 6 pour cent. Le ratio US/UE en H100-equivalents operationnels est donc de {fmt_fr(us_eu_raw, 1)}:1, un ecart de magnitude considerable qui s'est legerement creuse depuis le snapshot GeoCoded/Sanchez de mai 2025 (74,5 / 14,1 / 4,8 pour cent).[12]",
         "Deux dynamiques expliquent cette concentration. Premierement, la part du secteur prive dans le compute IA mondial est passee de 40 pour cent en 2019 a 80 pour cent en 2025, et les entreprises technologiques investissant massivement dans l'IA sont quasi exclusivement americaines (Microsoft, Meta, Google, Amazon, xAI). Deuxiemement, la taille des clusters a explose : les systemes de plus de 10 000 puces etaient rares en 2019 ; en 2024, xAI a deploye un cluster Colossus de 200 000 GPU. La performance des supercalculateurs IA de pointe double tous les neuf mois.[13]",
         "Le tableau change substantiellement lorsque la capacite planifiee est incluse. La vue F_total du tableau de bord, qui compte a la fois les clusters operationnels et annonces, montre la part US tomber a 49,9 pour cent. Le decalage n'est pas du a des acteurs etrangers construisant une capacite independante, mais aux hyperscalers americains delocalisant vers des juridictions alliees : le campus annonce de 5 GW aux EAU et le Stargate UAE Phase 2 representent 22,9 millions de H100-equivalents, l'Arabie saoudite 7,2 millions, et la Coree du Sud 5,3 millions, tous largement detenus ou operes par des entreprises americaines. Cette distinction entre CACI Physique (ou se trouve le cluster) et CACI Souverain (qui le controle) est developpee au chapitre V. La part chinoise s'effondre a 0,5 pour cent en F_total, un artefact de la methodologie Epoch AI plutot qu'un veritable changement de position : le jeu de donnees anonymise les systemes chinois et les arrondit aggressivement, de sorte que la capacite chinoise annoncee est structurellement sous-enregistree. La part UE(13) en F_total descend egalement a 3,3 pour cent car le campus Fluidstack 1 GW en France tire le total vers le haut tandis que le reste de l'UE compte peu d'annonces majeures.",
     ]),
@@ -540,8 +558,8 @@ FR.sections = [
         "Epoch AI (janvier 2026) estime la capacite electrique totale du parc mondial de puces IA a environ 30 GW fin 2025, comparable a la consommation de pointe de l'Etat de New York.[14] Cette estimation repose sur les ventes trimestrielles de puces IA des principaux fabricants (Nvidia, AMD, Google TPU), multipliees par leur puissance nominale (TDP) et un facteur 2,5x pour l'infrastructure des centres de donnees. La production mondiale de puces IA double tous les sept mois, un rythme qui depasse toutes les previsions anterieures. Les cinq plus grands investisseurs americains en serveurs IA (Microsoft, Google, Meta, Amazon, xAI) ont annonce 320 milliards USD d'investissements en 2025, contre 230 milliards USD en 2024.",
     ]),
     ("3.3.3 Implications pour la metrique CACI", [
-        "Ces donnees permettent une calibration precise du CACI defini au chapitre II. En utilisant la formule geometrique ponderee CACI = F^0,40 x L^0,20 x R^0,15 / E^0,25 (Power Mode), avec les valeurs de reference du tableau de bord d'avril 2026 : compute US operationnel de 2 759 968 PetaFLOP/s (FP16) contre 156 632 PetaFLOP/s pour l'UE(13), un ratio energie UE/US ajuste-PPA de 1,59x (135 contre 85 USD/MWh), des ordres de grandeur de population active comparables (3,5 contre 9,6 millions a travers l'UE(13)), et des facteurs d'acces geopolitique R(US) = 1,0 contre R(UE) = 0,9, le ratio CACI(US)/CACI(UE) en Power Mode s'etablit a 3,46:1.",
-        "L'ecart est substantiellement attenue par rapport a l'avantage brut de 17,6:1 en H100-equivalents car les exposants geometriques (F a 0,40 ; L a 0,20 ; R a 0,15 ; E a 0,25) appliquent des rendements decroissants a la massive avance US sur le compute et recompensent partiellement l'UE sur le travail, l'acces geopolitique et des multiplicateurs energetiques plus faibles. En Intensity Mode (en divisant additionnellement par le PIB), l'ecart se resserre encore a environ 1,4:1, raison pour laquelle le ratio principal utilise dans toute cette etude est le ratio Power Mode de 3,46:1. Le chapitre V projette l'evolution de ce ratio dans chaque scenario.",
+        f"Ces donnees permettent une calibration precise du CACI defini au chapitre II. En utilisant la formule geometrique ponderee CACI = F^0,40 x L^0,20 x R^0,15 / E^0,25 (Power Mode), avec les valeurs de reference du tableau de bord d'avril 2026 : compute US operationnel de 2 759 968 PetaFLOP/s (FP16) contre 156 632 PetaFLOP/s pour l'UE(13), un ratio energie UE/US ajuste-PPA de 1,59x (135 contre 85 USD/MWh), des ordres de grandeur de population active comparables (3,5 contre 9,6 millions a travers l'UE(13)), et des facteurs d'acces geopolitique R(US) = 1,0 contre R(UE) = 0,9, le ratio CACI(US)/CACI(UE) en Power Mode s'etablit a {fmt_fr(us_eu_caci, 2)}:1.",
+        f"L'ecart est substantiellement attenue par rapport a l'avantage brut de {fmt_fr(us_eu_raw, 1)}:1 en H100-equivalents car les exposants geometriques (F a 0,40 ; L a 0,20 ; R a 0,15 ; E a 0,25) appliquent des rendements decroissants a la massive avance US sur le compute et recompensent partiellement l'UE sur le travail, l'acces geopolitique et des multiplicateurs energetiques plus faibles. En Intensity Mode (en divisant additionnellement par le PIB), l'ecart se resserre encore a environ 1,4:1, raison pour laquelle le ratio principal utilise dans toute cette etude est le ratio Power Mode de {fmt_fr(us_eu_caci, 2)}:1. Le chapitre V projette l'evolution de ce ratio dans chaque scenario.",
     ]),
     ("3.4 Chronologie des mesures reglementaires americaines (2022-2026)", [
         "La sequence des mesures americaines de controle des semi-conducteurs et de l'IA constitue le fil directeur de notre hypothese. Quatre phases sont identifiables, marquant une escalade progressive dans l'etendue et l'intensite des restrictions.",
@@ -568,7 +586,7 @@ FR.sections = [
     ("3.5 Synthese diagnostique : les elements predetermines de 2026", [
         "Les quatre dimensions du diagnostic convergent vers un tableau coherent qui structure les scenarios du chapitre V.",
         "(1) La demande de compute IA croit de maniere exponentielle (doublement des ventes de puces en deux ans, doublement projete de la consommation energetique sur six ans), et cette croissance ne montre aucun signe de ralentissement.",
-        "(2) Cette demande est structurellement concentree aux Etats-Unis. Le snapshot du tableau de bord d'avril 2026 chiffre la part US a 76,9 pour cent du compute IA operationnel en H100-equivalents et a 49,9 pour cent en incluant les clusters annonces ; 45 pour cent de la consommation electrique des centres de donnees ; et plus de 80 pour cent des investissements prives dans l'IA de frontiere. La concentration sur le compute operationnel s'accroit au fil du temps.",
+        f"(2) Cette demande est structurellement concentree aux Etats-Unis. Le snapshot du tableau de bord d'avril 2026 chiffre la part US a {fmt_fr(us_share, 1)} pour cent du compute IA operationnel en H100-equivalents et a 49,9 pour cent en incluant les clusters annonces ; 45 pour cent de la consommation electrique des centres de donnees ; et plus de 80 pour cent des investissements prives dans l'IA de frontiere. La concentration sur le compute operationnel s'accroit au fil du temps.",
         "(3) L'Europe part d'une position structurellement deficitaire : environ 4,4 pour cent du compute operationnel en H100-equivalents, environ 15 pour cent de la consommation des centres de donnees, des couts energetiques 1,4 a 1,7 fois superieurs apres correction PPA (et 2 a 3 fois superieurs sur les tarifs Eurostat industriels non ajustes), et 72 a 80 pour cent de dependance aux hyperscalers US pour les charges IA cloud. Les plans d'investissement de l'UE (Chips Act, AI Factories, SNIA) portent des budgets au moins un ordre de grandeur inferieurs aux annonces des Big Tech 2025 (320 milliards USD pour les cinq seuls investisseurs US frontier-AI).",
         "(4) Le cadre reglementaire americain a franchi un seuil qualitatif en janvier 2026 avec le passage des controles a l'exportation aux tarifs Section 232, creant un mecanisme legal de differenciation des couts d'acces au compute par nationalite. La proclamation signale explicitement la possibilite d'une expansion, dont la portee et le calendrier dependront de variables politiques, precisement les incertitudes critiques qu'explorent nos scenarios.",
         "Le chapitre suivant (chapitre IV) analyse les mecanismes par lesquels cette asymetrie de compute se traduit en avantage competitif mesurable pour les entreprises americaines.",
@@ -596,12 +614,12 @@ FR.table_blocks = [
      "Sources : Epoch AI GPU Clusters dataset avril 2026 ; AIE (2025) ; Sanchez/GeoCoded (2025).",
      [
          ["Indicateur", "Etats-Unis", "Chine", "UE(13)", "Ratio US/UE"],
-         ["Part H100-eq operationnel", "76,9 pct", "12,8 pct", "4,4 pct", "17,6:1"],
+         ["Part H100-eq operationnel", f"{fmt_fr(us_share, 1)} pct", "12,8 pct", "4,4 pct", f"{fmt_fr(us_eu_raw, 1)}:1"],
          ["Part F_total (op + planifie)", "49,9 pct", "0,5 pct", "3,3 pct", "15,1:1"],
          ["Part secteur prive (2025)", "~65 pct mondial", "~12 pct", "~3 pct", "~22:1"],
          ["Conso centres de donnees 2024", "180 TWh", "102 TWh", "70 TWh", "2,6:1"],
          ["Investissement IA 2025", "320 mds USD (5 Big Tech)", "n.d.", "~20 mds EUR (UE total)", ">15:1"],
-         ["CACI Power Mode (avril 2026)", "100", "15,7", "28,9", "3,46:1"],
+         ["CACI Power Mode (avril 2026)", "100", fmt_fr(caci_scores['China'], 1), fmt_fr(caci_scores['EU'], 1), f"{fmt_fr(us_eu_caci, 2)}:1"],
      ]),
     ("Tableau 7. Chronologie des mesures reglementaires americaines sur les semi-conducteurs et l'IA (2022-2026).",
      "Sources : BIS, Maison-Blanche, Pillsbury Law (2026), Gibson Dunn (2026).",
@@ -631,9 +649,9 @@ PT = LangPack(
     cover_subtitle="Protecionismo de IA, Energia e Semicondutores: Trajetorias de Divergencia EUA/Europa 2024-2030",
     cover_blurb="Analise geoestrategica e economica integrada - Capitulo III",
     cover_chip_lines=[
-        "76,9 pct do compute IA operacional mundial = EUA",
+        f"{fmt_fr(us_share, 1)} pct do compute IA operacional mundial = EUA",
         "1,59x custo de energia UE/EUA",
-        "3,46:1 razao CACI EUA/UE (Power Mode)",
+        f"{fmt_fr(us_eu_caci, 2)}:1 razao CACI EUA/UE (Power Mode)",
     ],
     cover_meta="Paris - fevereiro de 2026  |  7 capitulos  |  4 cenarios prospectivos  |  3 zonas geograficas",
     cover_keywords_label="Palavras-chave",
@@ -694,7 +712,7 @@ PT.sections = [
     ("3.3 Distribuicao geografica do compute IA instalado", []),
     ("3.3.1 Dominancia americana: tres quartos do compute operacional", [
         "O dado mais significativo para nossa analise e a distribuicao geografica da capacidade de computacao dedicada a IA. O trabalho da Epoch AI (Pilz et al., abril de 2025) fornece o conjunto de dados fundamental, atualizado mensalmente no painel publico.[11] Em abril de 2026, o painel cataloga 786 clusters, dos quais 609 sao operacionais e 171 estao planejados ou anunciados.",
-        "O resultado e inequivoco. Apenas no compute operacional, os Estados Unidos concentram 76,9 por cento da capacidade global em H100-equivalentes, a China detem 12,8 por cento, e a UE(13) representa 4,4 por cento. Os paises restantes somam aproximadamente 6 por cento. A razao operacional EUA/UE em H100-equivalentes e portanto 17,6:1, uma diferenca de magnitude consideravel que se ampliou ligeiramente desde o snapshot GeoCoded/Sanchez de maio de 2025 (74,5 / 14,1 / 4,8 por cento).[12]",
+        f"O resultado e inequivoco. Apenas no compute operacional, os Estados Unidos concentram 76,9 por cento da capacidade global em H100-equivalentes, a China detem 12,8 por cento, e a UE(13) representa 4,4 por cento. Os paises restantes somam aproximadamente 6 por cento. A razao operacional EUA/UE em H100-equivalentes e portanto {fmt_fr(us_eu_raw, 1)}:1, uma diferenca de magnitude consideravel que se ampliou ligeiramente desde o snapshot GeoCoded/Sanchez de maio de 2025 (74,5 / 14,1 / 4,8 por cento).[12]",
         "Duas dinamicas explicam essa concentracao. Primeiro, a parcela do setor privado no compute IA global passou de 40 por cento em 2019 para 80 por cento em 2025, e as empresas de tecnologia que investem massivamente em IA sao quase exclusivamente americanas (Microsoft, Meta, Google, Amazon, xAI). Segundo, o tamanho dos clusters explodiu: sistemas com mais de 10.000 chips eram raros em 2019; em 2024, a xAI implantou um cluster Colossus de 200.000 GPUs. O desempenho dos supercomputadores IA de ponta dobra a cada nove meses.[13]",
         "O quadro muda substancialmente quando a capacidade planejada e incluida. A visao F_total do painel, que conta tanto os clusters operacionais quanto os anunciados, mostra a parcela dos EUA caindo para 49,9 por cento. A diferenca nao e impulsionada por atores estrangeiros construindo capacidade independente, mas pelos hyperscalers americanos relocalizando-se para jurisdicoes aliadas: o campus anunciado de 5 GW dos EAU e o Stargate UAE Phase 2 representam 22,9 milhoes de H100-equivalentes, a Arabia Saudita 7,2 milhoes e a Coreia do Sul 5,3 milhoes, todos majoritariamente detidos ou operados por empresas americanas. Essa distincao entre CACI Fisico (onde o cluster esta) e CACI Soberano (quem o controla) e desenvolvida no Capitulo V. A parcela chinesa colapsa para 0,5 por cento em F_total, um artefato da metodologia Epoch AI em vez de uma verdadeira mudanca de posicao: o conjunto de dados anonimiza os sistemas chineses e os arredonda agressivamente, de modo que a capacidade chinesa anunciada e estruturalmente sub-registrada. A parcela da UE(13) em F_total tambem cai para 3,3 por cento porque o campus Fluidstack 1 GW na Franca puxa o total para cima enquanto o resto da UE tem poucos anuncios significativos.",
     ]),
@@ -702,8 +720,8 @@ PT.sections = [
         "A Epoch AI (janeiro de 2026) estima a capacidade eletrica total da frota global de chips IA em aproximadamente 30 GW no fim de 2025, comparavel ao consumo de pico do estado de Nova York.[14] Essa estimativa baseia-se nas vendas trimestrais de chips IA dos principais fabricantes (Nvidia, AMD, Google TPU), multiplicadas por sua potencia nominal (TDP) e um fator 2,5x para a infraestrutura dos data centers. A producao global de chips IA dobra a cada sete meses, ritmo que excede todas as previsoes anteriores. Os cinco maiores investidores americanos em servidores IA (Microsoft, Google, Meta, Amazon, xAI) anunciaram 320 bilhoes USD em investimentos em 2025, contra 230 bilhoes USD em 2024.",
     ]),
     ("3.3.3 Implicacoes para a metrica CACI", [
-        "Esses dados permitem uma calibracao precisa do CACI definido no Capitulo II. Usando a formula geometrica ponderada CACI = F^0,40 x L^0,20 x R^0,15 / E^0,25 (Power Mode), com os valores de referencia do painel de abril de 2026: compute operacional dos EUA de 2.759.968 PetaFLOP/s (FP16) contra 156.632 PetaFLOP/s para a UE(13), uma razao energia UE/EUA ajustada-PPA de 1,59x (135 contra 85 USD/MWh), ordens de grandeza de forca de trabalho comparaveis (3,5 contra 9,6 milhoes na UE(13)) e fatores de acesso geopolitico R(EUA) = 1,0 contra R(UE) = 0,9, a razao CACI(EUA)/CACI(UE) em Power Mode estabelece-se em 3,46:1.",
-        "A diferenca e substancialmente atenuada em relacao a vantagem bruta de 17,6:1 em H100-equivalentes porque os expoentes geometricos (F em 0,40; L em 0,20; R em 0,15; E em 0,25) aplicam rendimentos decrescentes a massiva lideranca dos EUA em compute e recompensam parcialmente a UE em trabalho, acesso geopolitico e multiplicadores energeticos menores. Em Intensity Mode (dividindo adicionalmente pelo PIB), a diferenca se reduz ainda mais para aproximadamente 1,4:1, razao pela qual a razao principal usada em todo este estudo e a razao Power Mode de 3,46:1. O Capitulo V projeta a evolucao dessa razao em cada cenario.",
+        f"Esses dados permitem uma calibracao precisa do CACI definido no Capitulo II. Usando a formula geometrica ponderada CACI = F^0,40 x L^0,20 x R^0,15 / E^0,25 (Power Mode), com os valores de referencia do painel de abril de 2026: compute operacional dos EUA de 2.759.968 PetaFLOP/s (FP16) contra 156.632 PetaFLOP/s para a UE(13), uma razao energia UE/EUA ajustada-PPA de 1,59x (135 contra 85 USD/MWh), ordens de grandeza de forca de trabalho comparaveis (3,5 contra 9,6 milhoes na UE(13)) e fatores de acesso geopolitico R(EUA) = 1,0 contra R(UE) = 0,9, a razao CACI(EUA)/CACI(UE) em Power Mode estabelece-se em {fmt_fr(us_eu_caci, 2)}:1.",
+        f"A diferenca e substancialmente atenuada em relacao a vantagem bruta de {fmt_fr(us_eu_raw, 1)}:1 em H100-equivalentes porque os expoentes geometricos (F em 0,40; L em 0,20; R em 0,15; E em 0,25) aplicam rendimentos decrescentes a massiva lideranca dos EUA em compute e recompensam parcialmente a UE em trabalho, acesso geopolitico e multiplicadores energeticos menores. Em Intensity Mode (dividindo adicionalmente pelo PIB), a diferenca se reduz ainda mais para aproximadamente 1,4:1, razao pela qual a razao principal usada em todo este estudo e a razao Power Mode de {fmt_fr(us_eu_caci, 2)}:1. O Capitulo V projeta a evolucao dessa razao em cada cenario.",
     ]),
     ("3.4 Cronologia das medidas regulatorias americanas (2022-2026)", [
         "A sequencia das medidas americanas de controle de semicondutores e IA constitui o fio condutor de nossa hipotese. Quatro fases sao identificaveis, marcando uma escalada progressiva no escopo e intensidade das restricoes.",
@@ -758,12 +776,12 @@ PT.table_blocks = [
      "Fontes: Epoch AI GPU Clusters dataset abril de 2026; AIE (2025); Sanchez/GeoCoded (2025).",
      [
          ["Indicador", "Estados Unidos", "China", "UE(13)", "Razao EUA/UE"],
-         ["Parcela H100-eq operacional", "76,9 pct", "12,8 pct", "4,4 pct", "17,6:1"],
+         ["Parcela H100-eq operacional", f"{fmt_fr(us_share, 1)} pct", "12,8 pct", "4,4 pct", f"{fmt_fr(us_eu_raw, 1)}:1"],
          ["Parcela F_total (op + planejado)", "49,9 pct", "0,5 pct", "3,3 pct", "15,1:1"],
          ["Parcela setor privado (2025)", "~65 pct global", "~12 pct", "~3 pct", "~22:1"],
          ["Consumo data centers 2024", "180 TWh", "102 TWh", "70 TWh", "2,6:1"],
          ["Investimento IA 2025", "320 bn USD (5 Big Tech)", "n.d.", "~20 bn EUR (UE total)", ">15:1"],
-         ["CACI Power Mode (abril de 2026)", "100", "15,7", "28,9", "3,46:1"],
+         ["CACI Power Mode (abril de 2026)", "100", fmt_fr(caci_scores['China'], 1), fmt_fr(caci_scores['EU'], 1), f"{fmt_fr(us_eu_caci, 2)}:1"],
      ]),
     ("Tabela 7. Cronologia das medidas regulatorias americanas sobre semicondutores e IA (2022-2026).",
      "Fontes: BIS, Casa Branca, Pillsbury Law (2026), Gibson Dunn (2026).",

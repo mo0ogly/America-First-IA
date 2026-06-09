@@ -1,4 +1,22 @@
 """
+
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parents[1]))
+import caci_data_helper
+m = caci_data_helper.get_metrics()
+us_share = m['us_compute_share']
+us_eu_caci = m['us_eu_caci_power_ratio']
+us_eu_raw = m['us_eu_raw_ratio']
+eu_sov = m['eu_sovereignty_ratio']
+caci_scores = {k: v['caci_power_phys'] for k, v in m['country_results'].items()}
+
+def fmt_fr(val, decimals=1):
+    return f"{val:.{decimals}f}".replace(".", ",")
+
+def fmt_en(val, decimals=1):
+    return f"{val:.{decimals}f}"
+
 Annexe E - AI as Method Amplifier - Trilingual Generator (EN, FR, PT-BR).
 
 Generates the .docx for Annex E in three languages.
@@ -62,7 +80,7 @@ EN = LangPack(
             "This is not just 'using AI'; it is behavioral engineering of the model: designing structural constraints that force the model to produce in a controlled, evaluable, and traceable manner. This is the skill the AI economy will value most.",
         ]),
         ("E.6 Conclusion", [
-            "We are not entering an economy of assisted laziness. We are entering an economy of cognitive density, and the level of demand will rise as fast as the models progress. For European professionals, the imperative is to compensate for infrastructure asymmetry (CACI ratio US/EU 3.46:1) with methodological superiority. Method becomes the strategic weapon of the compute-deprived jurisdiction.",
+            f"We are not entering an economy of assisted laziness. We are entering an economy of cognitive density, and the level of demand will rise as fast as the models progress. For European professionals, the imperative is to compensate for infrastructure asymmetry (CACI ratio US/EU {fmt_en(us_eu_caci, 2)}:1) with methodological superiority. Method becomes the strategic weapon of the compute-deprived jurisdiction.",
         ]),
     ],
     notes=[
@@ -96,7 +114,7 @@ FR = LangPack(
     ],
     notes=[
         "Jensen Huang, GTC 2026 : modele a 5 couches.",
-        "Snapshot avril 2026 : ratio CACI US/UE 3,46:1.",
+        f"Snapshot avril 2026 : ratio CACI US/UE {fmt_fr(us_eu_caci, 2)}:1.",
     ],
     footer="AI for Americans First - Fabrice Pizzi - Annexe E IA amplificateur de methode",
     filename="Annexe_E_IA_Amplificateur_Methode_FR.docx"
@@ -126,7 +144,7 @@ BR = LangPack(
             "A IA redistribui vantagens competitivas de forma contra-intuitiva. Senioridade sem estrutura de raciocinio perde valor. Um profissional senior pilotando a IA de forma vaga sera superado por um junior com uma estrutura de reflexao rigorosa.",
         ]),
         ("E.6 Conclusão", [
-            "Nao estamos entrando em uma economia de preguiça assistida. Estamos entrando em uma economia de densidade cognitiva. Para profissionais europeus e brasileiros, o imperativo e compensar a assimetria de infraestrutura (ratio CACI EUA/UE 3,46:1) com superioridade metodologica. O metodo torna-se a arma estrategica da jurisdiçao com pouco compute.",
+            f"Nao estamos entrando em uma economia de preguiça assistida. Estamos entrando em uma economia de densidade cognitiva. Para profissionais europeus e brasileiros, o imperativo e compensar a assimetria de infraestrutura (ratio CACI EUA/UE {fmt_fr(us_eu_caci, 2)}:1) com superioridade metodologica. O metodo torna-se a arma estrategica da jurisdiçao com pouco compute.",
         ]),
     ],
     notes=[

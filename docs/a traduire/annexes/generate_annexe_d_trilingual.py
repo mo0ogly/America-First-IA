@@ -1,4 +1,22 @@
 """
+
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parents[1]))
+import caci_data_helper
+m = caci_data_helper.get_metrics()
+us_share = m['us_compute_share']
+us_eu_caci = m['us_eu_caci_power_ratio']
+us_eu_raw = m['us_eu_raw_ratio']
+eu_sov = m['eu_sovereignty_ratio']
+caci_scores = {k: v['caci_power_phys'] for k, v in m['country_results'].items()}
+
+def fmt_fr(val, decimals=1):
+    return f"{val:.{decimals}f}".replace(".", ",")
+
+def fmt_en(val, decimals=1):
+    return f"{val:.{decimals}f}"
+
 Annexe D - Huang Doctrine - Trilingual Generator (EN, FR, PT-BR).
 
 Generates the .docx for Annex D in three languages.
@@ -47,7 +65,7 @@ EN = LangPack(
         "statement by Jensen Huang (CEO of NVIDIA) on March 20: 'If an engineer paid $500,000 does not consume at "
         "least $250,000 of AI tokens per year, I would be deeply alarmed.' The note proposes an economic intelligence "
         "analysis of this statement, placing it in the context of NVIDIA's dominant market position (80% share) and "
-        "the American protectionist architecture documented in the CACI Power Mode index (3.46:1 US/EU ratio). "
+        f"the American protectionist architecture documented in the CACI Power Mode index ({fmt_en(us_eu_caci, 2)}:1 US/EU ratio). "
         "The analysis demonstrates that the prescription of massive token consumption is more about market structuring "
         "than managerial advice."
     ),
@@ -62,7 +80,7 @@ EN = LangPack(
         ]),
         ("D.5 Cognitive Density Economy: From Managerial to Geostrategic Meaning", [
             "Cognitive density refers not just to individual productivity, but to a new global power regime. A nation's wealth is increasingly measured by its capacity to transform compute into reliable, verifiable, and sovereign results.",
-            "This is formalized by the CACI Power Mode (F^0.40 x L^0.20 x R^0.15 / E^0.25). On the April 2026 snapshot, the US/EU CACI ratio stands at 3.46:1, driven by a 17.6:1 raw operational compute gap and a 1.59x energy cost advantage for the US.",
+            f"This is formalized by the CACI Power Mode (F^0.40 x L^0.20 x R^0.15 / E^0.25). On the April 2026 snapshot, the US/EU CACI ratio stands at {fmt_en(us_eu_caci, 2)}:1, driven by a {fmt_en(us_eu_raw, 1)}:1 raw operational compute gap and a 1.59x energy cost advantage for the US.",
         ]),
         ("D.7 Conclusion", [
             "The Huang doctrine on cognitive density should be read not as a universal productivity mandate, but as a signal of market structuring whose structural beneficiaries (NVIDIA, US hyperscalers) are identified. For France and Europe, the goal is not technological autarky, but the capacity to choose: mastering the ratio between produced value and accepted dependence.",
@@ -79,7 +97,7 @@ EN = LangPack(
     notes=[
         "Jensen Huang, All-In Podcast, March 20, 2026.",
         "NVIDIA Market Share: 80% (SIA, McKinsey).",
-        "CACI Power Mode ratio US/EU: 3.46:1 (Snapshot April 2026).",
+        f"CACI Power Mode ratio US/EU: {fmt_en(us_eu_caci, 2)}:1 (Snapshot April 2026).",
         "MIT NANDA 'The GenAI Divide' (2025).",
     ],
     footer="AI for Americans First - Fabrice Pizzi - Annex D Huang Doctrine",
@@ -114,7 +132,7 @@ FR = LangPack(
     ],
     notes=[
         "Jensen Huang, All-In Podcast, 20 mars 2026.",
-        "Snapshot avril 2026 : ratio CACI US/UE 3,46:1.",
+        f"Snapshot avril 2026 : ratio CACI US/UE {fmt_fr(us_eu_caci, 2)}:1.",
     ],
     footer="AI for Americans First - Fabrice Pizzi - Annexe D Doctrine Huang",
     filename="Annexe_D_Densite_Cognitive_Huang_FR.docx"
@@ -153,7 +171,7 @@ BR = LangPack(
     ],
     notes=[
         "Jensen Huang, All-In Podcast, 20 de março de 2026.",
-        "Snapshot abril 2026: ratio CACI EUA/UE 3,46:1.",
+        f"Snapshot abril 2026: ratio CACI EUA/UE {fmt_fr(us_eu_caci, 2)}:1.",
     ],
     footer="AI for Americans First - Fabrice Pizzi - Anexo D Doutrina Huang",
     filename="Anexo_D_Densidade_Cognitiva_Huang_PT-BR.docx"

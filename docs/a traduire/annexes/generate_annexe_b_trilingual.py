@@ -1,4 +1,22 @@
 """
+
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parents[1]))
+import caci_data_helper
+m = caci_data_helper.get_metrics()
+us_share = m['us_compute_share']
+us_eu_caci = m['us_eu_caci_power_ratio']
+us_eu_raw = m['us_eu_raw_ratio']
+eu_sov = m['eu_sovereignty_ratio']
+caci_scores = {k: v['caci_power_phys'] for k, v in m['country_results'].items()}
+
+def fmt_fr(val, decimals=1):
+    return f"{val:.{decimals}f}".replace(".", ",")
+
+def fmt_en(val, decimals=1):
+    return f"{val:.{decimals}f}"
+
 Annexe B - Working Paper CACI - Trilingual Generator (EN, FR, PT-BR).
 
 Generates the .docx for Annex B in three languages.
@@ -75,11 +93,11 @@ EN = LangPack(
             "Experience documented in Chapter VI ter (UAE case: 99.6% of Emirati F_total held by US-side operators) reveals that simple physical location of compute can mask a critical jurisdictional dependency. To address this dimension, we decompose F into two multiplicative components: F(r,t) = F_phys(r,t) x F_sov(r,t), where F_phys is physically installed compute and F_sov is the fraction of F_phys held by non-US operators.",
         ]),
         ("B.6 The US-EU Compute Gap", [
-            "The CACI framework allows for precise quantification of compute advantages between countries. On the April 2026 snapshot, the US/EU(13) raw operational installed compute ratio stands at 17.6:1, translated by the geometric Power Mode formula into a US/EU CACI ratio of 3.46:1.",
+            f"The CACI framework allows for precise quantification of compute advantages between countries. On the April 2026 snapshot, the US/EU(13) raw operational installed compute ratio stands at {fmt_en(us_eu_raw, 1)}:1, translated by the geometric Power Mode formula into a US/EU CACI ratio of {fmt_en(us_eu_caci, 2)}:1.",
             "The structural gap is driven by a three-tier protectionist architecture: (1) Export controls (access denial), (2) Section 232 tariffs (cost surtax), and (3) Capitalistic gravity (energy cost 1.59x lower in the US, capex concentration). A fourth tier, the Cloud Sovereignty Mandates (2028), threatens the sovereign layer of cloud workloads.",
         ]),
         ("B.9 Conclusion", [
-            "This article introduced the CACI as the first quantitative framework for measuring AI competitiveness through compute infrastructure. Econometric validation (N=60, 2020-2024) demonstrates that CACI is a significant predictor of AI productivity (elasticity 0.251, p<0.01). The structural gap of 3.46:1 cannot be closed by conventional industrial policy alone; it requires targeted strategic autonomy on energy, sovereign cloud, and strategic GPU reserves.",
+            f"This article introduced the CACI as the first quantitative framework for measuring AI competitiveness through compute infrastructure. Econometric validation (N=60, 2020-2024) demonstrates that CACI is a significant predictor of AI productivity (elasticity 0.251, p<0.01). The structural gap of {fmt_en(us_eu_caci, 2)}:1 cannot be closed by conventional industrial policy alone; it requires targeted strategic autonomy on energy, sovereign cloud, and strategic GPU reserves.",
         ]),
     ],
     tables=[
@@ -128,7 +146,7 @@ FR = LangPack(
             "Brynjolfsson, Rock et Syverson (2019) apportent le complement crucial avec leur theorie de la courbe en J : les gains de productivite des TUG sont retardes car les entreprises doivent investir dans des actifs complementaires.",
         ]),
         ("B.6 L'ecart de compute US-UE", [
-            "Le cadre CACI permet une quantification precise des avantages de compute entre pays. Sur le snapshot avril 2026, le ratio brut compute installe operationnel US/UE(13) atteint 17,6:1, traduit par la formule geometrique Power Mode en un ratio US/UE de 3,46:1.",
+            f"Le cadre CACI permet une quantification precise des avantages de compute entre pays. Sur le snapshot avril 2026, le ratio brut compute installe operationnel US/UE(13) atteint {fmt_fr(us_eu_raw, 1)}:1, traduit par la formule geometrique Power Mode en un ratio US/UE de {fmt_fr(us_eu_caci, 2)}:1.",
         ]),
         ("B.9 Conclusion", [
             "Cet article a introduit le CACI comme premier cadre quantitatif pour mesurer la competitivite nationale en IA. Notre validation econometrique demontre que le CACI est un predicteur significatif de la productivite IA (elasticite 0,251, p<0,01). La fenetre d'action 2026-2028 est etroite.",
@@ -178,7 +196,7 @@ BR = LangPack(
             "Brynjolfsson, Rock e Syverson (2019) fornecem o complemento crucial com sua teoria da curva em J: os ganhos de produtividade das TUGs sao atrasados porque as empresas devem investir em ativos complementares.",
         ]),
         ("B.6 A Lacuna de Compute EUA-UE", [
-            "O quadro CACI permite uma quantificaçao precisa das vantagens de compute entre paises. No snapshot de abril de 2026, a razao bruta de computaçao instalada operacional EUA/UE(13) atinge 17,6:1, traduzida pela formula geometrica Power Mode em uma razao EUA/UE de 3,46:1.",
+            f"O quadro CACI permite uma quantificaçao precisa das vantagens de compute entre paises. No snapshot de abril de 2026, a razao bruta de computaçao instalada operacional EUA/UE(13) atinge {fmt_fr(us_eu_raw, 1)}:1, traduzida pela formula geometrica Power Mode em uma razao EUA/UE de {fmt_fr(us_eu_caci, 2)}:1.",
         ]),
         ("B.9 Conclusão", [
             "Este artigo introduziu o CACI como o primeiro quadro quantitativo para medir a competitividade nacional em IA. Nossa validaçao econometrica demonstra que o CACI e um preditor significativo da produtividade em IA (elasticidade 0,251, p<0,01). A janela de açao 2026-2028 e estreita.",

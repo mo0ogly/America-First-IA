@@ -1,4 +1,22 @@
 """
+
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parents[1]))
+import caci_data_helper
+m = caci_data_helper.get_metrics()
+us_share = m['us_compute_share']
+us_eu_caci = m['us_eu_caci_power_ratio']
+us_eu_raw = m['us_eu_raw_ratio']
+eu_sov = m['eu_sovereignty_ratio']
+caci_scores = {k: v['caci_power_phys'] for k, v in m['country_results'].items()}
+
+def fmt_fr(val, decimals=1):
+    return f"{val:.{decimals}f}".replace(".", ",")
+
+def fmt_en(val, decimals=1):
+    return f"{val:.{decimals}f}"
+
 Chapter VI bis - Consequences for South America and Brazil - trilingual generator.
 
 Generates the .docx for Chapter VI bis in English, French, and Brazilian Portuguese.
@@ -103,7 +121,7 @@ EN = LangPack(
         ]),
         ("6bis.6 Synthesis: a risk of triple fracture", [
             "The analysis in this chapter reveals that American AI protectionism produces a risk of triple fracture in South America, specific to the region and distinct from the European scenario.",
-            "North-South Fracture. The compute gap between the United States and South America is much more pronounced than the US-Europe gap. While the raw US/EU(13) ratio is 17.6:1 on installed operational compute and the CACI(US)/CACI(EU) ratio is 3.46:1 (Chapter III, April 2026 baseline), an equivalent CACI(US)/CACI(Brazil) ratio would be in the range of 30-50:1 in CACI Power Mode and well over 100:1 in raw compute, reflecting the combination of a deficit in installed computing capacity, more limited AI human capital, and a higher cost of capital (Brazilian Selic at 14.25 percent at the end of 2025). This gap is such that catching up is almost impossible by 2030 without massive external help.",
+            f"North-South Fracture. The compute gap between the United States and South America is much more pronounced than the US-Europe gap. While the raw US/EU(13) ratio is {fmt_en(us_eu_raw, 1)}:1 on installed operational compute and the CACI(US)/CACI(EU) ratio is {fmt_en(us_eu_caci, 2)}:1 (Chapter III, April 2026 baseline), an equivalent CACI(US)/CACI(Brazil) ratio would be in the range of 30-50:1 in CACI Power Mode and well over 100:1 in raw compute, reflecting the combination of a deficit in installed computing capacity, more limited AI human capital, and a higher cost of capital (Brazilian Selic at 14.25 percent at the end of 2025). This gap is such that catching up is almost impossible by 2030 without massive external help.",
             "East-West Fracture. The US-China rivalry for AI infrastructure in South America creates a risk of technological fragmentation unparalleled in Europe. Brazil could find itself with two incompatible parallel ecosystems (US cloud versus Chinese infrastructure), each responding to its own geopolitical logic rather than the needs of the local economy. Europe, as a Tier 1 ally, does not face this direct bifurcation on compute, even if the Cloud-Nationality pivot analyzed in Chapter V creates a distinct vulnerability on cloud workloads.",
             "Intra-regional Fracture. Within South America, Brazil attracts most AI investments (41 percent of the LATAM market), followed by Chile and Mexico. 'Explorer' countries (one-third of the region according to ILIA 2025) risk being entirely excluded from the AI economy, reproducing a dependence pattern analogous to that of raw materials. The WEF suggests a regional multi-stakeholder consortium (GAVI model) to pool compute resources and democratize AI access.[19]",
             "For Brazil specifically, the main strategic challenge is to transform its energy assets (83 percent renewable mix) into compute sovereignty, avoiding the US-China competition from fragmenting its ecosystem. The comparison with France is enlightening: both countries possess a distinctive energy asset (nuclear for France, renewable for Brazil), an emerging national technological champion (Mistral for France, fintech/Nubank ecosystem for Brazil), and a regional AI hub ambition. But Brazil faces additional constraints (Tier 2 classification, cost of capital, amplified brain drain) that make its trajectory more uncertain and its vulnerability to protectionism more acute.",
@@ -121,7 +139,7 @@ EN = LangPack(
              ["AWS São Paulo", "US", "N/A", "Multiple AZ", "Active cloud region since 2011"],
          ]),
         ("Table 17. Brazil-specific scenarios facing US AI protectionism 2026-2030.",
-         "Source: Author's construction, calibration on April 2026 baseline (raw US/EU(13) 17.6:1, CACI Power Mode 3.46:1).",
+         f"Source: Author's construction, calibration on April 2026 baseline (raw US/EU(13) {fmt_en(us_eu_raw, 1)}:1, CACI Power Mode {fmt_en(us_eu_caci, 2)}:1).",
          [
              ["Brazil Scenario", "Probability", "Positive Consequences", "Risks"],
              ["A': Dual US-China Neutral Hub", "35-45%",
@@ -228,7 +246,7 @@ FR = LangPack(
         ]),
         ("6bis.6 Synthese : un risque de triple fracture", [
             "L'analyse de ce chapitre revele que le protectionnisme IA americain produit en Amerique du Sud un risque de triple fracture, specifique a la region et distinct du scenario europeen.",
-            "Fracture Nord-Sud. L'ecart de compute entre les Etats-Unis et l'Amerique du Sud est bien plus prononce que l'ecart US-Europe. Si le ratio brut US/UE(13) est de 17,6:1 sur le compute installe operationnel et le ratio CACI(US)/CACI(UE) de 3,46:1 (chapitre III, baseline avril 2026), un ratio equivalent CACI(US)/CACI(Bresil) serait de l'ordre de 30-50:1 en CACI Power Mode et bien superieur a 100:1 en compute brut, refletant la combinaison d'un deficit de capacite de calcul installee, d'un capital humain IA plus limite, et d'un cout du capital plus eleve (Selic bresilien a 14,25 pour cent fin 2025). Ce fosse est tel que le rattrapage est quasi impossible a l'horizon 2030 sans aide exterieure massive.",
+            f"Fracture Nord-Sud. L'ecart de compute entre les Etats-Unis et l'Amerique du Sud est bien plus prononce que l'ecart US-Europe. Si le ratio brut US/UE(13) est de {fmt_fr(us_eu_raw, 1)}:1 sur le compute installe operationnel et le ratio CACI(US)/CACI(UE) de {fmt_fr(us_eu_caci, 2)}:1 (chapitre III, baseline avril 2026), un ratio equivalent CACI(US)/CACI(Bresil) serait de l'ordre de 30-50:1 en CACI Power Mode et bien superieur a 100:1 en compute brut, refletant la combinaison d'un deficit de capacite de calcul installee, d'un capital humain IA plus limite, et d'un cout du capital plus eleve (Selic bresilien a 14,25 pour cent fin 2025). Ce fosse est tel que le rattrapage est quasi impossible a l'horizon 2030 sans aide exterieure massive.",
             "Fracture Est-Ouest. La rivalite US-Chine pour l'infrastructure IA en Amerique du Sud cree un risque de fragmentation technologique sans equivalent en Europe. Le Bresil pourrait se retrouver avec deux ecosystemes paralleles incompatibles (cloud US versus infrastructure chinoise), chacun repondant a une logique geopolitique propre plutot qu'aux besoins de l'economie locale. L'Europe, en tant qu'alliee Tier 1, ne fait pas face a cette bifurcation directe sur le compute, meme si le pivot Cloud-Nationalite analyse au chapitre V cree une vulnerabilite distincte sur les charges cloud.",
             "Fracture intra-regionale. Au sein de l'Amerique du Sud, le Bresil attire l'essentiel des investissements IA (41 pour cent du marche LATAM), suivi du Chili et du Mexique. Les pays explorateurs (un tiers de la region selon l'ILIA 2025) risquent d'etre entierement exclus de l'economie IA, reproduisant un schema de dependance analogue a celui des matieres premieres. Le WEF suggere un consortium multi-parties prenantes regional (modele GAVI) pour mutualiser les ressources de compute et democratiser l'acces a l'IA.[19]",
             "Pour le Bresil specifiquement, l'enjeu strategique principal est de transformer ses atouts energetiques (mix 83 pour cent renouvelable) en souverainete de compute, en evitant que la competition US-Chine ne fragmente son ecosysteme. La comparaison avec la France est eclairante : les deux pays possedent un atout energetique distinctif (nucleaire pour la France, renouvelable pour le Bresil), un champion technologique national en emergence (Mistral pour la France, ecosysteme fintech/Nubank pour le Bresil), et une ambition de hub regional IA. Mais le Bresil fait face a des contraintes supplementaires (classification Tier 2, cout du capital, brain drain amplifie) qui rendent sa trajectoire plus incertaine et sa vulnerabilite au protectionnisme plus aigue.",
@@ -246,7 +264,7 @@ FR = LangPack(
              ["AWS Sao Paulo", "US", "N/D", "Multiple AZ", "Region cloud active depuis 2011"],
          ]),
         ("Tableau 17. Scenarios specifiques du Bresil face au protectionnisme IA americain 2026-2030.",
-         "Source : construction de l'auteur, calibration sur baseline avril 2026 (US/UE(13) brut 17,6:1, CACI Power Mode 3,46:1).",
+         f"Source : construction de l'auteur, calibration sur baseline avril 2026 (US/UE(13) brut {fmt_fr(us_eu_raw, 1)}:1, CACI Power Mode {fmt_fr(us_eu_caci, 2)}:1).",
          [
              ["Scenario Bresil", "Probabilite", "Consequences positives", "Risques"],
              ["A' : Hub neutre dual US-Chine", "35-45 pct",
@@ -353,7 +371,7 @@ BR = LangPack(
         ]),
         ("6bis.6 Sintese: um risco de tripla fratura", [
             "A analise neste capitulo revela que o protecionismo de IA americano produz um risco de tripla fratura na America do Sul, especifico da regiao e distinto do cenario europeu.",
-            "Fratura Norte-Sul. O fosso de computacao entre os Estados Unidos e a America do Sul e muito mais pronunciado do que o fosso EUA-Europa. Enquanto a razao bruta EUA/UE(13) e de 17,6:1 na computacao instalada operacional e a razao CACI(EUA)/CACI(UE) e de 3,46:1 (Capitulo III, linha de base de abril de 2026), uma razao equivalente CACI(EUA)/CACI(Brasil) estaria na faixa de 30-50:1 no CACI Power Mode e bem acima de 100:1 na computacao bruta, refletindo a combinacao de um deficit na capacidade computacional instalada, capital humano de IA mais limitado e um custo de capital mais elevado (Selic brasileira a 14,25 por cento no final de 2025). Esta lacuna e tal que a recuperacao e quase impossivel ate 2030 sem ajuda externa massiva.",
+            f"Fratura Norte-Sul. O fosso de computacao entre os Estados Unidos e a America do Sul e muito mais pronunciado do que o fosso EUA-Europa. Enquanto a razao bruta EUA/UE(13) e de {fmt_fr(us_eu_raw, 1)}:1 na computacao instalada operacional e a razao CACI(EUA)/CACI(UE) e de {fmt_fr(us_eu_caci, 2)}:1 (Capitulo III, linha de base de abril de 2026), uma razao equivalente CACI(EUA)/CACI(Brasil) estaria na faixa de 30-50:1 no CACI Power Mode e bem acima de 100:1 na computacao bruta, refletindo a combinacao de um deficit na capacidade computacional instalada, capital humano de IA mais limitado e um custo de capital mais elevado (Selic brasileira a 14,25 por cento no final de 2025). Esta lacuna e tal que a recuperacao e quase impossivel ate 2030 sem ajuda externa massiva.",
             "Fratura Leste-Oeste. A rivalidade EUA-China pela infraestrutura de IA na America do Sul cria um risco de fragmentacao tecnologica sem paralelo na Europa. O Brasil pode encontrar-se com dois ecossistemas paralelos incompativeis (nuvem dos EUA versus infraestrutura chinesa), cada um respondendo a sua propria logica geopolitica em vez das necessidades da economia local. A Europa, como aliada Tier 1, nao enfrenta essa bifurcacao direta na computacao, mesmo que o pivo Nuvem-Nacionalidade analisado no Capitulo V crie uma vulnerabilidade distinta nas cargas de trabalho na nuvem.",
             "Fratura intra-regional. Dentro da America do Sul, o Brasil atrai a maioria dos investimentos em IA (41 por cento do mercado LATAM), seguido pelo Chile e pelo Mexico. Os paises 'exploradores' (um terco da regiao de acordo com o ILIA 2025) correm o risco de serem inteiramente excluidos da economia de IA, reproduzindo um padrao de dependencia analogo ao das materias-primas. O WEF sugere um consorcio regional de multiplas partes interessadas (modelo GAVI) para agrupar recursos de computacao e democratizar o acesso a IA.[19]",
             "Para o Brasil especificamente, o principal desafio estrategico e transformar seus ativos energeticos (matriz 83 por cento renovavel) em soberania de computacao, evitando que a competicao EUA-China fragmente seu ecossistema. A comparacao com a Franca e esclarecedora: ambos os paises possuem um ativo energetico distintivo (nuclear para a Franca, renovavel para o Brasil), um campeao tecnologico nacional emergente (Mistral para a Franca, ecossistema fintech/Nubank para o Brasil) e uma ambicao de hub regional de IA. Mas o Brasil enfrenta restricoes adicionais (classificacao Tier 2, custo de capital, fuga de cerebros amplificada) que tornam sua trajetoria mais incerta e sua vulnerabilidade ao protecionismo mais aguda.",
@@ -371,7 +389,7 @@ BR = LangPack(
              ["AWS Sao Paulo", "EUA", "N/D", "Multiplas AZ", "Regiao de nuvem ativa desde 2011"],
          ]),
         ("Tabela 17. Cenarios especificos do Brasil diante do protecionismo de IA dos EUA 2026-2030.",
-         "Fonte: Construcao do autor, calibracao na linha de base de abril de 2026 (EUA/UE(13) bruto 17,6:1, CACI Power Mode 3,46:1).",
+         f"Fonte: Construcao do autor, calibracao na linha de base de abril de 2026 (EUA/UE(13) bruto {fmt_fr(us_eu_raw, 1)}:1, CACI Power Mode {fmt_fr(us_eu_caci, 2)}:1).",
          [
              ["Cenario Brasil", "Probabilidade", "Consequencias Positivas", "Riscos"],
              ["A': Hub Neutro Dual EUA-China", "35-45%",

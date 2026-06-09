@@ -7,14 +7,14 @@ import { useDataConsolidation } from '../hooks/useDataConsolidation';
 
 // ─── FALLBACK VALUES (used only while CSV data loads) ────────────────────────
 const FALLBACK_COUNTRIES = {
-    USA:              { f: 2763554, e: 85,  l: 3.5,  gdp: 29.3, r: 1.0 },
-    China:            { f: 320000,  e: 60,  l: 4.1,  gdp: 18.5, r: 0.1 },
-    EU:               { f: 380000,  e: 140, l: 3.1,  gdp: 18.8, r: 1.0 },
-    UK:               { f: 95000,   e: 130, l: 0.8,  gdp: 3.2,  r: 1.0 },
-    France:           { f: 36420,   e: 115, l: 0.65, gdp: 3.16, r: 1.0 },
-    Germany:          { f: 42000,   e: 150, l: 0.9,  gdp: 4.6,  r: 1.0 },
-    India:            { f: 9000,    e: 70,  l: 2.0,  gdp: 3.7,  r: 0.5 },
-    'Asia (Ex-China)':{ f: 185000,  e: 95,  l: 2.2,  gdp: 8.4,  r: 0.5 },
+    USA:              { f: 2769706 , e: 85.0, l: 3.6  , gdp: 31.9 , r: 1.0 },
+    China:            { f: 1004123 , e: 92.0, l: 4.8  , gdp: 23.7 , r: 0.1 },
+    EU:               { f: 157640  , e: 135.0, l: 3.1  , gdp: 20.0 , r: 1.0 },
+    UK:               { f: 95340   , e: 190.0, l: 0.5  , gdp: 3.9  , r: 1.0 },
+    France:           { f: 36420   , e: 115.0, l: 0.65 , gdp: 3.4  , r: 1.0 },
+    Germany:          { f: 42000   , e: 140.0, l: 0.85 , gdp: 4.7  , r: 1.0 },
+    India:            { f: 150     , e: 88.0, l: 0.4  , gdp: 5.6  , r: 0.5 },
+    'Asia (Ex-China)':  { f: 185120  , e: 120.0, l: 1.8  , gdp: 14.8 , r: 0.5 },
 };
 
 // Keys to use for robustness analysis (subset of consolidatedData)

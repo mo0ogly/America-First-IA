@@ -1,14 +1,32 @@
 """
+
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parents[1]))
+import caci_data_helper
+m = caci_data_helper.get_metrics()
+us_share = m['us_compute_share']
+us_eu_caci = m['us_eu_caci_power_ratio']
+us_eu_raw = m['us_eu_raw_ratio']
+eu_sov = m['eu_sovereignty_ratio']
+caci_scores = {k: v['caci_power_phys'] for k, v in m['country_results'].items()}
+
+def fmt_fr(val, decimals=1):
+    return f"{val:.{decimals}f}".replace(".", ",")
+
+def fmt_en(val, decimals=1):
+    return f"{val:.{decimals}f}"
+
 Chapter IV - Mechanisms of US Competitive Advantage - trilingual generator.
 
 Generates the Chapter IV .docx for the doctoral study
 "AI for Americans First" in English, French and Brazilian Portuguese.
 
 Key revisions vs the previous version (April 2026 dashboard alignment):
-    1. Cover banner band updated to 76.9 / 1.59x / 3.46:1, in line with
+    1. Cover banner band updated to 76.9 / 1.59x / {fmt_en(us_eu_caci, 2)}:1, in line with
        Chapters I, II and III.
     2. Section 4 introduction: 'US concentrates 75 percent of global AI
-       compute' replaced by '76.9 percent of operational compute'.
+       computef' replaced by '{fmt_en(us_share, 1)} percent of operational compute'.
     3. Section 4.1.2 (compute as advantage): the 'energy 2 to 3 times
        higher' claim is annotated with the PPA-adjusted band of
        '1.4 to 1.7 times', consistent with Chapter III.
@@ -16,8 +34,8 @@ Key revisions vs the previous version (April 2026 dashboard alignment):
        2.4-3.6x because it captures hyperscaler markup + PPA-adjusted
        energy + amortisation, but the derivation is now anchored on the
        1.59x energy ratio rather than the obsolete 2-3x.
-    5. Section 4.3.2 + Table 9: CACI ratio updated from 3.4:1 to 3.46:1.
-       Table 9 'CACI 7-12x inferior' line refreshed to '3.46:1 in Power
+    5. Section 4.3.2 + Table 9: CACI ratio updated from 3.4:1 to {fmt_en(us_eu_caci, 2)}:1.
+       Table 9 f'CACI 7-12x inferior' line refreshed to '{fmt_en(us_eu_caci, 2)}:1 in Power
        Mode (28.9 vs 100)'.
     6. Section 4.5: synthesis paragraph reformulated so the loop runs
        on the live 76.9 / 49.9 / 3.46 figures rather than 75 / 70 / 3.4.
@@ -280,9 +298,9 @@ EN = LangPack(
     cover_subtitle="AI Protectionism, Energy and Semiconductors: US/Europe Divergence Trajectories 2024-2030",
     cover_blurb="Integrated Geostrategic and Economic Analysis - Chapter IV",
     cover_chip_lines=[
-        "76.9% global operational AI compute = USA",
+        f"{fmt_en(us_share, 1)}% global operational AI compute = USA",
         "1.59x energy cost EU/US",
-        "3.46:1 CACI ratio US/EU (Power Mode)",
+        f"{fmt_en(us_eu_caci, 2)}:1 CACI ratio US/EU (Power Mode)",
     ],
     cover_meta="Paris - February 2026  |  7 chapters  |  4 prospective scenarios  |  3 geographic zones",
     cover_keywords_label="Keywords",
@@ -292,7 +310,7 @@ EN = LangPack(
     chapter_label="CHAPTER IV",
     chapter_title="Mechanisms of American Competitive Advantage Through AI",
     chapter_intro=(
-        "Chapter III established the facts: the United States concentrates 76.9 percent of "
+        f"Chapter III established the facts: the United States concentrates {fmt_en(us_share, 1)} percent of "
         "operational global AI compute (49.9 percent if planned clusters are included), 45 "
         "percent of data center energy consumption, and controls 70 percent of the European "
         "cloud market through three hyperscalers. This chapter analyses the mechanisms through "
@@ -345,7 +363,7 @@ EN.sections = [
     ("4.3.2 The Gap Conditioned by Compute Access", [
         "Yet, the realisation of these productivity gains is conditioned by compute access. This is where the asymmetry diagnosed in Chapter III produces its effects. The French AI Commission (2024) estimates AI potential impact on French growth at 1.3 percentage points per year, by analogy with the effects of electricity, but this estimate assumes unconstrained access to cutting-edge compute. Similarly, McKinsey (December 2025) conditions the optimistic European scenario on accelerated adoption which implies massive infrastructure investments.[14]",
         "The investment gap is considerable. McKinsey (January 2026) estimates that large European companies face an annual deficit of 700 billion USD in R&D and capital expenditure compared to their American counterparts. In digital technologies alone, US companies invested 2 trillion EUR more than European companies over the 2021-2025 period.[15] The annualised gap between January 2024 and September 2025 amounts to 580 billion EUR for corporate investment and 300 billion EUR for startups and scale-ups.",
-        "This investment deficit, combined with the compute asymmetry and energy costs, produces a conditional AI productivity gap. In our modelling, we distinguish between theoretical potential (identical for US and EU with comparable sectoral structures) and achievable potential, which depends on effective compute access. With a CACI(US)/CACI(EU) of 3.46:1 in Power Mode (Chapter III) on the April 2026 dashboard snapshot, the achievable European potential is structurally inferior. Translated into normalised CACI scores, the EU sits at 28.9 against a US benchmark of 100, France at 25.3, Germany at 5.4 - the gap is therefore not 7 to 12 times inferior as earlier analyses suggested, but is precisely 3.46 to 1 in compute-adjusted competitive intensity, with sharp variation across member states.",
+        f"This investment deficit, combined with the compute asymmetry and energy costs, produces a conditional AI productivity gap. In our modelling, we distinguish between theoretical potential (identical for US and EU with comparable sectoral structures) and achievable potential, which depends on effective compute access. With a CACI(US)/CACI(EU) of {fmt_en(us_eu_caci, 2)}:1 in Power Mode (Chapter III) on the April 2026 dashboard snapshot, the achievable European potential is structurally inferior. Translated into normalised CACI scores, the EU sits at 28.9 against a US benchmark of 100, France at 25.3, Germany at 5.4 - the gap is therefore not 7 to 12 times inferior as earlier analyses suggested, but is precisely {fmt_en(us_eu_caci, 2)} to 1 in compute-adjusted competitive intensity, with sharp variation across member states.",
     ]),
     ("4.4 Innovation Rent Capture: A Self-Reinforcing Advantage", []),
     ("4.4.1 The First-Mover Advantage Mechanism in AI", [
@@ -359,7 +377,7 @@ EN.sections = [
         "The trajectory is all the more concerning as the EU is absent from four of the eight segments of the generative AI value chain as mapped by McKinsey (2024): AI-design semiconductors (dominated by Nvidia), AI cloud platforms (AWS, Azure, GCP), foundation models (OpenAI, Google, Anthropic, Meta), and AI development tools. It is competitive only in downstream application segments: sectoral applications (SAP, Siemens), industrial integration, and specialised semiconductors (power semiconductors: Infineon, STMicroelectronics, NXP, with about 15 percent global market share).[19]",
     ]),
     ("4.5 Synthesis: The Mechanics of US Competitive Advantage", [
-        "The four channels identified form a reinforcing system. The compute asymmetry (Chapter III) feeds differentiated training costs (4.1), which strengthen dependence on US cloud (4.2), which constrains achievable productivity (4.3), which slows European investment and reinforces rent capture by American players (4.4), which in turn widens the compute gap. With the April 2026 snapshot of 76.9 percent operational compute share, 1.59x PPA-adjusted energy cost and a CACI Power Mode ratio of 3.46:1, this circle constitutes what Farrell and Newman (2019) would describe as structural interdependence weaponisation: European dependence on American infrastructure, initially founded on economic efficiency, becomes a lever of geopolitical power when instrumentalised by measures such as Section 232.",
+        f"The four channels identified form a reinforcing system. The compute asymmetry (Chapter III) feeds differentiated training costs (4.1), which strengthen dependence on US cloud (4.2), which constrains achievable productivity (4.3), which slows European investment and reinforces rent capture by American players (4.4), which in turn widens the compute gap. With the April 2026 snapshot of {fmt_en(us_share, 1)} percent operational compute share, 1.59x PPA-adjusted energy cost and a CACI Power Mode ratio of {fmt_en(us_eu_caci, 2)}:1, this circle constitutes what Farrell and Newman (2019) would describe as structural interdependence weaponisation: European dependence on American infrastructure, initially founded on economic efficiency, becomes a lever of geopolitical power when instrumentalised by measures such as Section 232.",
         "Trump protectionism (Chapter III, phase 4) did not create this asymmetry; it pre-existed massively. It institutionalises and legalises it through a tariff mechanism that differentiates the cost of compute access by nationality. In doing so, it transforms a de facto advantage into a de jure advantage, whose dismantling is politically and legally far more difficult. Chapter V examines how these mechanisms could evolve across four prospective scenarios.",
     ]),
 ]
@@ -383,7 +401,7 @@ EN.table_blocks = [
          ["Achievable AI productivity (under compute constraints)", "+2.5-3.0 pct/yr", "+0.8-1.5 pct/yr", "-1.5 to -2 pts"],
          ["Annual AI investment (corporate + VC)", "~450 bn USD", "~50-70 bn EUR", "~7:1"],
          ["FLOP cost (USD/TFlop, training)", "~0.5", "~1.2-1.8", "2.4-3.6x"],
-         ["Normalised CACI Power Mode (USA = 100)", "100", "28.9 (EU(13))", "3.46:1"],
+         ["Normalised CACI Power Mode (USA = 100)", "100", "28.9 (EU(13))", f"{fmt_en(us_eu_caci, 2)}:1"],
      ]),
 ]
 
@@ -421,9 +439,9 @@ FR = LangPack(
     cover_subtitle="Protectionnisme IA, Energie et Semi-conducteurs : Trajectoires de divergence US/Europe 2024-2030",
     cover_blurb="Analyse geostrategique et economique integree - Chapitre IV",
     cover_chip_lines=[
-        "76,9 pct du compute IA operationnel mondial = USA",
+        f"{fmt_fr(us_share, 1)} pct du compute IA operationnel mondial = USA",
         "1,59x cout energie EU/US",
-        "3,46:1 ratio CACI US/EU (Power Mode)",
+        f"{fmt_fr(us_eu_caci, 2)}:1 ratio CACI US/EU (Power Mode)",
     ],
     cover_meta="Paris - fevrier 2026  |  7 chapitres  |  4 scenarios prospectifs  |  3 zones geographiques",
     cover_keywords_label="Mots-cles",
@@ -433,7 +451,7 @@ FR = LangPack(
     chapter_label="CHAPITRE IV",
     chapter_title="Mecanismes de l'avantage concurrentiel americain par l'IA",
     chapter_intro=(
-        "Le chapitre III a etabli les faits : les Etats-Unis concentrent 76,9 pour cent du "
+        f"Le chapitre III a etabli les faits : les Etats-Unis concentrent {fmt_fr(us_share, 1)} pour cent du "
         "compute IA operationnel mondial (49,9 pour cent en incluant les clusters planifies), "
         "45 pour cent de la consommation electrique des centres de donnees, et controlent 70 "
         "pour cent du marche cloud europeen via trois hyperscalers. Ce chapitre analyse les "
@@ -487,7 +505,7 @@ FR.sections = [
     ("4.3.2 L'ecart conditionne par l'acces au compute", [
         "Pourtant, la realisation de ces gains de productivite est conditionnee par l'acces au compute. C'est ici que l'asymetrie diagnostiquee au chapitre III produit ses effets. La Commission IA francaise (2024) estime l'impact potentiel de l'IA sur la croissance francaise a 1,3 point de pourcentage par an, par analogie avec les effets de l'electricite - mais cette estimation suppose un acces non contraint au compute de pointe. De meme, McKinsey (decembre 2025) conditionne le scenario optimiste europeen a une adoption acceleree qui implique des investissements massifs en infrastructure.[14]",
         "L'ecart d'investissement est considerable. McKinsey (janvier 2026) estime que les grandes entreprises europeennes font face a un deficit annuel de 700 milliards USD en R&D et depenses en capital par rapport a leurs homologues americaines. Dans les seules technologies numeriques, les entreprises americaines ont investi 2 trillions EUR de plus que les entreprises europeennes sur la periode 2021-2025.[15] L'ecart annualise entre janvier 2024 et septembre 2025 s'eleve a 580 milliards EUR pour l'investissement corporate et 300 milliards EUR pour les startups et scale-ups.",
-        "Ce deficit d'investissement, combine a l'asymetrie de compute et aux couts energetiques, produit un ecart de productivite IA conditionnel. Dans notre modelisation, nous distinguons le potentiel theorique (identique pour US et UE avec des structures sectorielles comparables) et le potentiel realisable, qui depend de l'acces effectif au compute. Avec un CACI(US)/CACI(UE) de 3,46:1 en Power Mode (chapitre III) sur le snapshot du tableau de bord d'avril 2026, le potentiel realisable europeen est structurellement inferieur. Traduit en scores CACI normalises, l'UE se situe a 28,9 contre un benchmark US de 100, la France a 25,3, l'Allemagne a 5,4 - l'ecart n'est donc pas de 7 a 12 fois inferieur comme le suggeraient des analyses anterieures, mais precisement de 3,46 pour 1 en intensite competitive ajustee au compute, avec une variation forte entre Etats membres.",
+        f"Ce deficit d'investissement, combine a l'asymetrie de compute et aux couts energetiques, produit un ecart de productivite IA conditionnel. Dans notre modelisation, nous distinguons le potentiel theorique (identique pour US et UE avec des structures sectorielles comparables) et le potentiel realisable, qui depend de l'acces effectif au compute. Avec un CACI(US)/CACI(UE) de {fmt_fr(us_eu_caci, 2)}:1 en Power Mode (chapitre III) sur le snapshot du tableau de bord d'avril 2026, le potentiel realisable europeen est structurellement inferieur. Traduit en scores CACI normalises, l'UE se situe a 28,9 contre un benchmark US de 100, la France a 25,3, l'Allemagne a 5,4 - l'ecart n'est donc pas de 7 a 12 fois inferieur comme le suggeraient des analyses anterieures, mais precisement de 3,46 pour 1 en intensite competitive ajustee au compute, avec une variation forte entre Etats membres.",
     ]),
     ("4.4 Captation des rentes d'innovation : un avantage auto-renforcant", []),
     ("4.4.1 Le mecanisme du first-mover advantage en IA", [
@@ -501,7 +519,7 @@ FR.sections = [
         "La trajectoire est d'autant plus preoccupante que l'UE est absente de quatre des huit segments de la chaine de valeur de l'IA generative tels que cartographies par McKinsey (2024) : semi-conducteurs IA-design (domines par Nvidia), plateformes cloud IA (AWS, Azure, GCP), modeles de fondation (OpenAI, Google, Anthropic, Meta) et outils de developpement IA. Elle n'est competitive que sur les segments d'application aval : applications sectorielles (SAP, Siemens), integration industrielle, et semi-conducteurs specialises (semi-conducteurs de puissance : Infineon, STMicroelectronics, NXP, avec environ 15 pour cent de part de marche mondiale).[19]",
     ]),
     ("4.5 Synthese : la mecanique de l'avantage competitif US", [
-        "Les quatre canaux identifies forment un systeme renforcant. L'asymetrie de compute (chapitre III) alimente des couts d'entrainement differencies (4.1), qui renforcent la dependance au cloud US (4.2), qui contraint la productivite realisable (4.3), qui ralentit l'investissement europeen et renforce la captation des rentes par les acteurs americains (4.4), qui a son tour creuse l'ecart de compute. Avec le snapshot d'avril 2026 - 76,9 pour cent de part de compute operationnel, 1,59x de cout energetique ajuste-PPA et un ratio CACI Power Mode de 3,46:1 - ce cercle constitue ce que Farrell et Newman (2019) decriraient comme une weaponisation de l'interdependance structurelle : la dependance europeenne a l'infrastructure americaine, initialement fondee sur l'efficacite economique, devient un levier de pouvoir geopolitique lorsqu'elle est instrumentalisee par des mesures comme la Section 232.",
+        f"Les quatre canaux identifies forment un systeme renforcant. L'asymetrie de compute (chapitre III) alimente des couts d'entrainement differencies (4.1), qui renforcent la dependance au cloud US (4.2), qui contraint la productivite realisable (4.3), qui ralentit l'investissement europeen et renforce la captation des rentes par les acteurs americains (4.4), qui a son tour creuse l'ecart de compute. Avec le snapshot d'avril 2026 - {fmt_fr(us_share, 1)} pour cent de part de compute operationnel, 1,59x de cout energetique ajuste-PPA et un ratio CACI Power Mode de {fmt_fr(us_eu_caci, 2)}:1 - ce cercle constitue ce que Farrell et Newman (2019) decriraient comme une weaponisation de l'interdependance structurelle : la dependance europeenne a l'infrastructure americaine, initialement fondee sur l'efficacite economique, devient un levier de pouvoir geopolitique lorsqu'elle est instrumentalisee par des mesures comme la Section 232.",
         "Le protectionnisme Trump (chapitre III, phase 4) n'a pas cree cette asymetrie, elle preexistait massivement. Il l'institutionnalise et la legalise par un mecanisme tarifaire qui differencie le cout d'acces au compute selon la nationalite. Ce faisant, il transforme un avantage de fait en avantage de droit, dont le demantelement est politiquement et juridiquement bien plus difficile. Le chapitre V examine comment ces mecanismes pourraient evoluer a travers quatre scenarios prospectifs.",
     ]),
 ]
@@ -525,7 +543,7 @@ FR.table_blocks = [
          ["Productivite IA realisable (sous contrainte compute)", "+2,5-3,0 pct/an", "+0,8-1,5 pct/an", "-1,5 a -2 pts"],
          ["Investissement annuel IA (corporate + VC)", "~450 mds USD", "~50-70 mds EUR", "~7:1"],
          ["Cout du FLOP (USD/TFlop, entrainement)", "~0,5", "~1,2-1,8", "2,4-3,6x"],
-         ["CACI normalise Power Mode (USA = 100)", "100", "28,9 (UE(13))", "3,46:1"],
+         ["CACI normalise Power Mode (USA = 100)", "100", "28,9 (UE(13))", f"{fmt_fr(us_eu_caci, 2)}:1"],
      ]),
 ]
 
@@ -543,9 +561,9 @@ PT = LangPack(
     cover_subtitle="Protecionismo de IA, Energia e Semicondutores: Trajetorias de Divergencia EUA/Europa 2024-2030",
     cover_blurb="Analise geoestrategica e economica integrada - Capitulo IV",
     cover_chip_lines=[
-        "76,9 pct do compute IA operacional mundial = EUA",
+        f"{fmt_fr(us_share, 1)} pct do compute IA operacional mundial = EUA",
         "1,59x custo de energia UE/EUA",
-        "3,46:1 razao CACI EUA/UE (Power Mode)",
+        f"{fmt_fr(us_eu_caci, 2)}:1 razao CACI EUA/UE (Power Mode)",
     ],
     cover_meta="Paris - fevereiro de 2026  |  7 capitulos  |  4 cenarios prospectivos  |  3 zonas geograficas",
     cover_keywords_label="Palavras-chave",
@@ -608,7 +626,7 @@ PT.sections = [
     ("4.3.2 O gap condicionado pelo acesso ao compute", [
         "No entanto, a realizacao desses ganhos de produtividade e condicionada pelo acesso ao compute. E aqui que a assimetria diagnosticada no Capitulo III produz seus efeitos. A Comissao IA francesa (2024) estima o impacto potencial da IA no crescimento frances em 1,3 ponto percentual ao ano, por analogia com os efeitos da eletricidade, mas essa estimativa supoe acesso irrestrito ao compute de ponta. Da mesma forma, a McKinsey (dezembro de 2025) condiciona o cenario otimista europeu a uma adocao acelerada que implica investimentos massivos em infraestrutura.[14]",
         "O gap de investimento e consideravel. A McKinsey (janeiro de 2026) estima que as grandes empresas europeias enfrentam um deficit anual de 700 bilhoes USD em P&D e despesas de capital em comparacao com suas contrapartes americanas. Apenas em tecnologias digitais, as empresas dos EUA investiram 2 trilhoes EUR a mais do que as empresas europeias no periodo 2021-2025.[15] O gap anualizado entre janeiro de 2024 e setembro de 2025 chega a 580 bilhoes EUR para investimento corporativo e 300 bilhoes EUR para startups e scale-ups.",
-        "Esse deficit de investimento, combinado com a assimetria de compute e os custos energeticos, produz um gap de produtividade IA condicional. Em nossa modelagem, distinguimos o potencial teorico (identico para EUA e UE com estruturas setoriais comparaveis) e o potencial realizavel, que depende do acesso efetivo ao compute. Com um CACI(EUA)/CACI(UE) de 3,46:1 em Power Mode (Capitulo III) no snapshot do painel de abril de 2026, o potencial realizavel europeu e estruturalmente inferior. Traduzido em scores CACI normalizados, a UE situa-se em 28,9 contra um benchmark dos EUA de 100, a Franca em 25,3, a Alemanha em 5,4 - o gap nao e portanto de 7 a 12 vezes inferior como sugeriam analises anteriores, mas precisamente de 3,46 para 1 em intensidade competitiva ajustada ao compute, com forte variacao entre os Estados-membros.",
+        f"Esse deficit de investimento, combinado com a assimetria de compute e os custos energeticos, produz um gap de produtividade IA condicional. Em nossa modelagem, distinguimos o potencial teorico (identico para EUA e UE com estruturas setoriais comparaveis) e o potencial realizavel, que depende do acesso efetivo ao compute. Com um CACI(EUA)/CACI(UE) de {fmt_fr(us_eu_caci, 2)}:1 em Power Mode (Capitulo III) no snapshot do painel de abril de 2026, o potencial realizavel europeu e estruturalmente inferior. Traduzido em scores CACI normalizados, a UE situa-se em 28,9 contra um benchmark dos EUA de 100, a Franca em 25,3, a Alemanha em 5,4 - o gap nao e portanto de 7 a 12 vezes inferior como sugeriam analises anteriores, mas precisamente de 3,46 para 1 em intensidade competitiva ajustada ao compute, com forte variacao entre os Estados-membros.",
     ]),
     ("4.4 Captura de rendas de inovacao: uma vantagem auto-reforcadora", []),
     ("4.4.1 O mecanismo de first-mover advantage em IA", [
@@ -622,7 +640,7 @@ PT.sections = [
         "A trajetoria e ainda mais preocupante uma vez que a UE esta ausente de quatro dos oito segmentos da cadeia de valor da IA generativa mapeados pela McKinsey (2024): semicondutores AI-design (dominados pela Nvidia), plataformas de nuvem IA (AWS, Azure, GCP), modelos de fundacao (OpenAI, Google, Anthropic, Meta) e ferramentas de desenvolvimento de IA. So e competitiva em segmentos de aplicacao a jusante: aplicacoes setoriais (SAP, Siemens), integracao industrial e semicondutores especializados (semicondutores de potencia: Infineon, STMicroelectronics, NXP, com cerca de 15 por cento de participacao de mercado global).[19]",
     ]),
     ("4.5 Sintese: a mecanica da vantagem competitiva dos EUA", [
-        "Os quatro canais identificados formam um sistema reforcador. A assimetria de compute (Capitulo III) alimenta custos de treinamento diferenciados (4.1), que reforcam a dependencia da nuvem dos EUA (4.2), que restringe a produtividade realizavel (4.3), que retarda o investimento europeu e reforca a captura de rendas pelos atores americanos (4.4), que por sua vez amplia o gap de compute. Com o snapshot de abril de 2026 - 76,9 por cento de parcela de compute operacional, 1,59x de custo energetico ajustado-PPA e uma razao CACI Power Mode de 3,46:1 - esse circulo constitui o que Farrell e Newman (2019) descreveriam como uma weaponizacao da interdependencia estrutural: a dependencia europeia da infraestrutura americana, inicialmente fundada na eficiencia economica, torna-se uma alavanca de poder geopolitico quando instrumentalizada por medidas como a Secao 232.",
+        f"Os quatro canais identificados formam um sistema reforcador. A assimetria de compute (Capitulo III) alimenta custos de treinamento diferenciados (4.1), que reforcam a dependencia da nuvem dos EUA (4.2), que restringe a produtividade realizavel (4.3), que retarda o investimento europeu e reforca a captura de rendas pelos atores americanos (4.4), que por sua vez amplia o gap de compute. Com o snapshot de abril de 2026 - 76,9 por cento de parcela de compute operacional, 1,59x de custo energetico ajustado-PPA e uma razao CACI Power Mode de {fmt_fr(us_eu_caci, 2)}:1 - esse circulo constitui o que Farrell e Newman (2019) descreveriam como uma weaponizacao da interdependencia estrutural: a dependencia europeia da infraestrutura americana, inicialmente fundada na eficiencia economica, torna-se uma alavanca de poder geopolitico quando instrumentalizada por medidas como a Secao 232.",
         "O protecionismo Trump (Capitulo III, fase 4) nao criou essa assimetria, ela preexistia massivamente. Ele a institucionaliza e legaliza por meio de um mecanismo tarifario que diferencia o custo de acesso ao compute por nacionalidade. Ao faze-lo, transforma uma vantagem de fato em uma vantagem de direito, cujo desmantelamento e politica e juridicamente muito mais dificil. O Capitulo V examina como esses mecanismos poderiam evoluir em quatro cenarios prospectivos.",
     ]),
 ]
@@ -646,7 +664,7 @@ PT.table_blocks = [
          ["Produtividade IA realizavel (sob restricoes de compute)", "+2,5-3,0 pct/ano", "+0,8-1,5 pct/ano", "-1,5 a -2 pts"],
          ["Investimento anual IA (corporativo + VC)", "~450 bn USD", "~50-70 bn EUR", "~7:1"],
          ["Custo do FLOP (USD/TFlop, treinamento)", "~0,5", "~1,2-1,8", "2,4-3,6x"],
-         ["CACI normalizado Power Mode (EUA = 100)", "100", "28,9 (UE(13))", "3,46:1"],
+         ["CACI normalizado Power Mode (EUA = 100)", "100", "28,9 (UE(13))", f"{fmt_fr(us_eu_caci, 2)}:1"],
      ]),
 ]
 

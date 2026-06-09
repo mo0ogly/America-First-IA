@@ -1,4 +1,22 @@
 """
+
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parents[1]))
+import caci_data_helper
+m = caci_data_helper.get_metrics()
+us_share = m['us_compute_share']
+us_eu_caci = m['us_eu_caci_power_ratio']
+us_eu_raw = m['us_eu_raw_ratio']
+eu_sov = m['eu_sovereignty_ratio']
+caci_scores = {k: v['caci_power_phys'] for k, v in m['country_results'].items()}
+
+def fmt_fr(val, decimals=1):
+    return f"{val:.{decimals}f}".replace(".", ",")
+
+def fmt_en(val, decimals=1):
+    return f"{val:.{decimals}f}"
+
 Trilingual helpers for the Annexes (EN, FR, PT-BR).
 
 Provides cover, header, section/table/notes/license rendering matching
@@ -33,9 +51,9 @@ LABELS = {
         "dashboard": "Public dashboard: https://mo0ogly.github.io/America-First-IA/dashboard/",
         "repo": "Repository: https://github.com/mo0ogly/America-First-IA",
         "chips": [
-            "76.9% of global operational AI compute = USA",
+            f"{fmt_en(us_share, 1)}% of global operational AI compute = USA",
             "1.59x energy cost EU/US (PPP-adjusted)",
-            "3.46:1 CACI US/EU ratio (Power Mode)",
+            f"{fmt_en(us_eu_caci, 2)}:1 CACI US/EU ratio (Power Mode)",
         ]
     },
     "FR": {
@@ -53,9 +71,9 @@ LABELS = {
         "dashboard": "Tableau de bord public : https://mo0ogly.github.io/America-First-IA/dashboard/",
         "repo": "Depot : https://github.com/mo0ogly/America-First-IA",
         "chips": [
-            "76,9 pct du compute IA operationnel mondial = USA",
+            f"{fmt_fr(us_share, 1)} pct du compute IA operationnel mondial = USA",
             "1,59x cout energie EU/US (ajuste-PPA)",
-            "3,46:1 ratio CACI US/EU (Power Mode)",
+            f"{fmt_fr(us_eu_caci, 2)}:1 ratio CACI US/EU (Power Mode)",
         ]
     },
     "PT-BR": {
@@ -73,9 +91,9 @@ LABELS = {
         "dashboard": "Painel publico: https://mo0ogly.github.io/America-First-IA/dashboard/",
         "repo": "Repositorio: https://github.com/mo0ogly/America-First-IA",
         "chips": [
-            "76,9% da computacao de IA operacional global = EUA",
+            f"{fmt_fr(us_share, 1)}% da computacao de IA operacional global = EUA",
             "1,59x custo de energia UE/EUA (ajustado-PPP)",
-            "3,46:1 ratio CACI EUA/UE (Power Mode)",
+            f"{fmt_fr(us_eu_caci, 2)}:1 ratio CACI EUA/UE (Power Mode)",
         ]
     }
 }

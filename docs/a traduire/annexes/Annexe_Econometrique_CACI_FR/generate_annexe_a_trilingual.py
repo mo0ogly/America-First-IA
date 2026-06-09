@@ -1,4 +1,22 @@
 """
+
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parents[2]))
+import caci_data_helper
+m = caci_data_helper.get_metrics()
+us_share = m['us_compute_share']
+us_eu_caci = m['us_eu_caci_power_ratio']
+us_eu_raw = m['us_eu_raw_ratio']
+eu_sov = m['eu_sovereignty_ratio']
+caci_scores = {k: v['caci_power_phys'] for k, v in m['country_results'].items()}
+
+def fmt_fr(val, decimals=1):
+    return f"{val:.{decimals}f}".replace(".", ",")
+
+def fmt_en(val, decimals=1):
+    return f"{val:.{decimals}f}"
+
 Annexe A - Econometric Validation - Trilingual Generator (EN, FR, PT-BR).
 
 Generates the .docx for Annex A in three languages.
@@ -61,7 +79,7 @@ EN = LangPack(
         ]),
         ("A.9 Phys/Sov Extension: Jurisdictional Validation", [
             "The Phys/Sov extension decomposes factor F into two multiplicative components: F(r) = F_phys(r) x F_sov(r), where F_phys is physically installed compute and F_sov is the fraction under non-US jurisdiction.",
-            "While the US and China are fully sovereign (F_sov=100%), the EU is largely sovereign on cluster ownership (99.2%) but highly dependent on the cloud workload layer (only ~28% sovereign).",
+            f"While the US and China are fully sovereign (F_sov=100%), the EU is largely sovereign on cluster ownership ({fmt_en(eu_sov, 1)}%) but highly dependent on the cloud workload layer (only ~28% sovereign).",
         ]),
     ],
     tables=[

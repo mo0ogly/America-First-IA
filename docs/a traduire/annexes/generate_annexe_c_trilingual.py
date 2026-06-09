@@ -1,4 +1,22 @@
 """
+
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parents[1]))
+import caci_data_helper
+m = caci_data_helper.get_metrics()
+us_share = m['us_compute_share']
+us_eu_caci = m['us_eu_caci_power_ratio']
+us_eu_raw = m['us_eu_raw_ratio']
+eu_sov = m['eu_sovereignty_ratio']
+caci_scores = {k: v['caci_power_phys'] for k, v in m['country_results'].items()}
+
+def fmt_fr(val, decimals=1):
+    return f"{val:.{decimals}f}".replace(".", ",")
+
+def fmt_en(val, decimals=1):
+    return f"{val:.{decimals}f}"
+
 Annexe C - Academic Note - Trilingual Generator (EN, FR, PT-BR).
 
 Generates the .docx for Annex C in three languages.
@@ -49,14 +67,14 @@ EN = LangPack(
         "energy, semiconductors, compute, and regulation. Based on an empirical diagnosis (2020-2026), the construction "
         "of a Compute-Adjusted Competitiveness Index (CACI), and a 2x2 scenario matrix, the research demonstrates that "
         "the combination of tariffs (25%, Section 232) and export controls creates a measurable structural competitive "
-        "advantage (CACI US/EU ratio of 3.46:1, Power mode, for a raw operational compute ratio of 17.6:1, April 2026). "
+        f"advantage (CACI US/EU ratio of {fmt_en(us_eu_caci, 2)}:1, Power mode, for a raw operational compute ratio of {fmt_en(us_eu_raw, 1)}:1, April 2026). "
         "The analysis reveals differentiated trajectories of dependence across regions (Europe, South America, Asia, Africa). "
         "A prospective addendum formalizes the 'Grand Decoupling 2028' scenario based on US Cloud Sovereignty Mandates, "
         "revealing that France and Europe must distinguish between physically installed capacity and operationally sovereign compute."
     ),
     sections=[
         ("C.1 Subject and Problem Statement", [
-            "AI has emerged since 2023 as the primary vector of economic innovation and geopolitical competition. Yet the AI value chain exhibits unprecedented concentration: as of the April 2026 public dashboard snapshot, the United States controls 76.9 percent of global operational AI compute, and five US hyperscalers plan 660-690 billion USD in capex for 2026 alone.",
+            f"AI has emerged since 2023 as the primary vector of economic innovation and geopolitical competition. Yet the AI value chain exhibits unprecedented concentration: as of the April 2026 public dashboard snapshot, the United States controls {fmt_en(us_share, 1)} percent of global operational AI compute, and five US hyperscalers plan 660-690 billion USD in capex for 2026 alone.",
             "In this context, the Trump 2.0 administration has transformed Biden-era export controls (2022-2025) into a hybrid protectionist regime. This study asks: to what extent does American AI protectionism create a measurable structural competitive advantage, and what are the differentiated consequences for France, Europe, and other world regions?",
         ]),
         ("C.2 Methodological Framework", [
@@ -81,7 +99,7 @@ EN = LangPack(
         ]),
     ],
     notes=[
-        "Public dashboard snapshot April 2026: USA 76.9% of global operational AI compute.",
+        f"Public dashboard snapshot April 2026: USA {fmt_en(us_share, 1)}% of global operational AI compute.",
         "CACI Power Mode: F^0.40 x L^0.20 x R^0.15 / E^0.25. Validated at beta=0.251, p<0.01.",
         "Section 232: 25% tariff on advanced AI semiconductors (Jan 15, 2026).",
         "CLOUD Act (2018): Jurisdictional control over data regardless of physical storage location.",
@@ -106,7 +124,7 @@ FR = LangPack(
     ),
     sections=[
         ("C.1 Objet et problematique", [
-            "L'intelligence artificielle s'est imposee depuis 2023 comme le principal vecteur d'innovation economique et de competition geopolitique. Sur le snapshot avril 2026, les Etats-Unis controlent 76,9 pour cent du compute IA operationnel mondial.",
+            f"L'intelligence artificielle s'est imposee depuis 2023 comme le principal vecteur d'innovation economique et de competition geopolitique. Sur le snapshot avril 2026, les Etats-Unis controlent {fmt_fr(us_share, 1)} pour cent du compute IA operationnel mondial.",
         ]),
         ("C.2 Cadre methodologique", [
             "La methodologie repose sur trois piliers : diagnostic empirique 2020-2026, indice CACI (Compute-Adjusted Competitiveness Index) et matrice scenarielle 2x2.",
@@ -120,7 +138,7 @@ FR = LangPack(
         ]),
     ],
     notes=[
-        "Snapshot avril 2026 : USA 76,9% du compute IA operationnel mondial.",
+        f"Snapshot avril 2026 : USA {fmt_fr(us_share, 1)}% du compute IA operationnel mondial.",
         "Indice CACI Power Mode valide econometriquement (beta = 0,251).",
     ],
     sources_line="Sources principales : AIE (2025-2026), Banque mondiale (2025), Epoch AI, McKinsey, Synergy Research.",
@@ -142,7 +160,7 @@ BR = LangPack(
         "semicondutores, compute e regulaçao. Com base em um diagnostico empirico (2020-2026), na construçao de um "
         "Indice de Competitividade Ajustado ao Compute (CACI) e em uma matriz de cenarios 2x2, a pesquisa demonstra "
         "que a combinaçao de tarifas (25%, Seçao 232) e controles de exportaçao cria uma vantagem competitiva estrutural "
-        "mensuravel (razao CACI EUA/UE de 3,46:1, modo Power, para uma razao bruta de computaçao de 17,6:1, abril de 2026)."
+        f"mensuravel (razao CACI EUA/UE de {fmt_fr(us_eu_caci, 2)}:1, modo Power, para uma razao bruta de computaçao de {fmt_fr(us_eu_raw, 1)}:1, abril de 2026)."
     ),
     sections=[
         ("C.1 Objeto e Problemática", [
@@ -161,7 +179,7 @@ BR = LangPack(
         ]),
     ],
     notes=[
-        "Snapshot abril 2026: EUA 76,9% do compute operacional global.",
+        f"Snapshot abril 2026: EUA {fmt_fr(us_share, 1)}% do compute operacional global.",
         "Indice CACI Power Mode validado econometricamente (beta = 0,251).",
     ],
     sources_line="Fontes principais: AIE (2025-2026), Banco Mundial (2025), Epoch AI, McKinsey, Synergy Research.",

@@ -234,7 +234,7 @@ def decompose_components(df: pd.DataFrame):
         "export_control": panel["export_control"],
     }, index=panel.index)
 
-    model = PanelOLS(y, X, entity_effects=True, time_effects=True).fit(
+    model = PanelOLS(y, X, entity_effects=True, time_effects=True, drop_absorbed=True).fit(
         cov_type="clustered", cluster_entity=True
     )
     log.info("\n%s", model)
@@ -278,7 +278,7 @@ def alternative_weights(df: pd.DataFrame):
             "export_control": panel["export_control"],
         }, index=panel.index)
 
-        model = PanelOLS(y, X, entity_effects=True, time_effects=True).fit(
+        model = PanelOLS(y, X, entity_effects=True, time_effects=True, drop_absorbed=True).fit(
             cov_type="clustered", cluster_entity=True
         )
         beta = model.params["ln_caci_alt"]
