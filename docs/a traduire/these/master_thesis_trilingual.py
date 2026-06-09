@@ -6,6 +6,24 @@ three final trilingual deliverables.
 """
 
 from __future__ import annotations
+
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parents[1]))
+import caci_data_helper
+m = caci_data_helper.get_metrics()
+us_share = m['us_compute_share']
+us_eu_caci = m['us_eu_caci_power_ratio']
+us_eu_raw = m['us_eu_raw_ratio']
+eu_sov = m['eu_sovereignty_ratio']
+caci_scores = {k: v['caci_power_phys'] for k, v in m['country_results'].items()}
+
+def fmt_fr(val, decimals=1):
+    return f"{val:.{decimals}f}".replace(".", ",")
+
+def fmt_en(val, decimals=1):
+    return f"{val:.{decimals}f}"
+
 import copy
 import logging
 from dataclasses import dataclass, field
@@ -66,9 +84,9 @@ FR = MasterLangPack(
     subtitle="Protectionnisme IA, Energie et Semi-conducteurs : Trajectoires de divergence US/Europe 2024-2030",
     analysis_label="Analyse geostrategique et economique integree",
     chip_lines=[
-        "76,9 pct compute IA operationnel mondial = USA",
+        f"{fmt_fr(us_share, 1)} pct compute IA operationnel mondial = USA",
         "1,59x cout energie EU/US (ajuste-PPA)",
-        "3,46:1 ratio CACI US/EU (Power Mode)",
+        f"{fmt_fr(us_eu_caci, 2)}:1 ratio CACI US/EU (Power Mode)",
     ],
     author="Fabrice Pizzi",
     date_meta="Paris - fevrier 2026",
@@ -78,7 +96,7 @@ FR = MasterLangPack(
     summary_title="Resume executif",
     summary_paragraphs=[
         "Cette these analyse l'emergence d'un regime protectionniste IA americain (decret implicite 'AI for Americans First') et ses consequences geostrategiques pour la France, l'Europe, et le reste du monde sur la periode 2024-2030. L'etude mobilise un appareil empirique original (tableau de bord public snapshot avril 2026) et propose un cadre theorique unifie (indice CACI - Compute-Adjusted Competitive Index) integrant FLOPs, capital humain, regulation et cout energetique selon une formule geometrique ponderee.",
-        "Sur le snapshot avril 2026, les Etats-Unis concentrent 76,9 pour cent du compute IA operationnel mondial. Le ratio brut compute installe US/UE(13) atteint 17,6:1, traduit par la formule geometrique CACI Power Mode (F^0,40 x L^0,20 x R^0,15 / E^0,25) en un ratio US/UE de 3,46:1. L'UE est largement souveraine sur son F installe (99,2 pct). La vulnerabilite europeenne se situe sur la couche operationnelle des charges cloud (majoritairement hebergees sur AWS/Azure/GCP).",
+        f"Sur le snapshot avril 2026, les Etats-Unis concentrent {fmt_fr(us_share, 1)} pour cent du compute IA operationnel mondial. Le ratio brut compute installe US/UE(13) atteint {fmt_fr(us_eu_raw, 1)}:1, traduit par la formule geometrique CACI Power Mode (F^0,40 x L^0,20 x R^0,15 / E^0,25) en un ratio US/UE de {fmt_fr(us_eu_caci, 2)}:1. L'UE est largement souveraine sur son F installe ({fmt_fr(eu_sov, 1)} pct). La vulnerabilite europeenne se situe sur la couche operationnelle des charges cloud (majoritairement hebergees sur AWS/Azure/GCP).",
         "Quatre scenarios prospectifs 2026-2030 sont developpes (Statu quo, Fracture, Partenariat asymetrique, Souverainete subie), avec un point de basculement identifie en 2028 a la convergence de la saturation compute/energie UE et de l'activation potentielle des Cloud Sovereignty Mandates US. La fenetre d'action strategique 2026-2028 est etroite.",
         "Les recommandations strategiques s'articulent en cinq axes (compute, energie, alliances, regulation, talent) sur trois horizons. La France dispose d'avantages distinctifs (parc nucleaire, Mistral AI, ASML) qui en font le pilier credible d'une trajectoire d'autonomie strategique ciblee. L'enjeu n'est pas l'autarcie mais la capacite de choix."
     ],
@@ -111,9 +129,9 @@ EN = MasterLangPack(
     subtitle="AI Protectionism, Energy and Semiconductors: US/Europe Divergence Trajectories 2024-2030",
     analysis_label="Integrated Geostrategic and Economic Analysis",
     chip_lines=[
-        "76.9% of global operational AI compute = USA",
+        f"{fmt_en(us_share, 1)}% of global operational AI compute = USA",
         "1.59x EU/US energy cost (PPP-adjusted)",
-        "3.46:1 US/EU CACI ratio (Power Mode)",
+        f"{fmt_en(us_eu_caci, 2)}:1 US/EU CACI ratio (Power Mode)",
     ],
     author="Fabrice Pizzi",
     date_meta="Paris - February 2026",
@@ -123,7 +141,7 @@ EN = MasterLangPack(
     summary_title="Executive Summary",
     summary_paragraphs=[
         "This thesis analyzes the emergence of a US AI protectionist regime (the implicit 'AI for Americans First' doctrine) and its geostrategic consequences for France, Europe, and the rest of the world over the 2024-2030 period. The study employs an original empirical framework (public dashboard snapshot April 2026) and proposes a unified theoretical model: the Compute-Adjusted Competitive Index (CACI).",
-        "As of April 2026, the United States concentrates 76.9% of global operational AI compute. The raw US/EU compute ratio stands at 17.6:1, which the CACI Power Mode formula translates into a 3.46:1 advantage. While the EU maintains high sovereignty over its physical install base (99.2%), its vulnerability lies in the operational cloud layer (hosted mainly on AWS/Azure/GCP).",
+        f"As of April 2026, the United States concentrates {fmt_en(us_share, 1)}% of global operational AI compute. The raw US/EU compute ratio stands at {fmt_en(us_eu_raw, 1)}:1, which the CACI Power Mode formula translates into a {fmt_en(us_eu_caci, 2)}:1 advantage. While the EU maintains high sovereignty over its physical install base ({fmt_en(eu_sov, 1)}%), its vulnerability lies in the operational cloud layer (hosted mainly on AWS/Azure/GCP).",
         "Four prospective scenarios for 2026-2030 are developed (Status Quo, Fracture, Asymmetric Partnership, Forced Sovereignty), identifying a tipping point in 2028 where EU compute/energy saturation meets the potential activation of US Cloud Sovereignty Mandates.",
         "Strategic recommendations focus on five axes: compute, energy, alliances, regulation, and talent. France's unique advantages (nuclear fleet, Mistral AI, ASML partnership) position it as a credible pillar for targeted strategic autonomy. The goal is not autarky but the capacity for sovereign choice."
     ],
@@ -156,9 +174,9 @@ PT = MasterLangPack(
     subtitle="Protecionismo de IA, Energia e Semicondutores: Trajetorias de Divergencia EUA/Europa 2024-2030",
     analysis_label="Analise Geoestrategica e Economica Integrada",
     chip_lines=[
-        "76,9% do compute IA operacional mundial = EUA",
+        f"{fmt_fr(us_share, 1)}% do compute IA operacional mundial = EUA",
         "1,59x custo de energia UE/EUA (ajustado por PPP)",
-        "3,46:1 razao CACI EUA/UE (Power Mode)",
+        f"{fmt_fr(us_eu_caci, 2)}:1 razao CACI EUA/UE (Power Mode)",
     ],
     author="Fabrice Pizzi",
     date_meta="Paris - Fevereiro de 2026",
@@ -168,7 +186,7 @@ PT = MasterLangPack(
     summary_title="Resumo Executivo",
     summary_paragraphs=[
         "Esta tese analisa a emergencia de um regime protecionista de IA nos EUA (doutrina implicita 'AI for Americans First') e suas consequencias geoestrategicas para a Franca, a Europa e o resto do mundo no periodo 2024-2030. O estudo utiliza um arcabouco empirico original e propoe um modelo teorico unificado: o Compute-Adjusted Competitive Index (CACI).",
-        "Em abril de 2026, os Estados Unidos concentram 76,9% do compute operacional global de IA. A razao bruta de compute instalado EUA/UE e de 17,6:1, que a formula CACI Power Mode traduz em uma vantagem de 3,46:1. Embora a UE mantenha alta soberania sobre sua base fisica instalada (99,2%), sua vulnerabilidade reside na camada operacional de nuvem.",
+        f"Em abril de 2026, os Estados Unidos concentram {fmt_fr(us_share, 1)}% do compute operacional global de IA. A razao bruta de compute instalado EUA/UE e de {fmt_fr(us_eu_raw, 1)}:1, que a formula CACI Power Mode traduz em uma vantagem de {fmt_fr(us_eu_caci, 2)}:1. Embora a UE mantenha alta soberania sobre sua base fisica instalada ({fmt_fr(eu_sov, 1)}%), sua vulnerabilidade reside na camada operacional de nuvem.",
         "Quatro cenarios prospectivos para 2026-2030 sao desenvolvidos, identificando um ponto de virada em 2028 com a convergencia da saturacao de compute/energia na UE e a potencial ativacao dos Mandatos de Soberania de Nuvem dos EUA.",
         "As recomendacoes estrategicas focam em cinco eixos: compute, energia, aliancas, regulacao e talento. As vantagens unicas da Franca posicionam-na como um pilar credivel para a autonomia estrategica direcionada. O objetivo nao e a autarquia, mas a capacidade de escolha soberana."
     ],

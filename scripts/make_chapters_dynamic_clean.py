@@ -16,6 +16,7 @@ CHAPTERS = [
     os.path.join(DOCS_DIR, "6", "generate_chapter6quater_trilingual.py"),
     os.path.join(DOCS_DIR, "7", "generate_chapter7_trilingual.py"),
     os.path.join(DOCS_DIR, "8", "generate_conclusion_trilingual.py"),
+    os.path.join(DOCS_DIR, "these", "master_thesis_trilingual.py"),
 ]
 
 ANNEXES = [
@@ -166,17 +167,15 @@ def convert_file(filepath, parent_level):
 
     new_lines = []
     import_inserted = False
+    has_import = any("import caci_data_helper" in line for line in lines)
 
     for line_idx, line in enumerate(lines):
-        # Insert import block after the first docstring or right at the top
-        if not import_inserted:
-            # We can insert after the first comment/docstring block ends
-            # Let's check if the line has the end of docstring """ or '''
-            if '"""' in line or "'''" in line or line_idx > 10:
-                new_lines.append(line)
-                new_lines.append("\n" + get_import_block(parent_level) + "\n")
-                import_inserted = True
-                continue
+        # Insert import block after from __future__ import annotations
+        if not has_import and not import_inserted and "from __future__ import annotations" in line:
+            new_lines.append(line)
+            new_lines.append("\n" + get_import_block(parent_level) + "\n")
+            import_inserted = True
+            continue
 
         # Check if this line starts with a comment
         stripped = line.strip()
