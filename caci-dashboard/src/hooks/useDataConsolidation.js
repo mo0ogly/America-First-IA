@@ -332,7 +332,27 @@ export const useDataConsolidation = (sovereignMode = false) => {
                     };
                     const res = mergeLive(base, live);
                     finalData = res.merged;
-                    status = res.status;
+                    const isLive = (settled) => {
+                        if (settled.status !== 'fulfilled' || !settled.value || settled.value.error) return false;
+                        const audit = settled.value.audit || {};
+                        return Object.entries(audit).some(
+                            ([key, s]) => !key.startsWith('_') // skip meta keys (e.g. _fx)
+                                && typeof s === 'string'
+                                && !s.startsWith('CSV fallback')
+                                && !s.startsWith('proxy')
+                        );
+                    };
+                    const usEnergyLive = en.status === 'fulfilled'
+                        && typeof en.value?.audit?.USA === 'string'
+                        && en.value.audit.USA.startsWith('EIA');
+                    status = {
+                        l: isLive(wf) ? 'live' : 'csv',
+                        e: isLive(en) ? 'live' : 'csv',
+                        gdp: isLive(gd) ? 'live' : 'csv',
+                        f: 'csv',
+                        r: 'csv',
+                        eUs: usEnergyLive ? 'live' : 'csv',
+                    };
                 } catch (liveErr) {
                     // Total failure -> keep pure CSV. No regression.
                     console.warn('Live fetch failed, using CSV baseline:', liveErr);
