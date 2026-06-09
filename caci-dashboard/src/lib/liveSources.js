@@ -297,6 +297,43 @@ export async function fetchEnergyLive(eiaKey) {
   return { rows, audit, rate };
 }
 
+// ----- Live merge over CSV baseline -----------------------------------------
+
+/**
+ * Merge live factor maps over the CSV-built base, per cell.
+ * live = { workforce: {key:Number}, energy: {key:Number}, gdp: {key:Number} }
+ * Returns { merged, status } where status flags each factor live vs csv.
+ * F and R are never touched. US energy is reported separately as eUs.
+ */
+export function mergeLive(base, live) {
+  const merged = {};
+  for (const [k, v] of Object.entries(base)) merged[k] = { ...v };
+
+  const apply = (field, map) => {
+    let any = false;
+    if (map) {
+      for (const [k, val] of Object.entries(map)) {
+        if (merged[k] && Number.isFinite(val)) { merged[k][field] = val; any = true; }
+      }
+    }
+    return any;
+  };
+
+  const lLive = apply('l', live.workforce);
+  const eLive = apply('e', live.energy);
+  const gLive = apply('gdp', live.gdp);
+
+  const status = {
+    l: lLive ? 'live' : 'csv',
+    e: eLive ? 'live' : 'csv',
+    gdp: gLive ? 'live' : 'csv',
+    f: 'csv',
+    r: 'csv',
+    eUs: (live.energy && Number.isFinite(live.energy.USA)) ? 'live' : 'csv',
+  };
+  return { merged, status };
+}
+
 // ----- CSV download helper --------------------------------------------------
 
 /**
