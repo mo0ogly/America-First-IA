@@ -170,7 +170,7 @@ const SovereignCake = ({ country, sovereign, total, ratio }) => {
 };
 
 const CountryComparison = ({ sovereignMode = false }) => {
-    const { consolidatedData, loading, error } = useDataConsolidation(sovereignMode);
+    const { consolidatedData, loading, error, dataStatus } = useDataConsolidation(sovereignMode);
     const [viewMode, setViewMode] = useState('bar');
     const [calculationMode, setCalculationMode] = useState('power');
     const [simData, setSimData] = useState(null);
@@ -298,6 +298,12 @@ const CountryComparison = ({ sovereignMode = false }) => {
 
     return (
         <div className="comparison-container">
+            {dataStatus && (
+                <div style={{ fontSize: '0.8rem', color: 'var(--muted, #888)', marginBottom: 8 }}>
+                    Data: L {dataStatus.l}, E-EU {dataStatus.e}, GDP {dataStatus.gdp}
+                    {' '}| CSV: F, R, E-US
+                </div>
+            )}
             <div className="glass-card mb-4" style={{ minHeight: '500px' }}>
                 <div className="header-flex">
                     <div>
