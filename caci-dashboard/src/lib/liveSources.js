@@ -305,7 +305,7 @@ export async function fetchEnergyLive(eiaKey) {
  * Returns { merged, status } where status flags each factor live vs csv.
  * F and R are never touched. US energy is reported separately as eUs.
  */
-export function mergeLive(base, live) {
+export function mergeLive(base, live = {}) {
   const merged = {};
   for (const [k, v] of Object.entries(base)) merged[k] = { ...v };
 

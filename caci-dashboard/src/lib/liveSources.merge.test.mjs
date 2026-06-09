@@ -33,3 +33,13 @@ test('mergeLive with empty live keeps everything from CSV', () => {
   assert.equal(status.e, 'csv');
   assert.equal(status.gdp, 'csv');
 });
+
+test('mergeLive with no live arg degrades to all CSV', () => {
+  const base = { USA: { f_total: 100, f: 100, e: 86.2, gdp: 31.9, l: 1.679, r: 1.0 } };
+  const { merged, status } = mergeLive(base);
+  assert.deepEqual(merged.USA, base.USA);
+  assert.equal(status.l, 'csv');
+  assert.equal(status.e, 'csv');
+  assert.equal(status.gdp, 'csv');
+  assert.equal(status.eUs, 'csv');
+});
