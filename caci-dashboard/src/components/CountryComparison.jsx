@@ -25,9 +25,47 @@ const LAYER_METADATA = {
     'UAE': { L5: 'Imported', L4: 'Vulnerable', L2: 'Dependent', L1: 'Aggregated', style: 'vibrant' },
     'India': { L5: 'Imported', L4: 'Developing', L2: 'Strong', L1: 'Sovereign', style: 'vibrant' },
     'UK': { L5: 'Imported', L4: 'Globalized', L2: 'Strong', L1: 'Sovereign', style: 'navy' },
+    'France': { L5: 'Imported', L4: 'Globalized', L2: 'Strong (Mistral)', L1: 'Sovereign', style: 'french-blue' },
+    'Germany': { L5: 'Imported', L4: 'Globalized', L2: 'Balanced (Aleph)', L1: 'Sovereign', style: 'navy' },
+    'Asia (Ex-China)': { L5: 'Fab Leader (TSMC/Samsung)', L4: 'Globalized', L2: 'Balanced', L1: 'Sovereign', style: 'vibrant' },
+    'South America': { L5: 'Imported', L4: 'Globalized', L2: 'Dependent', L1: 'Imported', style: 'navy' },
+    'Africa': { L5: 'Imported', L4: 'Vulnerable', L2: 'Dependent', L1: 'Imported', style: 'navy' },
 };
 
 const DEFAULT_LAYER_META = { L5: 'Globalized', L4: 'Globalized', L2: 'Balanced', L1: 'Sovereign', style: 'navy' };
+
+const PALETTES = {
+    gold: {
+        L5: '#b8922f',
+        L4: '#d4af37',
+        L2: 'var(--accent)',
+        L1: 'var(--gold)'
+    },
+    red: {
+        L5: '#8b0000',
+        L4: '#a52a2a',
+        L2: '#b83b3b',
+        L1: '#d64545'
+    },
+    navy: {
+        L5: '#111b2d',
+        L4: '#1a2744',
+        L2: '#2c3e50',
+        L1: '#34495e'
+    },
+    'french-blue': {
+        L5: '#0f2042',
+        L4: '#1e3d75',
+        L2: '#2b5cb3', // Mistral blue
+        L1: '#e12b2b'  // Red republic accent
+    },
+    vibrant: {
+        L5: '#1a2744',
+        L4: '#8e44ad',
+        L2: '#16a085',
+        L1: '#2ecc71'
+    }
+};
 
 // ═══════════════ SOVEREIGNTY VISUAL COMPONENTS ═══════════════
 
@@ -93,17 +131,18 @@ const SovereigntyAccordion = () => {
 
 const SovereignCake = ({ country, sovereign, total, ratio }) => {
     const meta = LAYER_METADATA[country] || DEFAULT_LAYER_META;
+    const palette = PALETTES[meta.style] || PALETTES.navy;
     
     // Logic: L3 (Compute) is dynamic based on data. L5, L4, L2, L1 are strategic estimates.
     const layers = [
-        { id: 5, name: 'L5: Chips (Silicon)', status: meta.L5, color: meta.style === 'red' ? '#8b0000' : (meta.style === 'gold' ? '#b8922f' : '#1a2744') },
-        { id: 4, name: 'L4: Networking', status: meta.L4, color: meta.style === 'red' ? '#a52a2a' : (meta.style === 'gold' ? '#d4af37' : '#2c3e50') },
+        { id: 5, name: 'L5: Chips (Silicon)', status: meta.L5, color: palette.L5 },
+        { id: 4, name: 'L4: Networking', status: meta.L4, color: palette.L4 },
         { id: 3, name: 'L3: Compute (Infrastructure)', 
           status: ratio < 0.3 ? 'Critical Risk' : (ratio < 1 ? 'Vulnerable' : 'Sovereign'), 
           color: ratio < 0.5 ? 'var(--red)' : (ratio < 1 ? '#e67e22' : 'var(--gold)') 
         },
-        { id: 2, name: 'L2: Software Stack', status: meta.L2, color: meta.style === 'gold' ? 'var(--accent)' : '#34495e' },
-        { id: 1, name: 'L1: AI Services', status: meta.L1, color: meta.style === 'gold' ? 'var(--gold)' : '#2c3e50' },
+        { id: 2, name: 'L2: Software Stack', status: meta.L2, color: palette.L2 },
+        { id: 1, name: 'L1: AI Services', status: meta.L1, color: palette.L1 },
     ];
 
     return (

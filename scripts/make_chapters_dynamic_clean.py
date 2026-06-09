@@ -167,11 +167,9 @@ def convert_file(filepath, parent_level):
 
     new_lines = []
     import_inserted = False
-    has_import = any("import caci_data_helper" in line for line in lines)
-
     for line_idx, line in enumerate(lines):
         # Insert import block after from __future__ import annotations
-        if not has_import and not import_inserted and "from __future__ import annotations" in line:
+        if not import_inserted and "from __future__ import annotations" in line:
             new_lines.append(line)
             new_lines.append("\n" + get_import_block(parent_level) + "\n")
             import_inserted = True

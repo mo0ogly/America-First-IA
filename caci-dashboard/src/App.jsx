@@ -50,7 +50,7 @@ function App() {
 
       <main className="container content-area" style={{ marginTop: '40px', paddingBottom: '80px' }}>
         {activeTab === 'formula' && <CaciFormula />}
-        {activeTab === 'compare' && <CountryComparison sovereignMode={sovereignMode} />}
+        {activeTab === 'compare' && <CountryComparison sovereignMode={sovereignMode} setSovereignMode={setSovereignMode} />}
         {activeTab === 'data' && <DataHub sovereignMode={sovereignMode} setSovereignMode={setSovereignMode} />}
         {activeTab === 'robustness' && <RobustnessCheck />}
       </main>
