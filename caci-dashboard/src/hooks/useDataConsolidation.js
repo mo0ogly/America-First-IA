@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Papa from 'papaparse';
+import { fetchWorkforceLive, fetchEnergyLive, fetchGdpLive, mergeLive } from '../lib/liveSources';
 
 // Map CSV Country Names to our standard dashboard keys
 const COUNTRY_MAP = {
@@ -142,6 +143,7 @@ const OWNER_COUNTRY_MAP = {
 
 export const useDataConsolidation = (sovereignMode = false) => {
     const [consolidatedData, setConsolidatedData] = useState(null);
+    const [dataStatus, setDataStatus] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -304,7 +306,40 @@ export const useDataConsolidation = (sovereignMode = false) => {
                     }
                 });
 
-                setConsolidatedData(base);
+                // ---- LIVE OVERRIDE (per-cell), CSV stays the fallback ----
+                let finalData = base;
+                let status = { l: 'csv', e: 'csv', gdp: 'csv', f: 'csv', r: 'csv', eUs: 'csv' };
+                try {
+                    const toMap = (settled, field) => {
+                        const m = {};
+                        if (settled.status === 'fulfilled' && settled.value?.rows) {
+                            for (const row of settled.value.rows) {
+                                const v = Number(row[field]);
+                                if (Number.isFinite(v)) m[row.Country] = v;
+                            }
+                        }
+                        return m;
+                    };
+                    const [wf, en, gd] = await Promise.allSettled([
+                        fetchWorkforceLive(),
+                        fetchEnergyLive(),       // no EIA key -> US energy stays CSV
+                        fetchGdpLive(),
+                    ]);
+                    const live = {
+                        workforce: toMap(wf, 'Workforce_Millions'),
+                        energy: toMap(en, 'Industrial_Electricity_USD_per_MWh'),
+                        gdp: toMap(gd, 'GDP_Trillions_USD'),
+                    };
+                    const res = mergeLive(base, live);
+                    finalData = res.merged;
+                    status = res.status;
+                } catch (liveErr) {
+                    // Total failure -> keep pure CSV. No regression.
+                    console.warn('Live fetch failed, using CSV baseline:', liveErr);
+                }
+
+                setConsolidatedData(finalData);
+                setDataStatus(status);
                 setLoading(false);
             } catch (err) {
                 console.error(err);
@@ -316,5 +351,5 @@ export const useDataConsolidation = (sovereignMode = false) => {
         fetchAndConsolidate();
     }, [sovereignMode]);
 
-    return { consolidatedData, loading, error };
+    return { consolidatedData, loading, error, dataStatus };
 };
