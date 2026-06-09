@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Papa from 'papaparse';
+import { fetchWorkforceLive, fetchEnergyLive, downloadCSV } from '../lib/liveSources';
 import './DataHub.css';
 
 const DataHub = ({ sovereignMode = false, setSovereignMode }) => {
@@ -23,6 +24,41 @@ const DataHub = ({ sovereignMode = false, setSovereignMode }) => {
 
   // Modes
   const [viewMode, setViewMode] = useState('raw');
+
+  // Live refresh (fetch direct from source APIs, CSV as fallback)
+  const [eiaKey, setEiaKey] = useState('');
+  const [liveLoading, setLiveLoading] = useState(null); // 'E' | 'L' | null
+  const [liveAudit, setLiveAudit] = useState({}); // { E: {...}, L: {...} }
+  const [liveError, setLiveError] = useState(null);
+
+  const handleRefreshWorkforceLive = async () => {
+    setLiveLoading('L');
+    setLiveError(null);
+    try {
+      const { rows, audit, error } = await fetchWorkforceLive();
+      setWorkforceData(rows);
+      setLiveAudit(prev => ({ ...prev, L: audit }));
+      if (error) setLiveError(error);
+    } catch (err) {
+      setLiveError(err.message);
+    } finally {
+      setLiveLoading(null);
+    }
+  };
+
+  const handleRefreshEnergyLive = async () => {
+    setLiveLoading('E');
+    setLiveError(null);
+    try {
+      const { rows, audit } = await fetchEnergyLive(eiaKey.trim() || undefined);
+      setEnergyData(rows);
+      setLiveAudit(prev => ({ ...prev, E: audit }));
+    } catch (err) {
+      setLiveError(err.message);
+    } finally {
+      setLiveLoading(null);
+    }
+  };
 
   // Fetch the data we just downloaded into the public folder
   const handleGrabData = () => {
@@ -364,11 +400,39 @@ const DataHub = ({ sovereignMode = false, setSovereignMode }) => {
                 <div className="pipeline-container">
                   <h6>Energy Cost Data Pipeline</h6>
                   <div className="actions">
-                    <span className="status-badge planned">🟡 Hybrid Audit Pipeline</span>
+                    <span className="status-badge planned">Hybrid (Eurostat live + proxy)</span>
                     <button className="btn btn-primary" onClick={() => handleSimpleCSVGrab('energy_prices.csv', setEnergyData)} disabled={loading}>
-                      {loading ? '↻ Importing...' : 'Import IEA Reference Data'}
+                      {loading ? 'Importing...' : 'Import CSV (committed)'}
+                    </button>
+                    <button className="btn btn-gold" onClick={handleRefreshEnergyLive} disabled={liveLoading === 'E'}>
+                      {liveLoading === 'E' ? 'Refreshing live...' : 'Refresh Live (Eurostat / EIA)'}
+                    </button>
+                    <button className="btn btn-primary" onClick={() => downloadCSV('energy_prices.csv', energyData, ['Country', 'Industrial_Electricity_USD_per_MWh'])} disabled={energyData.length === 0}>
+                      Download CSV
                     </button>
                   </div>
+                  <div style={{ marginTop: '12px' }}>
+                    <input
+                      type="password"
+                      placeholder="Optional EIA API key (for live US price)"
+                      value={eiaKey}
+                      onChange={(e) => setEiaKey(e.target.value)}
+                      style={{ width: '100%', maxWidth: '420px', padding: '8px 10px', border: '1px solid var(--navy)', borderRadius: '6px' }}
+                    />
+                    <p className="text-muted" style={{ fontSize: '0.78rem', margin: '6px 0 0' }}>
+                      Eurostat sources FR/DE/EU live. Without an EIA key, USA and other non-EU markets keep the committed CSV value (fallback). Key stays in your browser, never committed. After refresh, click Download CSV and commit it to persist.
+                    </p>
+                  </div>
+                  {liveError && liveLoading !== 'E' && (
+                    <div className="error-alert" style={{ marginTop: '12px' }}><strong>Live:</strong> {liveError}</div>
+                  )}
+                  {liveAudit.E && (
+                    <div className="text-muted" style={{ marginTop: '12px', fontSize: '0.78rem', fontFamily: 'var(--mono, monospace)' }}>
+                      {Object.entries(liveAudit.E).filter(([k]) => !k.startsWith('_')).map(([k, v]) => (
+                        <div key={k}>{k}: {v}</div>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 {energyData.length > 0 && (
@@ -408,11 +472,30 @@ const DataHub = ({ sovereignMode = false, setSovereignMode }) => {
                 <div className="pipeline-container">
                   <h6>STEM Workforce Data Pipeline</h6>
                   <div className="actions">
-                    <span className="status-badge planned">🟡 Hybrid Audit Pipeline</span>
+                    <span className="status-badge existing">World Bank live</span>
                     <button className="btn btn-primary" onClick={() => handleSimpleCSVGrab('workforce_data.csv', setWorkforceData)} disabled={loading}>
-                      {loading ? '↻ Importing...' : 'Import World Bank Data'}
+                      {loading ? 'Importing...' : 'Import CSV (committed)'}
+                    </button>
+                    <button className="btn btn-gold" onClick={handleRefreshWorkforceLive} disabled={liveLoading === 'L'}>
+                      {liveLoading === 'L' ? 'Refreshing live...' : 'Refresh Live (World Bank)'}
+                    </button>
+                    <button className="btn btn-primary" onClick={() => downloadCSV('workforce_data.csv', workforceData, ['Country', 'Workforce_Millions'])} disabled={workforceData.length === 0}>
+                      Download CSV
                     </button>
                   </div>
+                  <p className="text-muted" style={{ fontSize: '0.78rem', margin: '10px 0 0' }}>
+                    Live pull: SP.POP.SCIE.RD.P6 x SP.POP.TOTL, regions summed from member countries. If the World Bank API is unavailable, the committed CSV is used as fallback. After refresh, click Download CSV and commit it to persist.
+                  </p>
+                  {liveError && liveLoading !== 'L' && (
+                    <div className="error-alert" style={{ marginTop: '12px' }}><strong>Live:</strong> {liveError}</div>
+                  )}
+                  {liveAudit.L && (
+                    <div className="text-muted" style={{ marginTop: '12px', fontSize: '0.78rem', fontFamily: 'var(--mono, monospace)' }}>
+                      {Object.entries(liveAudit.L).map(([k, v]) => (
+                        <div key={k}>{k}: {v}</div>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 {workforceData.length > 0 && (
